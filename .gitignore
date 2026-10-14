@@ -1,0 +1,19 @@
+# Saídas de compilação
+build/
+bin/
+*.o
+*.d
+
+# Saídas grandes e temporárias produzidas pelos scripts
+data/raw/*.tmp
+data/raw/*.partial
+data/processed/*.tmp
+figures/*.tmp
+results/*.tmp
+
+# Arquivos locais de ambiente
+.venv/
+__pycache__/
+*.py[cod]
+.ipynb_checkpoints/
+.DS_Store

@@ -1,0 +1,143 @@
+# Configuração inicial da campanha de desempenho do AG.
+#
+# Esta é a fonte de verdade para todos os controles que não são fatores do
+# experimento. Alterações exigem registro em docs/labbook.md e iniciam um novo
+# bloco de medições. Os níveis de N e L serão materializados depois, por código,
+# em config/design.csv.
+
+schema_version: 1
+study:
+  id: ag-onemax-performance
+  language: pt-BR
+  research_question: >-
+    Como o tamanho da população (N) e o comprimento do cromossomo (L)
+    afetam o desempenho computacional de um algoritmo genético sequencial?
+  scope: desempenho computacional; qualidade da otimização está fora do escopo
+
+algorithm:
+  implementation_language: C++20
+  execution_model: sequential
+  threads: 1
+  problem:
+    name: OneMax
+    fitness: sum_of_binary_genes
+    objective: maximize
+  representation:
+    gene_type: uint8_t
+    gene_values: [0, 1]
+    chromosome_layout: contiguous
+    population_buffers: 2
+    allocations_inside_timed_region: false
+  population_initialization:
+    distribution: bernoulli_uniform
+    probability_of_one: 0.5
+  selection:
+    method: tournament
+    tournament_size: 2
+  crossover:
+    method: one_point
+    probability: 0.90
+  mutation:
+    method: bit_flip
+    probability_per_gene: 0.01
+  termination:
+    generations: 100
+    early_stopping: false
+  random_number_generator:
+    engine: std::mt19937_64
+    seed_source: design_csv
+    deterministic_for_a_given_seed: true
+
+factors:
+  primary:
+    population_size_N:
+      symbol: N
+      description: número de indivíduos em cada geração
+      candidate_levels: [128, 512, 2048, 8192]
+    chromosome_length_L:
+      symbol: L
+      description: número de genes binários por indivíduo
+      candidate_levels: [64, 256, 1024, 4096]
+  controlled:
+    - algorithm.selection
+    - algorithm.crossover
+    - algorithm.mutation
+    - algorithm.termination.generations
+    - algorithm.threads
+    - algorithm.representation
+    - build.compiler_and_flags
+
+design:
+  type: full_factorial
+  combinations: 16
+  baseline_replications: 10
+  profile_replications: 5
+  perf_replications: 5
+  execution_order: randomized
+  design_random_seed: 20261014
+  measurement_batch:
+    enabled: true
+    selection: calibration_before_main_campaign
+    target_duration_seconds: [0.5, 2.0]
+    fixed_generations_per_ag_run: true
+  planned_measurement_modes:
+    - baseline
+    - phases
+    - perf
+
+measurement:
+  timed_region: complete_generational_loop
+  timer: std::chrono::steady_clock
+  warmup_runs_per_mode: 1
+  primary_metrics:
+    - wall_time_ns
+    - time_per_generation
+    - normalized_throughput
+  phase_metrics:
+    - evaluation
+    - selection
+    - crossover
+    - mutation
+    - replacement
+  perf_events_requested:
+    - cycles
+    - instructions
+    - cache-references
+    - cache-misses
+    - context-switches
+    - cpu-migrations
+  resource_metrics:
+    - max_rss_kib
+
+environment_controls:
+  cpu_affinity: required
+  target_core: select_one_p_core_during_environment_inventory
+  governor_and_turbo: record_before_each_campaign
+  power_source: AC_when_available
+  concurrent_workload: minimize_and_record
+  run_failures: preserve_with_status_and_reason
+
+build:
+  compiler: g++
+  standard: c++20
+  optimization: -O3
+  additional_flags: [-DNDEBUG]
+  record_binary_sha256: true
+  record_compiler_version: true
+
+data_contract:
+  raw_data_format: csv
+  one_observation_per_execution: true
+  required_run_identifiers:
+    - run_id
+    - block
+    - order
+    - measurement_mode
+    - N
+    - L
+    - generations
+    - batch
+    - replication
+    - seed
+    - core_id
+  immutable_raw_data: true
