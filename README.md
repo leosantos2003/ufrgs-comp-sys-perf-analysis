@@ -8,7 +8,7 @@ O objetivo é medir e explicar o custo computacional do algoritmo. A qualidade d
 
 ## Estado atual
 
-Foi concluído o primeiro item do roteiro: estrutura do projeto, versionamento local e configuração explícita dos controles do AG. Ainda não há implementação, medições ou resultados neste diretório.
+Foram concluídos os dois primeiros itens do roteiro: estrutura/versionamento local e implementação validada do AG sequencial. O projeto ainda não possui inventário do ambiente, desenho experimental materializado ou medições da campanha.
 
 ## Escopo experimental
 
@@ -42,7 +42,7 @@ Os diretórios inicialmente vazios têm um `.gitkeep` apenas para preservar o es
 
 ## Fluxo previsto
 
-1. Implementar o AG e testes determinísticos em `src/`.
+1. Compilar e testar o AG com `make test`.
 2. Registrar o ambiente efetivo de medição em `data/metadata/` e `docs/environment.md`.
 3. Gerar o projeto fatorial e aleatorizado em `config/design.csv` por um script em `scripts/`.
 4. Executar o projeto, com afinidade de CPU e coleta automatizada, gravando uma observação por execução em `data/raw/`.
@@ -50,6 +50,23 @@ Os diretórios inicialmente vazios têm um `.gitkeep` apenas para preservar o es
 6. Renderizar a análise literal de `analysis/etapa2.qmd` em `results/` e gerar as figuras em `figures/`.
 
 Os comandos para as etapas acima serão acrescentados ao README apenas quando existirem e puderem ser executados do zero. Não usar planilhas, edições manuais de CSV ou passos de interface não documentados.
+
+## Compilação e testes
+
+Pré-requisitos: GNU Make e um compilador compatível com C++20 (testado com GCC 13.3.0). Na pasta `etapa-2/`:
+
+```bash
+make test
+```
+
+O alvo compila `build/ag_bench` e `build/ag_tests`, grava o hash SHA-256 do binário e executa testes de OneMax, torneio, crossover, mutação, validação de configuração, determinismo por semente e modo de instrumentação por fases. Para uma execução manual pequena:
+
+```bash
+make run
+./build/ag_bench --help
+```
+
+O binário escreve uma linha CSV por execução. A inicialização da população e o checksum final ocorrem fora da região medida; o tempo registrado corresponde somente às `G` gerações completas. Os parâmetros passados na linha de comando devem reproduzir os controles de `config/experiment.yaml`.
 
 ## Reprodutibilidade e rastreabilidade
 
@@ -65,4 +82,4 @@ A entrega anterior está em `../etapa-1/`. Ela definiu a medição em sistema Li
 
 ## Próximo passo
 
-O próximo item do roteiro é implementar o AG e seus testes de correção, mantendo os parâmetros de [config/experiment.yaml](config/experiment.yaml) como a única fonte de configuração experimental.
+O próximo item do roteiro é inventariar o ambiente de medição, confirmar a afinidade a um P-core e testar a disponibilidade de `perf`, mantendo os parâmetros de [config/experiment.yaml](config/experiment.yaml) como a única fonte de configuração experimental.
