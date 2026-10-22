@@ -4,14 +4,14 @@ Este registro deve ser atualizado pelo grupo de forma factual antes da apresenta
 
 ## Registro inicial
 
-| Campo | Registro |
-|---|---|
-| Agente/ferramenta | Codex (assistente de programação) |
-| Condição de uso | Iterativo, mediante solicitações do grupo e revisão humana necessária |
-| Dados fornecidos | Enunciado do projeto, slides da Etapa 1 e materiais de aula presentes no diretório da disciplina |
-| Atividade assistida | Elaboração do plano de implementação e criação da estrutura inicial da Etapa 2 |
-| Saídas incorporadas | `../plano-implementacao-etapa-2.md`, este README, `config/experiment.yaml` e os modelos em `docs/` |
-| Verificação humana realizada | Pendente: o grupo deve revisar cada decisão e validar a implementação e os resultados antes de utilizá-los |
+| Campo                        |                                    Registro                                                                 |
+|------------------------------|-------------------------------------------------------------------------------------------------------------|
+| Agente/ferramenta            | Codex (assistente de programação)                                                                           |
+| Condição de uso              | Iterativo, mediante solicitações do grupo e revisão humana necessária                                       |
+| Dados fornecidos             | Enunciado do projeto, slides da Etapa 1 e materiais de aula presentes no diretório da disciplina            |
+| Atividade assistida          | Elaboração do plano de implementação e criação da estrutura inicial da Etapa 2                              |
+| Saídas incorporadas          | `../plano-implementacao-etapa-2.md`, este README, `config/experiment.yaml` e os modelos em `docs/`          |
+| Verificação humana realizada | Pendente: o grupo deve revisar cada decisão e validar a implementação e os resultados antes de utilizá-los  |
 
 ## A completar pelo grupo
 
