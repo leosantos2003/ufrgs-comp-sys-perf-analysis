@@ -18,3 +18,5 @@ Os dois primeiros registros abaixo foram reconstruídos a partir dos commits exi
 - [2026-10-14 — inicialização](labbook/2026-10-14-inicializacao.md)
 - [2026-10-22 — implementação inicial do AG](labbook/2026-10-22-ag-inicial.md)
 - [2026-11-03 — validação independente do AG](labbook/2026-11-03-validacao-independente.md)
+- [2026-11-04 — inventário de ambiente](labbook/2026-11-04-inventario-ambiente.md)
+- [2026-11-04 — correção da associação da validação](labbook/2026-11-04-correcao-associacao-validacao.md)

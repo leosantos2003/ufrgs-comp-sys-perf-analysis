@@ -17,7 +17,18 @@ Para cada uso relevante, informe: qual ferramenta foi usada, como ela foi usada,
 | Como a saída foi avaliada | O grupo deve comparar as sugestões com o enunciado e com as decisões do trabalho antes de usá-las. |
 | Verificação humana | Use o modelo ao final deste arquivo para registrar quem revisou, o que foi revisado e a decisão. |
 
-## Registro de 2026-11-03 — validação e documentação
+## Revisão humana do registro inicial — pendente
+
+| Campo | Registro |
+|---|---|
+| Pessoas que revisaram | Pendente. |
+| O que foi revisado | Plano e estrutura inicial. |
+| Como foi conferido | Pendente. |
+| Comandos e resultado | Não se aplica enquanto a revisão não for realizada. |
+| Decisão | Pendente. |
+| Pendências ou limitações | Registrar a revisão antes de considerar este uso aceito. |
+
+## Registro do agente — 2026-11-03: validação e documentação
 
 | Campo | Registro |
 |---|---|
@@ -29,13 +40,11 @@ Para cada uso relevante, informe: qual ferramenta foi usada, como ela foi usada,
 | Verificação automática | `make test`, `make run`, comparação de checksum entre `baseline` e `phases` e `git diff --check`. |
 | Verificação humana | O solicitante informou que a revisão está de acordo. Registre os detalhes no modelo abaixo antes do commit. |
 
-## Modelo para registrar a verificação humana
+## Revisão humana do registro de 2026-11-03
 
-Copie este bloco para cada revisão relevante e preencha os campos entre colchetes.
+**Data da revisão:** 2026-11-04
 
-### 2026-11-04 — revisão humana
-
-| Campo | Preencher |
+| Campo | Registro |
 |---|---|
 | Pessoas que revisaram | Leonardo |
 | O que foi revisado | Implementação do AG |
@@ -43,5 +52,66 @@ Copie este bloco para cada revisão relevante e preencha os campos entre colchet
 | Comandos e resultado | `make test` — passou, `./build/ag_bench --population 32 --length 16 --generations 10   --seed 20261022 --crossover 0.90 --mutation 0.01 --mode baseline` — 32,16,10,20261022,0.90000000000000002,0.01,baseline,171575,0,0,0,0,0,16,2855997894351129235, `./build/ag_bench --population 32 --length 16 --generations 10   --seed 20261022 --crossover 0.90 --mutation 0.01 --mode phases` — 32,16,10,20261022,0.90000000000000002,0.01,phases,193523,6904,30353,38655,113657,513,16,2855997894351129235 |
 | Decisão | aceito |
 | Pendências ou limitações | nenhuma |
+
+## Registro do agente — 2026-11-04: inventário de ambiente e pré-condições
+
+| Campo | Registro |
+|---|---|
+| Ferramenta | Codex, assistente de programação. |
+| Como foi usada | O grupo solicitou a implementação do item 3 do roteiro; o agente inspecionou o repositório e o ambiente local, propôs o script de captura, aplicou as alterações e executou as verificações locais. |
+| Dados fornecidos | Plano de implementação, configuração da campanha, código C++, documentação e saídas locais de `lscpu`, `taskset`, `perf` e sysfs. |
+| O que ajudou a produzir | `scripts/capture_environment.sh`, alvo `make environment`, registro de `core_id` no CSV do executável, inventários em `data/metadata/`, resumo em `docs/environment.md`, documentação associada e a organização sequencial deste registro de uso de IA. Após a configuração persistente feita pelo proprietário, também ajudou a resolver os aliases da PMU para `cpu_core/*` e a detectar multiplexação. |
+| Como a saída foi avaliada | A seleção do CPU 0 foi baseada na topologia SMT observada e mantida explícita na configuração. A indisponibilidade inicial de `perf` foi preservada como limitação; depois de o proprietário configurar `perf_event_paranoid=0`, o agente confirmou a coleta e rejeitou os contadores do pré-teste por multiplexação, sem atribuir causalidade ao `nmi_watchdog` nem modificá-lo. |
+| Verificação automática | `bash -n scripts/capture_environment.sh`, `make test`, `make run`, `make environment` e `git diff --check`. A primeira tentativa de alteração foi recusada por `sudo` ao exigir senha; posteriormente, o proprietário configurou a regra persistente e o agente confirmou `perf_event_paranoid=0`, afinidade válida e multiplexação no pré-teste. |
+| Verificação humana | Aceita pelo proprietário na seção de revisão humana abaixo. A afinidade e a regra persistente de `perf` foram verificadas; a inferência de P-core, a alimentação AC e a multiplexação seguem registradas como limites para campanhas futuras. |
+
+## Revisão humana do registro de 2026-11-04
+
+| Campo | Registro |
+|---|---|
+| Pessoas que revisaram | Proprietário da máquina (nome não registrado). |
+| O que foi revisado | Inventário de ambiente, afinidade de CPU, limitação de `perf` e documentação associada. |
+| Como foi conferido | Ler .sh e arquivos gerados, rodar comandos, ler environment.md, liberar permissão do perf |
+| Comandos e resultado | `make test` e `make run` — passaram, `make environment` — taskset=passed, `sudo tee /etc/sysctl.d/99-ag-perf.conf >/dev/null <<'EOF'` -> `kernel.perf_event_paranoid = 0` -> `EOF` -> `sudo sysctl -p /etc/sysctl.d/99-ag-perf.conf` -> `cat /proc/sys/kernel/perf_event_paranoid` |
+| Decisão | aceito |
+| Pendências ou limitações | A decisão de acesso ao `perf` foi concluída: `/etc/sysctl.d/99-ag-perf.conf` mantém `kernel.perf_event_paranoid = 0`. A inferência de P-core deve ser revalidada se plataforma, firmware ou kernel mudar. A campanha deve aguardar energia AC e não pode usar os contadores enquanto a cadeia atual estiver multiplexada. |
+
+## Registro do agente — 2026-11-04: correção da associação de commit
+
+| Campo | Registro |
+|---|---|
+| Ferramenta | Codex, assistente de programação. |
+| Como foi usada | A pedido do grupo, o agente conferiu o histórico Git e registrou a associação omitida entre o estado de validação independente e seu commit. |
+| Dados fornecidos | O arquivo `docs/labbook/2026-11-03-validacao-independente.md`, o protocolo do labbook e o histórico local do Git. |
+| O que ajudou a produzir | Registro complementar `docs/labbook/2026-11-04-correcao-associacao-validacao.md` e link correspondente no índice do labbook. |
+| Como a saída foi avaliada | A associação foi conferida com `git show --stat --oneline 7de2a3e`, que inclui o registro de 2026-11-03 no commit `test: fortalece validação independente do AG`. |
+| Verificação automática | `git diff --check` e inspeção do commit `7de2a3e`. |
+| Verificação humana | Pendente: o grupo deve confirmar que a correção documental descreve o commit pretendido. |
+
+## Revisão humana do registro de 2026-11-04 — correção da associação
+
+| Campo | Registro |
+|---|---|
+| Pessoas que revisaram | Pendente. |
+| O que foi revisado | Associação entre a validação independente de 2026-11-03 e o commit `7de2a3e`. |
+| Como foi conferido | Pendente. |
+| Comandos e resultado | Pendente. |
+| Decisão | Pendente. |
+| Pendências ou limitações | Registrar a confirmação humana antes do próximo commit. |
+
+## Modelo para o próximo par de registros
+
+Para cada novo uso, acrescente primeiro o registro do agente e, imediatamente abaixo, a revisão humana correspondente. Copie e preencha o bloco de revisão abaixo.
+
+### AAAA-MM-DD — revisão humana do registro de AAAA-MM-DD
+
+| Campo | Preencher |
+|---|---|
+| Pessoas que revisaram | [nome(s)] |
+| O que foi revisado | [artefatos e escopo] |
+| Como foi conferido | [leitura, execução ou outro método] |
+| Comandos e resultado | [comandos e resultado observado] |
+| Decisão | [aceito, rejeitado ou pendente] |
+| Pendências ou limitações | [itens restantes] |
 
 Uma revisão só deve ser marcada como aceita depois que as pessoas responsáveis entenderem o resultado e concordarem que ele está correto para o projeto.

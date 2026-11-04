@@ -1,8 +1,11 @@
 #include "ga.hpp"
 
 #include <cstdlib>
+#include <cerrno>
+#include <cstring>
 #include <iomanip>
 #include <iostream>
+#include <sched.h>
 #include <stdexcept>
 #include <string>
 
@@ -13,6 +16,15 @@ struct Arguments {
     ag::MeasurementMode mode = ag::MeasurementMode::Baseline;
     bool print_header = false;
 };
+
+int current_cpu_id() {
+    const int cpu_id = sched_getcpu();
+    if (cpu_id < 0) {
+        throw std::runtime_error("não foi possível obter o CPU lógico efetivo: " +
+                                 std::string(std::strerror(errno)));
+    }
+    return cpu_id;
+}
 
 [[noreturn]] void usage(const int status) {
     std::ostream& output = status == EXIT_SUCCESS ? std::cout : std::cerr;
@@ -105,7 +117,7 @@ Arguments parse_arguments(const int argc, char* argv[]) {
 
 void print_header() {
     std::cout << "population_size,chromosome_length,generations,seed,crossover_probability,"
-                 "mutation_probability,measurement_mode,elapsed_ns,evaluation_ns,selection_ns,"
+                 "mutation_probability,measurement_mode,core_id,elapsed_ns,evaluation_ns,selection_ns,"
                  "crossover_ns,mutation_ns,replacement_ns,best_fitness,checksum\n";
 }
 
@@ -114,6 +126,7 @@ void print_result(const Arguments& arguments, const ag::RunResult& result) {
               << arguments.config.chromosome_length << ',' << arguments.config.generations << ','
               << arguments.config.seed << ',' << arguments.config.crossover_probability << ','
               << arguments.config.mutation_probability << ',' << ag::to_string(arguments.mode) << ','
+              << current_cpu_id() << ','
               << result.elapsed_ns << ',' << result.phase_timings.evaluation_ns << ','
               << result.phase_timings.selection_ns << ',' << result.phase_timings.crossover_ns << ','
               << result.phase_timings.mutation_ns << ',' << result.phase_timings.replacement_ns << ','

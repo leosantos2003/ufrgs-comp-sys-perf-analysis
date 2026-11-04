@@ -1,0 +1,1 @@
+perf stat --no-big-num -x, -e cycles\,instructions\,cache-references\,cache-misses\,context-switches\,cpu-migrations -- taskset -c 0 /home/leonardo/UFRGS/UFRGS\ -\ Engenharia\ de\ Computação/Cadeiras\ Eletivas/INF01146\ -\ Avaliação\ de\ Desempenho/etapa-2/build/ag_bench --population 8 --length 8 --generations 2 --seed 0 --crossover 0.90 --mutation 0.01 --mode baseline

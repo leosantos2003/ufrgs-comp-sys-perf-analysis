@@ -1,0 +1,6 @@
+# comando: sh -c uptime\;\ cat\ /proc/loadavg
+
+ 14:15:23 up  3:31,  1 user,  load average: 1.10, 0.96, 0.99
+1.10 0.96 0.99 1/1341 47
+
+# status=0

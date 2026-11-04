@@ -40,6 +40,14 @@ make run        # executa uma configuração demonstrativa
 
 `ag_bench` emite uma linha CSV por execução. A região cronometrada contém somente o laço de `G` gerações; inicialização, checksum e escrita da saída ficam fora dela. Os argumentos usados numa campanha devem reproduzir os controles congelados em `config/experiment.yaml`.
 
+Antes de uma campanha, capture o ambiente e verifique a afinidade configurada:
+
+```bash
+make environment
+```
+
+O alvo lê o CPU lógico `target_core` de `config/experiment.yaml`, executa um teste curto sob `taskset`, registra o `core_id` efetivo informado pelo binário e grava um instantâneo em `data/metadata/environment-<timestamp>/`. Ele também testa os eventos solicitados com `perf stat`, sem mudar privilégios ou controles do sistema; indisponibilidade de `perf` fica registrada no instantâneo e em `docs/environment.md`, mas não transforma esse teste curto em dado de desempenho.
+
 ## Garantias de validação
 
 O alvo `make test` verifica as primitivas OneMax, torneio, crossover e mutação; parâmetros inválidos; mutação com sequência pseudoaleatória controlada; determinismo por semente; população e limites de fitness após cada geração; equivalência com uma referência simples em instâncias pequenas; e preservação do resultado entre os modos `baseline` e `phases`.

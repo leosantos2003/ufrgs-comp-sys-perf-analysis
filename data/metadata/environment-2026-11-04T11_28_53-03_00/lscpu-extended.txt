@@ -1,0 +1,17 @@
+# comando: lscpu --all --extended=CPU\,CORE\,SOCKET\,NODE\,ONLINE
+
+CPU CORE SOCKET NODE ONLINE
+  0    0      0    0    yes
+  1    0      0    0    yes
+  2    1      0    0    yes
+  3    1      0    0    yes
+  4    2      0    0    yes
+  5    3      0    0    yes
+  6    4      0    0    yes
+  7    5      0    0    yes
+  8    6      0    0    yes
+  9    7      0    0    yes
+ 10    8      0    0    yes
+ 11    9      0    0    yes
+
+# status=0

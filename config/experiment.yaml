@@ -111,7 +111,10 @@ measurement:
 
 environment_controls:
   cpu_affinity: required
-  target_core: select_one_p_core_during_environment_inventory
+  target_core: 0
+  target_core_selection: >-
+    CPU lógico 0; P-core inferido pela topologia SMT (thread_siblings_list 0-1)
+    no inventário de 2026-11-04. Confirmar novamente se a plataforma mudar.
   governor_and_turbo: record_before_each_campaign
   power_source: AC_when_available
   concurrent_workload: minimize_and_record

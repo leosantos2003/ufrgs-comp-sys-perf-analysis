@@ -1,0 +1,6 @@
+# comando: cat /home/leonardo/UFRGS/UFRGS\ -\ Engenharia\ de\ Computação/Cadeiras\ Eletivas/INF01146\ -\ Avaliação\ de\ Desempenho/etapa-2/build/build-info.txt
+
+compiler=g++ (Ubuntu 13.3.0-6ubuntu2~24.04.1) 13.3.0
+flags=-std=c++20 -O3 -DNDEBUG -Wall -Wextra -Wpedantic 
+
+# status=0

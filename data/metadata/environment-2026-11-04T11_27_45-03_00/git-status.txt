@@ -1,0 +1,9 @@
+# comando: git -C /home/leonardo/UFRGS/UFRGS\ -\ Engenharia\ de\ Computação/Cadeiras\ Eletivas/INF01146\ -\ Avaliação\ de\ Desempenho/etapa-2 status --short
+
+ M Makefile
+ M config/experiment.yaml
+ M src/main.cpp
+?? data/metadata/environment-2026-11-04T11_27_45-03_00/
+?? scripts/capture_environment.sh
+
+# status=0
