@@ -21,7 +21,7 @@ mkdir -p "${build_dir}"
     "${project_root}/src/main.cpp" \
     -o "${build_dir}/ag_bench"
 
-"${compiler}" "${compiler_flags[@]}" \
+"${compiler}" "${compiler_flags[@]}" -DAG_TESTING \
     "${project_root}/src/ga.cpp" \
     "${project_root}/src/tests.cpp" \
     -o "${build_dir}/ag_tests"

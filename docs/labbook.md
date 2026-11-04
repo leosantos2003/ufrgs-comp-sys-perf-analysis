@@ -1,19 +1,20 @@
-# Caderno de laboratório
+# Caderno de laboratório — índice e protocolo
 
-## Convenções
+Cada arquivo em `docs/labbook/` descreve um único estado do projeto. A partir da adoção deste protocolo, o arquivo deve ser incluído no mesmo commit que materializa esse estado; assim, o histórico Git preserva tanto os artefatos quanto a decisão, a evidência e o impacto associados a eles.
 
-Registrar cada decisão, teste, alteração de protocolo, anomalia e próximo passo com data, evidência e impacto nos dados. Não reescrever entradas antigas: acrescentar correções ou decisões posteriores.
+## Convenções obrigatórias
 
-## 2026-10-14 - Inicialização da Etapa 2
+1. Antes de criar um commit que altere código, configuração, dados, análise ou protocolo, adicionar `docs/labbook/AAAA-MM-DD-<resumo-curto>.md`.
+2. O arquivo deve registrar: objetivo da mudança, artefatos alterados, validação executada e evidência, impacto sobre dados/configuração, limitações conhecidas e próximo passo.
+3. Todo arquivo deve conter também três seções autossuficientes: **Contexto do projeto neste estado** (pergunta, escopo e o que já existia), **Significados** (siglas, parâmetros e modos relevantes) e **Como testar ou reproduzir este estado** (comandos, resultado esperado e limitações da verificação).
+4. Não editar nem apagar um arquivo já presente em um commit anterior. Correções, interpretações posteriores ou reversões devem constar em um novo arquivo.
+5. Se o estado produzir ou invalidar dados, citar os identificadores dos arquivos/diretórios afetados e a decisão de preservação, exclusão ou novo bloco experimental.
+6. O nome é cronológico e legível; a associação exata com o estado é dada pelo commit que contém o arquivo, evitando um hash autorreferente no próprio conteúdo.
 
-- Criada a estrutura inicial do trabalho e o repositório Git local em `etapa-2/`.
-- Registrados os controles iniciais do AG em `config/experiment.yaml`.
-- Ainda não há código, inventário do ambiente ou medições.
-- Próximo passo: implementar o AG e testes determinísticos de correção.
+Os dois primeiros registros abaixo foram reconstruídos a partir dos commits existentes durante a migração do formato. Eles preservam os hashes de origem em seus próprios metadados; os registros posteriores seguem a convenção de inclusão no mesmo commit.
 
-## 2026-10-22 - Implementação e testes do AG
+## Estados registrados
 
-- Implementado AG geracional sequencial em `src/ga.cpp`, com OneMax, torneio de tamanho 2, crossover de um ponto, mutação bit-flip, duas populações pré-alocadas e `G` gerações sem parada antecipada.
-- A região medida engloba apenas o laço geracional; inicialização da população, cálculo de checksum, melhor fitness e escrita CSV ficam fora dela.
-- Adicionados `src/tests.cpp`, `scripts/build.sh` e `Makefile`. Os testes cobrem primitivas do AG, parâmetros inválidos, determinismo com a mesma semente e instrumentação por fases.
-- Próximo passo: inventariar e controlar o ambiente de execução antes de qualquer campanha de medição.
+- [2026-10-14 — inicialização](labbook/2026-10-14-inicializacao.md)
+- [2026-10-22 — implementação inicial do AG](labbook/2026-10-22-ag-inicial.md)
+- [2026-11-03 — validação independente do AG](labbook/2026-11-03-validacao-independente.md)

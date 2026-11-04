@@ -2,6 +2,9 @@
 
 #include <cstddef>
 #include <cstdint>
+#ifdef AG_TESTING
+#include <functional>
+#endif
 #include <random>
 #include <vector>
 
@@ -40,6 +43,13 @@ struct RunResult {
     std::uint64_t checksum = 0;
 };
 
+#ifdef AG_TESTING
+// Gancho exclusivo do binário de testes. O executável de medição é compilado
+// sem AG_TESTING e, portanto, não executa esta instrumentação.
+using GenerationObserver = std::function<void(std::size_t completed_generations,
+                                               const Population& population)>;
+#endif
+
 void validate_config(const Config& config);
 
 std::size_t one_max(const Chromosome& chromosome);
@@ -57,7 +67,13 @@ void mutate_bit_flip(Chromosome& chromosome,
                      double probability_per_gene,
                      std::mt19937_64& random_engine);
 
+#ifdef AG_TESTING
+RunResult run(const Config& config,
+              MeasurementMode mode,
+              const GenerationObserver& generation_observer = {});
+#else
 RunResult run(const Config& config, MeasurementMode mode);
+#endif
 
 const char* to_string(MeasurementMode mode);
 

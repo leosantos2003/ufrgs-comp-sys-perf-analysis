@@ -131,7 +131,12 @@ void mutate_bit_flip(Chromosome& chromosome,
     }
 }
 
-RunResult run(const Config& config, const MeasurementMode mode) {
+RunResult run(const Config& config,
+              const MeasurementMode mode
+#ifdef AG_TESTING
+              , const GenerationObserver& generation_observer
+#endif
+) {
     validate_config(config);
 
     std::mt19937_64 random_engine(config.seed);
@@ -234,6 +239,12 @@ RunResult run(const Config& config, const MeasurementMode mode) {
         } else {
             population.swap(next_population);
         }
+
+#ifdef AG_TESTING
+        if (generation_observer) {
+            generation_observer(generation + 1, population);
+        }
+#endif
     }
 
     result.elapsed_ns = elapsed_nanoseconds(total_start, Clock::now());
