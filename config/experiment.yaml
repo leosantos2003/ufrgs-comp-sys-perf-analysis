@@ -75,6 +75,10 @@ design:
   perf_replications: 5
   execution_order: randomized
   design_random_seed: 20261014
+  initial_design:
+    block: pilot
+    batch: 1
+    perf_group: requested_all
   measurement_batch:
     enabled: true
     selection: calibration_before_main_campaign

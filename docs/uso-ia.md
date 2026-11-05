@@ -99,6 +99,29 @@ Para cada uso relevante, informe: qual ferramenta foi usada, como ela foi usada,
 | Decisão | Pendente. |
 | Pendências ou limitações | Registrar a confirmação humana antes do próximo commit. |
 
+## Registro do agente — 2026-11-04: DOE piloto
+
+| Campo | Registro |
+|---|---|
+| Ferramenta | Codex, assistente de programação. |
+| Como foi usada | O grupo solicitou a implementação do item 4 do roteiro. O agente leu a configuração e o plano, implementou o gerador determinístico e seus alvos de validação, materializou o CSV e executou verificações locais. |
+| Dados fornecidos | `plano-implementacao-etapa-2.md`, `config/experiment.yaml`, README, Makefile, documentos de ambiente e a estrutura existente do repositório. |
+| O que ajudou a produzir | `scripts/generate_design.py`, `config/design.csv`, a seção `design.initial_design` da configuração, alvos `make design` e `make check-design`, documentação estável no README e registro deste estado no labbook. |
+| Como a saída foi avaliada | O grupo deve conferir que os níveis, réplicas, `B=1`, CPU alvo e a intenção de `perf` representam o piloto desejado. O CSV foi aceito pelo verificador determinístico somente quando coincidiu exatamente com os valores derivados da configuração. |
+| Verificação automática | `make design`, `make check-design`, inspeção programática de contagens, tratamentos, sementes, ordens e identificadores, `make test` e `git diff --check`. |
+| Verificação humana | Pendente: o grupo deve revisar o script, `config/design.csv`, os limites de `B` e `perf`, e registrar a decisão abaixo antes do commit. |
+
+## Revisão humana do registro de 2026-11-04 — DOE piloto
+
+| Campo | Registro |
+|---|---|
+| Pessoas que revisaram | Leonardo |
+| O que foi revisado | Gerador de DOE, `config/design.csv`, metadados iniciais de desenho e documentação associada. |
+| Como foi conferido | Ler config/experiment.yaml, scripts/generate_design.py, executar comandos, conferir config/design.csv |
+| Comandos e resultado | `make check-design` — DOE válido: ... (320 execuções planejadas), `Todos os testes do AG passaram.` — Todos os testes do AG passaram., `git diff --check`, 'baseline': 160, 'phases': 80, 'perf': 80, Tratamentos: 16 |
+| Decisão | aceito |
+| Pendências ou limitações | `B=1` ainda, linhas `perf` não são contadores válidos enquanto houver multiplexação |
+
 ## Modelo para o próximo par de registros
 
 Para cada novo uso, acrescente primeiro o registro do agente e, imediatamente abaixo, a revisão humana correspondente. Copie e preencha o bloco de revisão abaixo.

@@ -35,8 +35,18 @@ Pré-requisitos: GNU Make e compilador compatível com C++20.
 make build      # gera build/ag_bench e build/ag_tests
 make test       # compila e executa a suíte determinística
 make run        # executa uma configuração demonstrativa
+make design     # gera e valida o DOE piloto em config/design.csv
+make check-design # valida o DOE existente sem regravá-lo
 ./build/ag_bench --help
 ```
+
+`make design` materializa o fatorial completo definido em
+`config/experiment.yaml`. O CSV contém somente execuções planejadas: uma
+linha por execução, identificadores, modo de medição, tratamento `N × L`,
+réplica, semente, lote, CPU alvo e uma ordem global aleatorizada. A
+aleatorização e as sementes são determinísticas a partir de
+`design.design_random_seed`; o lote inicial `B=1` é provisório até a
+calibração. O comando não mede o AG nem escreve em `data/raw/`.
 
 `ag_bench` emite uma linha CSV por execução. A região cronometrada contém somente o laço de `G` gerações; inicialização, checksum e escrita da saída ficam fora dela. Os argumentos usados numa campanha devem reproduzir os controles congelados em `config/experiment.yaml`.
 
