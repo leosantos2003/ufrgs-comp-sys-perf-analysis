@@ -1,0 +1,49 @@
+# comando: lscpu
+
+Arquitetura:                               x86_64
+Modo(s) operacional da CPU:                32-bit, 64-bit
+Tamanhos de endereço:                      39 bits physical, 48 bits virtual
+Ordem dos bytes:                           Little Endian
+CPU(s):                                    12
+Lista de CPU(s) on-line:                   0-11
+ID de fornecedor:                          GenuineIntel
+Nome do modelo:                            13th Gen Intel(R) Core(TM) i7-1355U
+Família da CPU:                            6
+Modelo:                                    186
+Thread(s) per núcleo:                      2
+Núcleo(s) por soquete:                     10
+Soquete(s):                                1
+Step:                                      3
+CPU(s) MHz de escala:                      21%
+CPU MHz máx.:                              5000,0000
+CPU MHz mín.:                              400,0000
+BogoMIPS:                                  5222,40
+Opções:                                    fpu vme de pse tsc msr pae mce cx8 apic sep mtrr pge mca cmov pat pse36 clflush dts acpi mmx fxsr sse sse2 ss ht tm pbe syscall nx pdpe1gb rdtscp lm constant_tsc art arch_perfmon pebs bts rep_good nopl xtopology nonstop_tsc cpuid aperfmperf tsc_known_freq pni pclmulqdq dtes64 monitor ds_cpl vmx smx est tm2 ssse3 sdbg fma cx16 xtpr pdcm pcid sse4_1 sse4_2 x2apic movbe popcnt tsc_deadline_timer aes xsave avx f16c rdrand lahf_lm abm 3dnowprefetch cpuid_fault epb ssbd ibrs ibpb stibp ibrs_enhanced tpr_shadow flexpriority ept vpid ept_ad fsgsbase tsc_adjust bmi1 avx2 smep bmi2 erms invpcid rdseed adx smap clflushopt clwb intel_pt sha_ni xsaveopt xsavec xgetbv1 xsaves split_lock_detect user_shstk avx_vnni dtherm ida arat pln pts hwp hwp_notify hwp_act_window hwp_epp hwp_pkg_req hfi vnmi umip pku ospke waitpkg gfni vaes vpclmulqdq rdpid movdiri movdir64b fsrm md_clear serialize arch_lbr ibt flush_l1d arch_capabilities
+Virtualização:                             VT-x
+cache de L1d:                              352 KiB (10 instâncias)
+cache de L1i:                              576 KiB (10 instâncias)
+cache de L2:                               6,5 MiB (4 instâncias)
+cache de L3:                               12 MiB (1 instância)
+Nó(s) de NUMA:                             1
+CPU(s) de nó0 NUMA:                        0-11
+Vulnerabilidade Gather data sampling:      Not affected
+Vulnerabilidade Ghostwrite:                Not affected
+Vulnerabilidade Indirect target selection: Not affected
+Vulnerabilidade Itlb multihit:             Not affected
+Vulnerabilidade L1tf:                      Not affected
+Vulnerabilidade Mds:                       Not affected
+Vulnerabilidade Meltdown:                  Not affected
+Vulnerabilidade Mmio stale data:           Not affected
+Vulnerabilidade Old microcode:             Not affected
+Vulnerabilidade Reg file data sampling:    Mitigation; Clear Register File
+Vulnerabilidade Retbleed:                  Not affected
+Vulnerabilidade Spec rstack overflow:      Not affected
+Vulnerabilidade Spec store bypass:         Mitigation; Speculative Store Bypass disabled via prctl
+Vulnerabilidade Spectre v1:                Mitigation; usercopy/swapgs barriers and __user pointer sanitization
+Vulnerabilidade Spectre v2:                Mitigation; Enhanced / Automatic IBRS; IBPB conditional; PBRSB-eIBRS SW sequence; BHI BHI_DIS_S
+Vulnerabilidade Srbds:                     Not affected
+Vulnerabilidade Tsa:                       Not affected
+Vulnerabilidade Tsx async abort:           Not affected
+Vulnerabilidade Vmscape:                   Mitigation; IBPB before exit to userspace
+
+# status=0

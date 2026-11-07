@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-"""Materializa e valida o DOE piloto a partir de config/experiment.yaml.
+"""Materializa e valida o DOE a partir de config/experiment.yaml.
 
 O formato da configuração é propositalmente lido com a biblioteca padrão:
 o gerador usa apenas o subconjunto YAML (mapeamentos por indentação, listas
@@ -59,6 +59,7 @@ class Experiment:
     design_random_seed: int
     block: str
     batch: int
+    treatment_batches: dict[tuple[int, int], int] | None
     perf_group: str
     measurement_modes: tuple[str, ...]
     target_core: int
@@ -163,22 +164,76 @@ def string_list(lines: list[str], path: str) -> tuple[str, ...]:
     return tuple(values)
 
 
+def treatment_batch_map(
+    lines: list[str], path: str, population_levels: tuple[int, ...], chromosome_levels: tuple[int, ...]
+) -> dict[tuple[int, int], int] | None:
+    """Lê B congelado por tratamento, quando a calibração já ocorreu.
+
+    As chaves seguem ``n<N>_l<L>`` para caber no subconjunto YAML já aceito
+    pelo gerador. Sem esse mapa, o lote provisório
+    ``design.initial_design.batch`` continua sendo usado.
+    """
+    try:
+        index, end, value = node(lines, path)
+    except DesignError as error:
+        if "chave ausente" in str(error):
+            return None
+        raise
+    if value:
+        raise DesignError(f"{path} deve ser um mapeamento por tratamento")
+
+    indentation = len(uncomment(lines[index])) - len(uncomment(lines[index]).lstrip(" "))
+    values: dict[tuple[int, int], int] = {}
+    pattern = re.compile(r"\s*n([0-9]+)_l([0-9]+):\s*([0-9]+)\s*")
+    for child in lines[index + 1 : end]:
+        text = uncomment(child)
+        if not text.strip():
+            continue
+        child_indent = len(text) - len(text.lstrip(" "))
+        match = pattern.fullmatch(text)
+        if child_indent <= indentation or match is None:
+            raise DesignError(f"item inválido em {path}: {child.rstrip()!r}")
+        treatment = (int(match.group(1)), int(match.group(2)))
+        batch = int(match.group(3))
+        if treatment in values or batch < 1:
+            raise DesignError(f"item duplicado ou lote não positivo em {path}: {child.rstrip()!r}")
+        values[treatment] = batch
+
+    expected = {
+        (population_size, chromosome_length)
+        for population_size in population_levels
+        for chromosome_length in chromosome_levels
+    }
+    if set(values) != expected:
+        missing = sorted(expected - set(values))
+        unexpected = sorted(set(values) - expected)
+        details: list[str] = []
+        if missing:
+            details.append("ausentes=" + ", ".join(f"n{n}_l{l}" for n, l in missing))
+        if unexpected:
+            details.append("inesperados=" + ", ".join(f"n{n}_l{l}" for n, l in unexpected))
+        raise DesignError(f"{path} deve conter exatamente todos os tratamentos: {'; '.join(details)}")
+    return values
+
+
 def read_experiment(path: Path) -> Experiment:
     try:
         lines = path.read_text(encoding="utf-8").splitlines()
     except OSError as error:
         raise DesignError(f"não foi possível ler {path}: {error}") from error
 
+    population_levels = inline_integer_list(
+        lines, "factors.primary.population_size_N.candidate_levels"
+    )
+    chromosome_levels = inline_integer_list(
+        lines, "factors.primary.chromosome_length_L.candidate_levels"
+    )
     experiment = Experiment(
         study_id=scalar(lines, "study.id"),
         design_type=scalar(lines, "design.type"),
         combinations=integer(lines, "design.combinations"),
-        population_levels=inline_integer_list(
-            lines, "factors.primary.population_size_N.candidate_levels"
-        ),
-        chromosome_levels=inline_integer_list(
-            lines, "factors.primary.chromosome_length_L.candidate_levels"
-        ),
+        population_levels=population_levels,
+        chromosome_levels=chromosome_levels,
         generations=integer(lines, "algorithm.termination.generations"),
         baseline_replications=integer(lines, "design.baseline_replications"),
         profile_replications=integer(lines, "design.profile_replications"),
@@ -187,6 +242,12 @@ def read_experiment(path: Path) -> Experiment:
         design_random_seed=integer(lines, "design.design_random_seed"),
         block=scalar(lines, "design.initial_design.block"),
         batch=integer(lines, "design.initial_design.batch"),
+        treatment_batches=treatment_batch_map(
+            lines,
+            "design.measurement_batch.frozen_batches",
+            population_levels,
+            chromosome_levels,
+        ),
         perf_group=scalar(lines, "design.initial_design.perf_group"),
         measurement_modes=string_list(lines, "design.planned_measurement_modes"),
         target_core=non_negative_integer(lines, "environment_controls.target_core"),
@@ -250,6 +311,12 @@ def replication_count(mode: str, experiment: Experiment) -> int:
     }[mode]
 
 
+def batch_for_treatment(population_size: int, chromosome_length: int, experiment: Experiment) -> int:
+    if experiment.treatment_batches is None:
+        return experiment.batch
+    return experiment.treatment_batches[(population_size, chromosome_length)]
+
+
 def make_rows(experiment: Experiment) -> list[dict[str, str]]:
     max_replications = max(
         experiment.baseline_replications,
@@ -274,7 +341,9 @@ def make_rows(experiment: Experiment) -> list[dict[str, str]]:
                             "N": str(population_size),
                             "L": str(chromosome_length),
                             "G": str(experiment.generations),
-                            "batch": str(experiment.batch),
+                            "batch": str(
+                                batch_for_treatment(population_size, chromosome_length, experiment)
+                            ),
                             "replication": str(replication),
                             "seed": str(seeds[replication - 1]),
                             "core_id": str(experiment.target_core),
@@ -341,7 +410,7 @@ def write_csv(path: Path, rows: list[dict[str, str]]) -> None:
 
 def parse_arguments() -> argparse.Namespace:
     parser = argparse.ArgumentParser(
-        description="Gera ou valida o DOE piloto do AG a partir de experiment.yaml."
+        description="Gera ou valida o DOE do AG a partir de experiment.yaml."
     )
     parser.add_argument("--config", type=Path, default=DEFAULT_CONFIG, help="configuração YAML")
     parser.add_argument("--output", type=Path, default=DEFAULT_OUTPUT, help="CSV do DOE")

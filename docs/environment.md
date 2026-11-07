@@ -1,6 +1,6 @@
 # Ambiente experimental
 
-Este resumo foi gerado por `scripts/capture_environment.sh` a partir do instantâneo bruto em [`data/metadata/environment-2026-11-04T14_17_21-03_00`](../data/metadata/environment-2026-11-04T14_17_21-03_00). Ele descreve a plataforma observada em **2026-11-04T14:17:21-03:00**, e não substitui uma nova captura antes de uma campanha.
+Este resumo foi gerado por `scripts/capture_environment.sh` a partir do instantâneo bruto em [`data/metadata/environment-2026-11-07T16_46_06-03_00`](../data/metadata/environment-2026-11-07T16_46_06-03_00). Ele descreve a plataforma observada em **2026-11-07T16:46:06-03:00**, e não substitui uma nova captura antes de uma campanha.
 
 ## Plataforma e CPU selecionado
 
@@ -14,8 +14,8 @@ Este resumo foi gerado por `scripts/capture_environment.sh` a partir do instant�
 - Teste de afinidade: **passed**. `taskset -c 0` executou o binário de teste e ele reportou `core_id=0`; os arquivos `taskset-test.*` preservam comando, saída e status.
 - Ferramentas inventariadas: `taskset`, `perf`, `g++` e `/usr/bin/time`; suas versões, ajuda/lista de eventos e status estão no instantâneo.
 - Teste de `perf stat` com `cpu_core/cycles/,cpu_core/instructions/,cpu_core/cache-references/,cpu_core/cache-misses/,context-switches,cpu-migrations`: **passed_with_multiplexing** (status 0); os eventos foram aceitos, mas a razão de execução indica multiplexação ou formato inesperado; consultar perf-test.stderr. A saída literal está em `perf-test.stderr` e não é dado de desempenho.
-- Controle observado no CPU 0: governor `powersave`, preferência energética `balance_power`; `intel_pstate/no_turbo`, `nmi_watchdog` e o estado da alimentação estão em `kernel-controls.txt` e `power-state.txt`.
-- Alimentação no momento do instantâneo: `AC type=Mains online=0 status=UNAVAILABLE;BAT0 type=Battery online=UNAVAILABLE status=Discharging`.
+- Controle observado no CPU 0: governor `powersave`, preferência energética `balance_performance`; `intel_pstate/no_turbo`, `nmi_watchdog` e o estado da alimentação estão em `kernel-controls.txt` e `power-state.txt`.
+- Alimentação no momento do instantâneo: `AC type=Mains online=1 status=UNAVAILABLE;BAT0 type=Battery online=UNAVAILABLE status=Not charging`.
 - `perf_event_paranoid=0` foi apenas registrado; o script não altera privilégios nem parâmetros do kernel.
 
 ## Situação e limitações atuais

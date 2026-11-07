@@ -21,6 +21,9 @@ struct Config {
     double crossover_probability = 0.90;
     double mutation_probability = 0.01;
     std::uint64_t seed = 0;
+    // Número de execuções completas do mesmo AG agregadas na observação.
+    // G continua sendo o número de gerações de cada execução individual.
+    std::size_t batch = 1;
 };
 
 enum class MeasurementMode {

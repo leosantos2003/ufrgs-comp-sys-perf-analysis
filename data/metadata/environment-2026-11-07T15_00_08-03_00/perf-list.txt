@@ -1,0 +1,2421 @@
+# comando: perf list --no-desc
+
+  mem-loads OR cpu_atom/mem-loads/                   [Kernel PMU event]
+  mem-stores OR cpu_atom/mem-stores/                 [Kernel PMU event]
+  topdown-bad-spec OR cpu_atom/topdown-bad-spec/     [Kernel PMU event]
+  topdown-be-bound OR cpu_atom/topdown-be-bound/     [Kernel PMU event]
+  topdown-fe-bound OR cpu_atom/topdown-fe-bound/     [Kernel PMU event]
+  topdown-retiring OR cpu_atom/topdown-retiring/     [Kernel PMU event]
+  mem-loads OR cpu_core/mem-loads/                   [Kernel PMU event]
+  mem-loads-aux OR cpu_core/mem-loads-aux/           [Kernel PMU event]
+  mem-stores OR cpu_core/mem-stores/                 [Kernel PMU event]
+  slots OR cpu_core/slots/                           [Kernel PMU event]
+  topdown-bad-spec OR cpu_core/topdown-bad-spec/     [Kernel PMU event]
+  topdown-be-bound OR cpu_core/topdown-be-bound/     [Kernel PMU event]
+  topdown-br-mispredict OR cpu_core/topdown-br-mispredict/[Kernel PMU event]
+  topdown-fe-bound OR cpu_core/topdown-fe-bound/     [Kernel PMU event]
+  topdown-fetch-lat OR cpu_core/topdown-fetch-lat/   [Kernel PMU event]
+  topdown-heavy-ops OR cpu_core/topdown-heavy-ops/   [Kernel PMU event]
+  topdown-mem-bound OR cpu_core/topdown-mem-bound/   [Kernel PMU event]
+  topdown-retiring OR cpu_core/topdown-retiring/     [Kernel PMU event]
+  cstate_core/c1-residency/                          [Kernel PMU event]
+  cstate_core/c6-residency/                          [Kernel PMU event]
+  cstate_core/c7-residency/                          [Kernel PMU event]
+  cstate_pkg/c10-residency/                          [Kernel PMU event]
+  cstate_pkg/c2-residency/                           [Kernel PMU event]
+  cstate_pkg/c3-residency/                           [Kernel PMU event]
+  cstate_pkg/c6-residency/                           [Kernel PMU event]
+  cstate_pkg/c8-residency/                           [Kernel PMU event]
+  i915/actual-frequency/                             [Kernel PMU event]
+  i915/bcs0-busy/                                    [Kernel PMU event]
+  i915/bcs0-sema/                                    [Kernel PMU event]
+  i915/bcs0-wait/                                    [Kernel PMU event]
+  i915/interrupts/                                   [Kernel PMU event]
+  i915/rc6-residency/                                [Kernel PMU event]
+  i915/rcs0-busy/                                    [Kernel PMU event]
+  i915/rcs0-sema/                                    [Kernel PMU event]
+  i915/rcs0-wait/                                    [Kernel PMU event]
+  i915/requested-frequency/                          [Kernel PMU event]
+  i915/software-gt-awake-time/                       [Kernel PMU event]
+  i915/vcs0-busy/                                    [Kernel PMU event]
+  i915/vcs0-sema/                                    [Kernel PMU event]
+  i915/vcs0-wait/                                    [Kernel PMU event]
+  i915/vcs1-busy/                                    [Kernel PMU event]
+  i915/vcs1-sema/                                    [Kernel PMU event]
+  i915/vcs1-wait/                                    [Kernel PMU event]
+  i915/vecs0-busy/                                   [Kernel PMU event]
+  i915/vecs0-sema/                                   [Kernel PMU event]
+  i915/vecs0-wait/                                   [Kernel PMU event]
+  intel_bts//                                        [Kernel PMU event]
+  intel_pt//                                         [Kernel PMU event]
+  msr/aperf/                                         [Kernel PMU event]
+  msr/cpu_thermal_margin/                            [Kernel PMU event]
+  msr/mperf/                                         [Kernel PMU event]
+  msr/pperf/                                         [Kernel PMU event]
+  msr/smi/                                           [Kernel PMU event]
+  msr/tsc/                                           [Kernel PMU event]
+  power/energy-cores/                                [Kernel PMU event]
+  power/energy-gpu/                                  [Kernel PMU event]
+  power/energy-pkg/                                  [Kernel PMU event]
+  power/energy-psys/                                 [Kernel PMU event]
+  uncore_clock/clockticks/                           [Kernel PMU event]
+  uncore_imc_free_running/data_read/                 [Kernel PMU event]
+  uncore_imc_free_running/data_total/                [Kernel PMU event]
+  uncore_imc_free_running/data_write/                [Kernel PMU event]
+
+cache:
+  l2_request.all
+  l2_request.hit
+  l2_request.miss
+  longest_lat_cache.miss
+  longest_lat_cache.reference
+  mem_bound_stalls.ifetch
+  mem_bound_stalls.ifetch_dram_hit
+  mem_bound_stalls.ifetch_l2_hit
+  mem_bound_stalls.ifetch_llc_hit
+  mem_bound_stalls.load
+  mem_bound_stalls.load_dram_hit
+  mem_bound_stalls.load_l2_hit
+  mem_bound_stalls.load_llc_hit
+  mem_load_uops_retired.dram_hit
+  mem_load_uops_retired.hitm
+  mem_load_uops_retired.l1_hit
+  mem_load_uops_retired.l1_miss
+  mem_load_uops_retired.l2_hit
+  mem_load_uops_retired.l2_miss
+  mem_load_uops_retired.l3_hit
+  mem_load_uops_retired_misc.hit_e_f
+  mem_load_uops_retired_misc.l3_miss
+  mem_scheduler_block.all
+  mem_scheduler_block.ld_buf
+  mem_scheduler_block.rsv
+  mem_scheduler_block.st_buf
+  mem_uops_retired.all_loads
+  mem_uops_retired.all_stores
+  mem_uops_retired.load_latency_gt_128
+  mem_uops_retired.load_latency_gt_16
+  mem_uops_retired.load_latency_gt_256
+  mem_uops_retired.load_latency_gt_32
+  mem_uops_retired.load_latency_gt_4
+  mem_uops_retired.load_latency_gt_512
+  mem_uops_retired.load_latency_gt_64
+  mem_uops_retired.load_latency_gt_8
+  mem_uops_retired.lock_loads
+  mem_uops_retired.split_loads
+  mem_uops_retired.stlb_miss
+  mem_uops_retired.stlb_miss_loads
+  mem_uops_retired.stlb_miss_stores
+  mem_uops_retired.store_latency
+  ocr.corewb_m.any_response
+  ocr.demand_code_rd.any_response
+  ocr.demand_code_rd.l3_hit
+  ocr.demand_code_rd.l3_hit.snoop_hit_no_fwd
+  ocr.demand_code_rd.l3_hit.snoop_hit_with_fwd
+  ocr.demand_code_rd.l3_hit.snoop_hitm
+  ocr.demand_data_rd.any_response
+  ocr.demand_data_rd.l3_hit
+  ocr.demand_data_rd.l3_hit.snoop_hit_no_fwd
+  ocr.demand_data_rd.l3_hit.snoop_hit_with_fwd
+  ocr.demand_data_rd.l3_hit.snoop_hitm
+  ocr.demand_rfo.any_response
+  ocr.demand_rfo.l3_hit
+  ocr.demand_rfo.l3_hit.snoop_hit_no_fwd
+  ocr.demand_rfo.l3_hit.snoop_hit_with_fwd
+  ocr.demand_rfo.l3_hit.snoop_hitm
+  ocr.swpf_rd.any_response
+  ocr.swpf_rd.l3_hit
+  ocr.swpf_rd.l3_hit.snoop_hit_no_fwd
+  ocr.swpf_rd.l3_hit.snoop_hit_with_fwd
+  ocr.swpf_rd.l3_hit.snoop_hitm
+  topdown_fe_bound.icache
+  l1d.hwpf_miss
+  l1d.replacement
+  l1d_pend_miss.fb_full
+  l1d_pend_miss.fb_full_periods
+  l1d_pend_miss.l2_stalls
+  l1d_pend_miss.pending
+  l1d_pend_miss.pending_cycles
+  l2_lines_in.all
+  l2_lines_out.non_silent
+  l2_lines_out.silent
+  l2_lines_out.useless_hwpf
+  l2_request.all
+  l2_request.miss
+  l2_rqsts.all_code_rd
+  l2_rqsts.all_demand_data_rd
+  l2_rqsts.all_demand_miss
+  l2_rqsts.all_hwpf
+  l2_rqsts.all_rfo
+  l2_rqsts.code_rd_hit
+  l2_rqsts.code_rd_miss
+  l2_rqsts.demand_data_rd_hit
+  l2_rqsts.demand_data_rd_miss
+  l2_rqsts.hwpf_miss
+  l2_rqsts.miss
+  l2_rqsts.references
+  l2_rqsts.rfo_hit
+  l2_rqsts.rfo_miss
+  l2_rqsts.swpf_hit
+  l2_rqsts.swpf_miss
+  l2_trans.l2_wb
+  longest_lat_cache.miss
+  longest_lat_cache.reference
+  mem_inst_retired.all_loads
+  mem_inst_retired.all_stores
+  mem_inst_retired.any
+  mem_inst_retired.lock_loads
+  mem_inst_retired.split_loads
+  mem_inst_retired.split_stores
+  mem_inst_retired.stlb_miss_loads
+  mem_inst_retired.stlb_miss_stores
+  mem_load_completed.l1_miss_any
+  mem_load_l3_hit_retired.xsnp_fwd
+  mem_load_l3_hit_retired.xsnp_hit
+  mem_load_l3_hit_retired.xsnp_hitm
+  mem_load_l3_hit_retired.xsnp_miss
+  mem_load_l3_hit_retired.xsnp_no_fwd
+  mem_load_l3_hit_retired.xsnp_none
+  mem_load_l3_miss_retired.local_dram
+  mem_load_misc_retired.uc
+  mem_load_retired.fb_hit
+  mem_load_retired.l1_hit
+  mem_load_retired.l1_miss
+  mem_load_retired.l2_hit
+  mem_load_retired.l2_miss
+  mem_load_retired.l3_hit
+  mem_load_retired.l3_miss
+  mem_store_retired.l2_hit
+  mem_uop_retired.any
+  ocr.corewb_m.l3_hit
+  ocr.corewb_nonm.l3_hit
+  ocr.demand_data_rd.any_response
+  ocr.demand_data_rd.l3_hit.snoop_hit_with_fwd
+  ocr.demand_data_rd.l3_hit.snoop_hitm
+  ocr.demand_rfo.any_response
+  ocr.demand_rfo.l3_hit.snoop_hitm
+  ocr.reads_to_core.l3_hit
+  offcore_requests.all_requests
+  offcore_requests.data_rd
+  offcore_requests.demand_code_rd
+  offcore_requests.demand_data_rd
+  offcore_requests.demand_rfo
+  offcore_requests_outstanding.cycles_with_data_rd
+  offcore_requests_outstanding.cycles_with_demand_code_rd
+  offcore_requests_outstanding.cycles_with_demand_data_rd
+  offcore_requests_outstanding.cycles_with_demand_rfo
+  offcore_requests_outstanding.data_rd
+  offcore_requests_outstanding.demand_code_rd
+  offcore_requests_outstanding.demand_data_rd
+  sq_misc.bus_lock
+  sw_prefetch_access.any
+  sw_prefetch_access.nta
+  sw_prefetch_access.prefetchw
+  sw_prefetch_access.t0
+  sw_prefetch_access.t1_t2
+
+drm:
+  drm-active-stolen-system0
+  drm-active-system0
+  drm-engine-capacity-video
+  drm-engine-copy
+  drm-engine-render
+  drm-engine-video
+  drm-engine-video-enhance
+  drm-purgeable-stolen-system0
+  drm-purgeable-system0
+  drm-resident-stolen-system0
+  drm-resident-system0
+  drm-shared-stolen-system0
+  drm-shared-system0
+  drm-total-stolen-system0
+  drm-total-system0
+
+floating point:
+  arith.fpdiv_active
+  arith.fpdiv_uops
+  machine_clears.fp_assist
+  uops_retired.fpdiv
+  arith.fpdiv_active
+  assists.fp
+  assists.sse_avx_mix
+  fp_arith_dispatched.port_0
+  fp_arith_dispatched.port_1
+  fp_arith_dispatched.port_5
+  fp_arith_dispatched.v0
+  fp_arith_dispatched.v1
+  fp_arith_dispatched.v2
+  fp_arith_inst_retired.128b_packed_double
+  fp_arith_inst_retired.128b_packed_single
+  fp_arith_inst_retired.256b_packed_double
+  fp_arith_inst_retired.256b_packed_single
+  fp_arith_inst_retired.4_flops
+  fp_arith_inst_retired.scalar
+  fp_arith_inst_retired.scalar_double
+  fp_arith_inst_retired.scalar_single
+  fp_arith_inst_retired.vector
+
+frontend:
+  baclears.any
+  icache.accesses
+  icache.misses
+  baclears.any
+  decode.lcp
+  decode.ms_busy
+  dsb2mite_switches.penalty_cycles
+  frontend_retired.any_dsb_miss
+  frontend_retired.dsb_miss
+  frontend_retired.itlb_miss
+  frontend_retired.l1i_miss
+  frontend_retired.l2_miss
+  frontend_retired.latency_ge_1
+  frontend_retired.latency_ge_128
+  frontend_retired.latency_ge_16
+  frontend_retired.latency_ge_2
+  frontend_retired.latency_ge_256
+  frontend_retired.latency_ge_2_bubbles_ge_1
+  frontend_retired.latency_ge_32
+  frontend_retired.latency_ge_4
+  frontend_retired.latency_ge_512
+  frontend_retired.latency_ge_64
+  frontend_retired.latency_ge_8
+  frontend_retired.ms_flows
+  frontend_retired.stlb_miss
+  frontend_retired.unknown_branch
+  icache_data.stall_periods
+  icache_data.stalls
+  icache_tag.stalls
+  idq.dsb_cycles_any
+  idq.dsb_cycles_ok
+  idq.dsb_uops
+  idq.mite_cycles_any
+  idq.mite_cycles_ok
+  idq.mite_uops
+  idq.ms_cycles_any
+  idq.ms_switches
+  idq.ms_uops
+  idq_bubbles.core
+  idq_bubbles.cycles_0_uops_deliv.core
+  idq_bubbles.cycles_fe_was_ok
+  idq_uops_not_delivered.core
+  idq_uops_not_delivered.cycles_0_uops_deliv.core
+  idq_uops_not_delivered.cycles_fe_was_ok
+
+hwmon:
+  curr1
+  in0
+  temp_temp OR temp1
+  temp_core_0 OR temp2
+  temp_core_10 OR temp12
+  temp_core_11 OR temp13
+  temp_core_12 OR temp14
+  temp_core_13 OR temp15
+  temp_core_14 OR temp16
+  temp_core_15 OR temp17
+  temp_core_4 OR temp6
+  temp_core_8 OR temp10
+  temp_core_9 OR temp11
+  temp_package_id_0 OR temp1
+  fan_cpu_fan OR fan1
+  temp_ambient OR temp2
+  temp_cpu OR temp1
+  temp_sodimm OR temp3
+  temp_unknown OR temp4
+  fan1
+  temp1
+  temp2
+  temp3
+  temp4
+  temp_composite OR temp1
+  temp_sensor_1 OR temp2
+
+legacy cache:
+  branch-load-misses
+  branch-loads
+  dtlb-load-misses
+  dtlb-loads
+  dtlb-store-misses
+  dtlb-stores
+  itlb-load-misses
+  l1-dcache-loads
+  l1-dcache-stores
+  l1-icache-load-misses
+  l1-icache-loads
+  llc-load-misses
+  llc-loads
+  llc-store-misses
+  llc-stores
+  branch-load-misses
+  branch-loads
+  dtlb-load-misses
+  dtlb-loads
+  dtlb-store-misses
+  dtlb-stores
+  itlb-load-misses
+  l1-dcache-load-misses
+  l1-dcache-loads
+  l1-dcache-stores
+  l1-icache-load-misses
+  llc-load-misses
+  llc-loads
+  llc-store-misses
+  llc-stores
+  node-load-misses
+  node-loads
+
+legacy hardware:
+  branch-instructions
+  branch-misses
+  branches
+  bus-cycles
+  cache-misses
+  cache-references
+  cpu-cycles
+  cycles
+  instructions
+  ref-cycles
+  branch-instructions
+  branch-misses
+  branches
+  bus-cycles
+  cache-misses
+  cache-references
+  cpu-cycles
+  cycles
+  instructions
+  ref-cycles
+
+memory:
+  ld_head.any_at_ret
+  ld_head.l1_bound_at_ret
+  ld_head.l1_miss_at_ret
+  ld_head.other_at_ret
+  ld_head.pgwalk_at_ret
+  ld_head.st_addr_at_ret
+  machine_clears.memory_ordering
+  ocr.demand_code_rd.dram
+  ocr.demand_code_rd.l3_miss
+  ocr.demand_data_rd.dram
+  ocr.demand_data_rd.l3_miss
+  ocr.demand_data_rd.l3_miss_local
+  ocr.demand_rfo.dram
+  ocr.demand_rfo.l3_miss
+  ocr.demand_rfo.l3_miss_local
+  ocr.swpf_rd.dram
+  ocr.swpf_rd.l3_miss
+  cycle_activity.stalls_l3_miss
+  machine_clears.memory_ordering
+  mem_trans_retired.load_latency_gt_1024
+  mem_trans_retired.load_latency_gt_128
+  mem_trans_retired.load_latency_gt_16
+  mem_trans_retired.load_latency_gt_256
+  mem_trans_retired.load_latency_gt_32
+  mem_trans_retired.load_latency_gt_4
+  mem_trans_retired.load_latency_gt_512
+  mem_trans_retired.load_latency_gt_64
+  mem_trans_retired.load_latency_gt_8
+  mem_trans_retired.store_sample
+  memory_activity.cycles_l1d_miss
+  memory_activity.stalls_l1d_miss
+  memory_activity.stalls_l2_miss
+  memory_activity.stalls_l3_miss
+  ocr.demand_data_rd.dram
+  ocr.demand_data_rd.l3_miss
+  ocr.demand_rfo.l3_miss
+  offcore_requests.l3_miss_demand_data_rd
+  offcore_requests_outstanding.l3_miss_demand_data_rd
+
+other:
+  ocr.full_streaming_wr.any_response
+  ocr.partial_streaming_wr.any_response
+  ocr.streaming_wr.any_response
+  assists.hardware
+  assists.page_fault
+  core_power.license_1
+  core_power.license_2
+  core_power.license_3
+  ocr.streaming_wr.any_response
+  xq.full_cycles
+
+pipeline:
+  arith.div_active
+  arith.idiv_active
+  arith.idiv_occupancy
+  arith.idiv_uops
+  br_inst_retired.all_branches
+  br_inst_retired.cond
+  br_inst_retired.cond_taken
+  br_inst_retired.far_branch
+  br_inst_retired.indirect
+  br_inst_retired.indirect_call
+  br_inst_retired.near_call
+  br_inst_retired.near_return
+  br_inst_retired.near_taken
+  br_inst_retired.rel_call
+  br_misp_retired.all_branches
+  br_misp_retired.cond
+  br_misp_retired.cond_taken
+  br_misp_retired.indirect
+  br_misp_retired.indirect_call
+  br_misp_retired.near_taken
+  br_misp_retired.return
+  cpu_clk_unhalted.core
+  cpu_clk_unhalted.core_p
+  cpu_clk_unhalted.ref_tsc
+  cpu_clk_unhalted.ref_tsc_p
+  cpu_clk_unhalted.thread
+  cpu_clk_unhalted.thread_p
+  inst_retired.any
+  inst_retired.any_p
+  ld_blocks.address_alias
+  ld_blocks.data_unknown
+  machine_clears.disambiguation
+  machine_clears.mrn_nuke
+  machine_clears.page_fault
+  machine_clears.smc
+  misc_retired.lbr_inserts
+  serialization.c01_ms_scb
+  serialization.non_c01_ms_scb
+  topdown_bad_speculation.all
+  topdown_bad_speculation.fastnuke
+  topdown_bad_speculation.machine_clears
+  topdown_bad_speculation.mispredict
+  topdown_bad_speculation.nuke
+  topdown_be_bound.all
+  topdown_be_bound.alloc_restrictions
+  topdown_be_bound.mem_scheduler
+  topdown_be_bound.non_mem_scheduler
+  topdown_be_bound.register
+  topdown_be_bound.reorder_buffer
+  topdown_be_bound.serialization
+  topdown_fe_bound.all
+  topdown_fe_bound.branch_detect
+  topdown_fe_bound.branch_resteer
+  topdown_fe_bound.cisc
+  topdown_fe_bound.decode
+  topdown_fe_bound.frontend_bandwidth
+  topdown_fe_bound.frontend_latency
+  topdown_fe_bound.itlb
+  topdown_fe_bound.other
+  topdown_fe_bound.predecode
+  topdown_retiring.all
+  uops_issued.any
+  uops_retired.all
+  uops_retired.idiv
+  uops_retired.ms
+  uops_retired.x87
+  arith.div_active
+  arith.idiv_active
+  assists.any
+  br_inst_retired.all_branches
+  br_inst_retired.cond
+  br_inst_retired.cond_ntaken
+  br_inst_retired.cond_taken
+  br_inst_retired.far_branch
+  br_inst_retired.indirect
+  br_inst_retired.near_call
+  br_inst_retired.near_return
+  br_inst_retired.near_taken
+  br_misp_retired.all_branches
+  br_misp_retired.cond
+  br_misp_retired.cond_ntaken
+  br_misp_retired.cond_taken
+  br_misp_retired.indirect
+  br_misp_retired.indirect_call
+  br_misp_retired.near_taken
+  br_misp_retired.ret
+  cpu_clk_unhalted.c01
+  cpu_clk_unhalted.c02
+  cpu_clk_unhalted.c0_wait
+  cpu_clk_unhalted.distributed
+  cpu_clk_unhalted.one_thread_active
+  cpu_clk_unhalted.pause
+  cpu_clk_unhalted.pause_inst
+  cpu_clk_unhalted.ref_distributed
+  cpu_clk_unhalted.ref_tsc
+  cpu_clk_unhalted.ref_tsc_p
+  cpu_clk_unhalted.thread
+  cpu_clk_unhalted.thread_p
+  cycle_activity.cycles_l1d_miss
+  cycle_activity.cycles_l2_miss
+  cycle_activity.cycles_mem_any
+  cycle_activity.stalls_l1d_miss
+  cycle_activity.stalls_l2_miss
+  cycle_activity.stalls_total
+  exe_activity.1_ports_util
+  exe_activity.2_3_ports_util
+  exe_activity.2_ports_util
+  exe_activity.3_ports_util
+  exe_activity.4_ports_util
+  exe_activity.bound_on_loads
+  exe_activity.bound_on_stores
+  exe_activity.exe_bound_0_ports
+  inst_decoded.decoders
+  inst_retired.any
+  inst_retired.any_p
+  inst_retired.macro_fused
+  inst_retired.nop
+  inst_retired.prec_dist
+  inst_retired.rep_iteration
+  int_misc.clear_resteer_cycles
+  int_misc.clears_count
+  int_misc.recovery_cycles
+  int_misc.unknown_branch_cycles
+  int_misc.uop_dropping
+  int_vec_retired.128bit
+  int_vec_retired.256bit
+  int_vec_retired.add_128
+  int_vec_retired.add_256
+  int_vec_retired.mul_256
+  int_vec_retired.shuffles
+  int_vec_retired.vnni_128
+  int_vec_retired.vnni_256
+  ld_blocks.address_alias
+  ld_blocks.no_sr
+  ld_blocks.store_forward
+  load_hit_prefetch.swpf
+  lsd.cycles_active
+  lsd.cycles_ok
+  lsd.uops
+  machine_clears.count
+  machine_clears.smc
+  misc2_retired.lfence
+  misc_retired.lbr_inserts
+  resource_stalls.sb
+  resource_stalls.scoreboard
+  rs.empty
+  rs.empty_count
+  rs.empty_resource
+  topdown.backend_bound_slots
+  topdown.bad_spec_slots
+  topdown.br_mispredict_slots
+  topdown.memory_bound_slots
+  topdown.slots
+  topdown.slots_p
+  uops_decoded.dec0_uops
+  uops_dispatched.port_0
+  uops_dispatched.port_1
+  uops_dispatched.port_2_3_10
+  uops_dispatched.port_4_9
+  uops_dispatched.port_5_11
+  uops_dispatched.port_6
+  uops_dispatched.port_7_8
+  uops_executed.core_cycles_ge_1
+  uops_executed.core_cycles_ge_2
+  uops_executed.core_cycles_ge_3
+  uops_executed.core_cycles_ge_4
+  uops_executed.cycles_ge_1
+  uops_executed.cycles_ge_2
+  uops_executed.cycles_ge_3
+  uops_executed.cycles_ge_4
+  uops_executed.stalls
+  uops_executed.thread
+  uops_executed.x87
+  uops_issued.any
+  uops_issued.cycles
+  uops_retired.cycles
+  uops_retired.heavy
+  uops_retired.ms
+  uops_retired.slots
+  uops_retired.stalls
+
+software:
+  alignment-faults
+  bpf-output
+  cgroup-switches
+  context-switches
+  cpu-clock
+  cpu-migrations
+  cs
+  dummy
+  emulation-faults
+  faults
+  major-faults
+  migrations
+  minor-faults
+  page-faults
+  task-clock
+
+tool:
+  core_wide
+  duration_time
+  has_pmem
+  num_cores
+  num_cpus
+  num_cpus_online
+  num_dies
+  num_packages
+  smt_on
+  system_time
+  system_tsc_freq
+  target_cpu
+  user_time
+
+uncore interconnect:
+  unc_arb_coh_trk_requests.all
+  unc_arb_dat_occupancy.all
+  unc_arb_dat_occupancy.rd
+  unc_arb_req_trk_occupancy.drd
+  unc_arb_req_trk_request.drd
+  unc_arb_trk_occupancy.all
+  unc_arb_trk_occupancy.rd
+  unc_arb_trk_requests.all
+  unc_arb_trk_requests.rd
+
+uncore memory:
+  unc_m_act_count_rd
+  unc_m_act_count_total
+  unc_m_act_count_wr
+  unc_m_cas_count_rd
+  unc_m_cas_count_wr
+  unc_m_clockticks
+  unc_m_dram_page_empty_rd
+  unc_m_dram_page_empty_wr
+  unc_m_dram_page_hit_rd
+  unc_m_dram_page_hit_wr
+  unc_m_dram_page_miss_rd
+  unc_m_dram_page_miss_wr
+  unc_m_dram_thermal_hot
+  unc_m_dram_thermal_warm
+  unc_m_pre_count_idle
+  unc_m_pre_count_page_miss
+  unc_m_prefetch_rd
+  unc_m_vc0_requests_rd
+  unc_m_vc0_requests_wr
+  unc_m_vc1_requests_rd
+  unc_m_vc1_requests_wr
+  unc_mc0_rdcas_count_freerun
+  unc_mc0_wrcas_count_freerun
+
+uncore other:
+  unc_clock.socket
+
+virtual memory:
+  dtlb_load_misses.walk_completed
+  dtlb_store_misses.walk_completed
+  itlb_misses.miss_caused_walk
+  itlb_misses.pde_cache_miss
+  itlb_misses.walk_completed
+  ld_head.dtlb_miss_at_ret
+  dtlb_load_misses.stlb_hit
+  dtlb_load_misses.walk_active
+  dtlb_load_misses.walk_completed
+  dtlb_load_misses.walk_completed_1g
+  dtlb_load_misses.walk_completed_2m_4m
+  dtlb_load_misses.walk_completed_4k
+  dtlb_load_misses.walk_pending
+  dtlb_store_misses.stlb_hit
+  dtlb_store_misses.walk_active
+  dtlb_store_misses.walk_completed
+  dtlb_store_misses.walk_completed_1g
+  dtlb_store_misses.walk_completed_2m_4m
+  dtlb_store_misses.walk_completed_4k
+  dtlb_store_misses.walk_pending
+  itlb_misses.stlb_hit
+  itlb_misses.walk_active
+  itlb_misses.walk_completed
+  itlb_misses.walk_completed_2m_4m
+  itlb_misses.walk_completed_4k
+  itlb_misses.walk_pending
+  rNNN                                               [Raw event descriptor]
+  cpu_atom/event=0..255,pc,edge,.../modifier         [Raw event descriptor]
+  cpu_core/event=0..255,pc,edge,.../modifier         [Raw event descriptor]
+  breakpoint//modifier                               [Raw event descriptor]
+  cstate_core/event=0..0xffffffffffffffff/modifier   [Raw event descriptor]
+  cstate_pkg/event=0..0xffffffffffffffff/modifier    [Raw event descriptor]
+  drm_i915//modifier                                 [Raw event descriptor]
+  hwmon_ac//modifier                                 [Raw event descriptor]
+  hwmon_bat0//modifier                               [Raw event descriptor]
+  hwmon_coretemp//modifier                           [Raw event descriptor]
+  hwmon_dell_ddv//modifier                           [Raw event descriptor]
+  hwmon_dell_smm//modifier                           [Raw event descriptor]
+  hwmon_nvme//modifier                               [Raw event descriptor]
+  i915/i915_eventid=0..0x1fffff/modifier             [Raw event descriptor]
+  intel_bts//modifier                                [Raw event descriptor]
+  intel_pt/ptw,event,cyc_thresh=0..15,.../modifier   [Raw event descriptor]
+  kprobe/retprobe/modifier                           [Raw event descriptor]
+  msr/event=0..0xffffffffffffffff/modifier           [Raw event descriptor]
+  power/event=0..255/modifier                        [Raw event descriptor]
+  software//modifier                                 [Raw event descriptor]
+  tool//modifier                                     [Raw event descriptor]
+  tracepoint//modifier                               [Raw event descriptor]
+  uncore_arb/event=0..255,edge,inv,.../modifier      [Raw event descriptor]
+  uncore_cbox/event=0..255,edge,threshold=0..63,.../modifier[Raw event descriptor]
+  uncore_clock/event=0..255/modifier                 [Raw event descriptor]
+  uncore_imc_free_running/event=0..255,umask=0..255/modifier[Raw event descriptor]
+  uncore_imc/event=0..255,edge,chmask=0..15/modifier [Raw event descriptor]
+  uprobe/ref_ctr_offset=0..0xffffffff,retprobe/modifier[Raw event descriptor]
+  mem:<addr>[/len][:access]                          [Hardware breakpoint]
+
+Metric Groups:
+
+Backend:
+  tma_core_bound
+  tma_info_core_ilp
+  tma_info_memory_l2mpki
+  tma_memory_bound
+
+Bad:
+  tma_bottleneck_irregular_overhead
+  tma_bottleneck_mispredictions
+  tma_info_bad_spec_branch_misprediction_cost
+  tma_info_bad_spec_ipmisp_cond_ntaken
+  tma_info_bad_spec_ipmisp_cond_taken
+  tma_info_bad_spec_ipmisp_indirect
+  tma_info_bad_spec_ipmisp_ret
+  tma_info_bad_spec_ipmispredict
+  tma_info_branches_callret
+  tma_info_branches_cond_nt
+  tma_info_branches_cond_tk
+  tma_info_branches_jump
+  tma_info_branches_other_branches
+
+BadSpec:
+  tma_bottleneck_mispredictions
+  tma_branch_mispredicts
+  tma_clears_resteers
+  tma_info_bad_spec_ipmispredict
+  tma_machine_clears
+  tma_mispredicts_resteers
+
+BigFootprint:
+  tma_bottleneck_big_code
+  tma_icache_misses
+  tma_itlb_misses
+  tma_unknown_branches
+
+BrMispredicts:
+  tma_bottleneck_mispredictions
+  tma_branch_mispredicts
+  tma_info_bad_spec_branch_misprediction_cost
+  tma_info_bad_spec_ipmisp_cond_ntaken
+  tma_info_bad_spec_ipmisp_cond_taken
+  tma_info_bad_spec_ipmisp_indirect
+  tma_info_bad_spec_ipmisp_ret
+  tma_info_bad_spec_ipmispredict
+  tma_info_bad_spec_spec_clears_ratio
+  tma_mispredicts_resteers
+  tma_other_mispredicts
+
+Branches:
+  tma_fused_instructions
+  tma_info_branches_callret
+  tma_info_branches_cond_nt
+  tma_info_branches_cond_tk
+  tma_info_branches_jump
+  tma_info_branches_other_branches
+  tma_info_frontend_tbpc
+  tma_info_inst_mix_bptkbranch
+  tma_info_inst_mix_ipbranch
+  tma_info_inst_mix_ipcall
+  tma_info_inst_mix_iptb
+  tma_info_system_ipfarbranch
+  tma_info_thread_uptb
+  tma_non_fused_branches
+
+BvBC:
+  tma_bottleneck_big_code
+  tma_icache_misses
+  tma_itlb_misses
+  tma_unknown_branches
+
+BvBO:
+  tma_bottleneck_branching_overhead
+  tma_fused_instructions
+  tma_non_fused_branches
+  tma_nop_instructions
+
+BvCB:
+  tma_bottleneck_compute_bound_est
+  tma_divider
+  tma_ports_utilized_3m
+
+BvFB:
+  tma_bottleneck_instruction_fetch_bw
+  tma_frontend_bound
+
+BvIO:
+  tma_assists
+  tma_bottleneck_irregular_overhead
+  tma_frontend_bound
+  tma_other_mispredicts
+  tma_other_nukes
+  tma_serializing_operation
+
+BvMB:
+  tma_bottleneck_data_cache_memory_bandwidth
+  tma_fb_full
+  tma_mem_bandwidth
+  tma_sq_full
+
+BvML:
+  tma_bottleneck_data_cache_memory_latency
+  tma_l1_latency_dependency
+  tma_l2_bound
+  tma_l3_hit_latency
+  tma_mem_latency
+  tma_store_latency
+
+BvMP:
+  tma_bottleneck_mispredictions
+  tma_branch_mispredicts
+  tma_mispredicts_resteers
+
+BvMS:
+  tma_bottleneck_memory_synchronization
+  tma_contested_accesses
+  tma_data_sharing
+  tma_false_sharing
+  tma_machine_clears
+
+BvMT:
+  tma_bottleneck_memory_data_tlbs
+  tma_dtlb_load
+  tma_dtlb_store
+
+BvOB:
+  tma_backend_bound
+  tma_bottleneck_other_bottlenecks
+
+BvUW:
+  tma_bottleneck_useful_work
+  tma_retiring
+
+C0Wait:
+  tma_c01_wait
+  tma_c02_wait
+  tma_info_system_c0_wait
+
+CacheHits:
+  tma_info_memory_fb_hpki
+  tma_info_memory_l1mpki
+  tma_info_memory_l1mpki_load
+  tma_info_memory_l2hpki_all
+  tma_info_memory_l2hpki_load
+  tma_info_memory_l2mpki
+  tma_info_memory_l2mpki_all
+  tma_info_memory_l2mpki_load
+  tma_l1_bound
+  tma_l2_bound
+  tma_l3_bound
+
+CacheMisses:
+  tma_info_memory_l2mpki_rfo
+
+CodeGen:
+  tma_info_branches_cond_nt
+  tma_info_branches_cond_tk
+
+Compute:
+  tma_core_bound
+  tma_fp_scalar
+  tma_fp_vector
+  tma_fp_vector_128b
+  tma_fp_vector_256b
+  tma_int_vector_128b
+  tma_int_vector_256b
+  tma_port_0
+  tma_x87_use
+
+Cor:
+  tma_bottleneck_compute_bound_est
+  tma_bottleneck_irregular_overhead
+  tma_bottleneck_other_bottlenecks
+  tma_info_botlnk_l0_core_bound_likely
+  tma_info_core_fp_arith_utilization
+  tma_info_core_ilp
+  tma_info_pipeline_execute
+  tma_info_system_gflops
+  tma_info_thread_execute_per_issue
+
+DSB:
+  tma_dsb
+  tma_info_botlnk_l2_dsb_bandwidth
+  tma_info_frontend_dsb_coverage
+
+DSBmiss:
+  tma_decoder0_alone
+  tma_dsb_switches
+  tma_info_botlnk_l2_dsb_misses
+  tma_info_frontend_dsb_switch_cost
+  tma_info_frontend_ipdsb_miss_ret
+  tma_mite
+
+DataSharing:
+  tma_contested_accesses
+  tma_false_sharing
+
+Default:
+  CPUs_utilized
+  backend_cycles_idle
+  branch_frequency
+  branch_miss_rate
+  cs_per_second
+  cycles_frequency
+  frontend_cycles_idle
+  insn_per_cycle
+  migrations_per_second
+  page_faults_per_second
+  stalled_cycles_per_instruction
+  tma_backend_bound
+  tma_bad_speculation
+  tma_frontend_bound
+  tma_retiring
+
+Default2:
+  l1d_miss_rate
+  llc_miss_rate
+
+Default3:
+  dtlb_miss_rate
+  itlb_miss_rate
+  l1i_miss_rate
+
+Default4:
+  l1_prefetch_miss_rate
+
+Fed:
+  tma_bottleneck_big_code
+  tma_bottleneck_instruction_fetch_bw
+  tma_info_botlnk_l2_dsb_bandwidth
+  tma_info_botlnk_l2_dsb_misses
+  tma_info_botlnk_l2_ic_misses
+  tma_info_frontend_dsb_coverage
+  tma_info_frontend_fetch_upc
+  tma_info_frontend_icache_miss_latency
+  tma_info_frontend_ipdsb_miss_ret
+  tma_info_frontend_ipunknown_branch
+  tma_info_frontend_lsd_coverage
+  tma_info_frontend_unknown_branch_cost
+  tma_info_inst_mix_bptkbranch
+  tma_info_inst_mix_ipbranch
+  tma_info_inst_mix_ipcall
+  tma_info_inst_mix_iptb
+  tma_info_memory_tlb_code_stlb_mpki
+  tma_info_pipeline_fetch_dsb
+  tma_info_pipeline_fetch_lsd
+  tma_info_pipeline_fetch_mite
+  tma_info_thread_uptb
+
+FetchBW:
+  tma_bottleneck_instruction_fetch_bw
+  tma_decoder0_alone
+  tma_dsb
+  tma_fetch_bandwidth
+  tma_info_botlnk_l2_dsb_bandwidth
+  tma_info_frontend_dsb_coverage
+  tma_info_frontend_fetch_upc
+  tma_info_frontend_tbpc
+  tma_info_inst_mix_iptb
+  tma_info_pipeline_fetch_dsb
+  tma_info_pipeline_fetch_lsd
+  tma_info_pipeline_fetch_mite
+  tma_info_thread_uptb
+  tma_lsd
+  tma_mite
+
+FetchLat:
+  tma_branch_resteers
+  tma_code_l2_hit
+  tma_code_l2_miss
+  tma_code_stlb_hit
+  tma_code_stlb_miss
+  tma_code_stlb_miss_2m
+  tma_code_stlb_miss_4k
+  tma_dsb_switches
+  tma_icache_misses
+  tma_info_botlnk_l2_ic_misses
+  tma_info_frontend_icache_miss_latency
+  tma_itlb_misses
+  tma_lcp
+  tma_ms_switches
+  tma_unknown_branches
+
+Flops:
+  tma_fp_scalar
+  tma_fp_vector
+  tma_fp_vector_128b
+  tma_fp_vector_256b
+  tma_info_core_flopc
+  tma_info_core_fp_arith_utilization
+  tma_info_inst_mix_iparith
+  tma_info_inst_mix_iparith_avx128
+  tma_info_inst_mix_iparith_avx256
+  tma_info_inst_mix_iparith_scalar_dp
+  tma_info_inst_mix_iparith_scalar_sp
+  tma_info_inst_mix_ipflop
+  tma_info_inst_mix_ippause
+  tma_info_system_gflops
+
+FpScalar:
+  tma_info_inst_mix_iparith_scalar_dp
+  tma_info_inst_mix_iparith_scalar_sp
+
+FpVector:
+  tma_info_inst_mix_iparith_avx128
+  tma_info_inst_mix_iparith_avx256
+  tma_info_inst_mix_ippause
+
+Frontend:
+  tma_bottleneck_big_code
+  tma_bottleneck_instruction_fetch_bw
+  tma_fetch_bandwidth
+  tma_fetch_latency
+  tma_info_inst_mix_iptb
+
+HPC:
+  tma_avx_assists
+  tma_fp_arith
+  tma_fp_assists
+  tma_info_core_fp_arith_utilization
+  tma_info_system_cpu_utilization
+  tma_info_system_dram_bw_use
+  tma_info_system_gflops
+  tma_shuffles_256b
+
+IcMiss:
+  tma_bottleneck_big_code
+  tma_code_l2_hit
+  tma_code_l2_miss
+  tma_icache_misses
+  tma_info_botlnk_l2_ic_misses
+  tma_info_frontend_icache_miss_latency
+  tma_info_frontend_l2mpki_code
+  tma_info_frontend_l2mpki_code_all
+
+Ifetch:
+  tma_info_bottleneck_%_ifetch_miss_bound_cycles
+
+InsType:
+  tma_info_inst_mix_iparith
+  tma_info_inst_mix_iparith_avx128
+  tma_info_inst_mix_iparith_avx256
+  tma_info_inst_mix_iparith_scalar_dp
+  tma_info_inst_mix_iparith_scalar_sp
+  tma_info_inst_mix_ipbranch
+  tma_info_inst_mix_ipflop
+  tma_info_inst_mix_ipload
+  tma_info_inst_mix_ippause
+  tma_info_inst_mix_ipstore
+
+IntVector:
+  tma_int_vector_128b
+  tma_int_vector_256b
+
+LSD:
+  tma_info_frontend_lsd_coverage
+  tma_lsd
+
+Load_Store_Miss:
+  tma_info_bottleneck_%_load_miss_bound_cycles
+
+LockCont:
+  tma_bottleneck_memory_synchronization
+  tma_contested_accesses
+  tma_false_sharing
+  tma_info_memory_latency_load_l2_miss_latency
+  tma_lock_latency
+  tma_store_latency
+
+MachineClears:
+  tma_clears_resteers
+  tma_machine_clears
+
+Machine_Clears:
+  tma_other_nukes
+
+Mem:
+  tma_bottleneck_data_cache_memory_bandwidth
+  tma_bottleneck_data_cache_memory_latency
+  tma_bottleneck_memory_data_tlbs
+  tma_bottleneck_memory_synchronization
+  tma_info_memory_core_l1d_cache_fill_bw_2t
+  tma_info_memory_core_l2_cache_fill_bw_2t
+  tma_info_memory_core_l3_cache_access_bw_2t
+  tma_info_memory_core_l3_cache_fill_bw_2t
+  tma_info_memory_fb_hpki
+  tma_info_memory_l1d_cache_fill_bw
+  tma_info_memory_l1mpki
+  tma_info_memory_l1mpki_load
+  tma_info_memory_l2_cache_fill_bw
+  tma_info_memory_l2hpki_all
+  tma_info_memory_l2hpki_load
+  tma_info_memory_l2mpki
+  tma_info_memory_l2mpki_all
+  tma_info_memory_l2mpki_load
+  tma_info_memory_l3_cache_access_bw
+  tma_info_memory_l3_cache_fill_bw
+  tma_info_memory_l3mpki
+  tma_info_memory_load_miss_real_latency
+  tma_info_memory_mix_bus_lock_pki
+  tma_info_memory_mix_uc_load_pki
+  tma_info_memory_mlp
+  tma_info_memory_tlb_load_stlb_mpki
+  tma_info_memory_tlb_page_walks_utilization
+  tma_info_memory_tlb_store_stlb_mpki
+  tma_info_system_mem_parallel_reads
+  tma_info_system_mem_read_latency
+  tma_info_thread_cpi
+
+MemOffcore:
+  tma_info_system_dram_bw_use
+
+Mem_Exec:
+  tma_info_bottleneck_%_mem_exec_bound_cycles
+
+MemoryBW:
+  tma_bottleneck_data_cache_memory_bandwidth
+  tma_fb_full
+  tma_info_memory_core_l1d_cache_fill_bw_2t
+  tma_info_memory_core_l2_cache_fill_bw_2t
+  tma_info_memory_core_l3_cache_access_bw_2t
+  tma_info_memory_core_l3_cache_fill_bw_2t
+  tma_info_memory_l1d_cache_fill_bw
+  tma_info_memory_l2_cache_fill_bw
+  tma_info_memory_l3_cache_access_bw
+  tma_info_memory_l3_cache_fill_bw
+  tma_info_memory_mlp
+  tma_info_system_dram_bw_use
+  tma_info_system_mem_parallel_reads
+  tma_mem_bandwidth
+  tma_sq_full
+  tma_streaming_stores
+
+MemoryBound:
+  tma_dram_bound
+  tma_info_memory_load_miss_real_latency
+  tma_info_memory_mlp
+  tma_l1_bound
+  tma_l2_bound
+  tma_l3_bound
+  tma_store_bound
+
+MemoryLat:
+  tma_bottleneck_data_cache_memory_latency
+  tma_info_memory_load_miss_real_latency
+  tma_info_system_mem_read_latency
+  tma_l1_latency_dependency
+  tma_l2_hit_latency
+  tma_l3_hit_latency
+  tma_mem_latency
+  tma_store_latency
+
+MemoryTLB:
+  tma_bottleneck_big_code
+  tma_bottleneck_memory_data_tlbs
+  tma_code_stlb_hit
+  tma_code_stlb_miss
+  tma_code_stlb_miss_2m
+  tma_code_stlb_miss_4k
+  tma_dtlb_load
+  tma_dtlb_store
+  tma_info_memory_tlb_code_stlb_mpki
+  tma_info_memory_tlb_load_stlb_mpki
+  tma_info_memory_tlb_page_walks_utilization
+  tma_info_memory_tlb_store_stlb_mpki
+  tma_itlb_misses
+  tma_load_stlb_hit
+  tma_load_stlb_miss
+  tma_load_stlb_miss_1g
+  tma_load_stlb_miss_2m
+  tma_load_stlb_miss_4k
+  tma_store_stlb_hit
+  tma_store_stlb_miss
+  tma_store_stlb_miss_1g
+  tma_store_stlb_miss_2m
+  tma_store_stlb_miss_4k
+
+Memory_BW:
+  tma_info_memory_latency_data_l2_mlp
+  tma_info_memory_latency_load_l2_mlp
+
+Memory_Lat:
+  tma_info_memory_latency_load_l2_miss_latency
+  tma_info_memory_latency_load_l3_miss_latency
+
+MicroSeq:
+  tma_info_pipeline_ipassist
+  tma_info_pipeline_strings_cycles
+  tma_microcode_sequencer
+  tma_ms
+  tma_ms_switches
+
+OS:
+  tma_info_system_ipfarbranch
+  tma_info_system_kernel_cpi
+  tma_info_system_kernel_utilization
+
+Offcore:
+  tma_bottleneck_data_cache_memory_bandwidth
+  tma_bottleneck_data_cache_memory_latency
+  tma_bottleneck_memory_data_tlbs
+  tma_bottleneck_memory_synchronization
+  tma_bottleneck_other_bottlenecks
+  tma_code_l2_hit
+  tma_code_l2_miss
+  tma_contested_accesses
+  tma_data_sharing
+  tma_false_sharing
+  tma_info_memory_core_l3_cache_access_bw_2t
+  tma_info_memory_l2mpki_all
+  tma_info_memory_l2mpki_rfo
+  tma_info_memory_l3_cache_access_bw
+  tma_info_memory_latency_data_l2_mlp
+  tma_info_memory_latency_load_l2_miss_latency
+  tma_info_memory_latency_load_l2_mlp
+  tma_info_memory_latency_load_l3_miss_latency
+  tma_lock_latency
+  tma_mem_bandwidth
+  tma_mem_latency
+  tma_sq_full
+  tma_store_latency
+  tma_streaming_stores
+
+PGO:
+  tma_frontend_bound
+  tma_info_branches_cond_nt
+  tma_info_branches_cond_tk
+  tma_info_inst_mix_bptkbranch
+  tma_info_inst_mix_ipcall
+  tma_info_inst_mix_iptb
+
+Pipeline:
+  tma_fused_instructions
+  tma_info_core_ilp
+  tma_info_pipeline_execute
+  tma_info_pipeline_ipassist
+  tma_info_pipeline_retire
+  tma_info_pipeline_strings_cycles
+  tma_info_thread_clks
+  tma_info_thread_cpi
+  tma_info_thread_execute_per_issue
+  tma_info_thread_uoppi
+  tma_int_operations
+  tma_int_vector_128b
+  tma_int_vector_256b
+  tma_memory_operations
+  tma_non_fused_branches
+  tma_nop_instructions
+  tma_other_light_ops
+  tma_shuffles_256b
+
+PortsUtil:
+  tma_info_core_ilp
+  tma_info_pipeline_execute
+  tma_ports_utilization
+  tma_ports_utilized_0
+  tma_ports_utilized_1
+  tma_ports_utilized_2
+  tma_ports_utilized_3m
+  tma_serializing_operation
+
+Power:
+  C10_Pkg_Residency
+  C1_Core_Residency
+  C2_Pkg_Residency
+  C3_Pkg_Residency
+  C6_Core_Residency
+  C6_Pkg_Residency
+  C7_Core_Residency
+  C8_Pkg_Residency
+  tma_info_core_epc
+  tma_info_system_core_frequency
+  tma_info_system_power
+  tma_info_system_turbo_utilization
+
+Prefetches:
+  tma_info_inst_mix_ipswpf
+  tma_info_memory_prefetches_useless_hwpf
+
+Ret:
+  tma_bottleneck_branching_overhead
+  tma_bottleneck_irregular_overhead
+  tma_bottleneck_useful_work
+  tma_info_core_coreipc
+  tma_info_core_flopc
+  tma_info_pipeline_ipassist
+  tma_info_pipeline_retire
+  tma_info_pipeline_strings_cycles
+  tma_info_thread_ipc
+  tma_info_thread_uoppi
+
+Retire:
+  tma_heavy_operations
+  tma_info_pipeline_ipassist
+  tma_info_thread_uoppi
+  tma_light_operations
+
+SMT:
+  tma_info_botlnk_l0_core_bound_likely
+  tma_info_core_core_clks
+  tma_info_core_coreipc
+  tma_info_pipeline_execute
+  tma_info_system_smt_2t_utilization
+  tma_info_thread_slots_utilization
+
+Snoop:
+  tma_contested_accesses
+  tma_data_sharing
+  tma_false_sharing
+
+SoC:
+  UNCORE_FREQ
+  tma_info_system_dram_bw_use
+  tma_info_system_mem_parallel_reads
+  tma_info_system_mem_read_latency
+  tma_info_system_power
+  tma_info_system_socket_clks
+  tma_info_system_uncore_frequency
+
+Summary:
+  tma_info_inst_mix_instructions
+  tma_info_system_core_frequency
+  tma_info_system_cpu_utilization
+  tma_info_system_cpus_utilized
+  tma_info_system_kernel_utilization
+  tma_info_system_mux
+  tma_info_system_time
+  tma_info_thread_ipc
+
+TmaL1:
+  tma_backend_bound
+  tma_bad_speculation
+  tma_frontend_bound
+  tma_info_core_coreipc
+  tma_info_inst_mix_instructions
+  tma_info_thread_slots
+  tma_info_thread_slots_utilization
+  tma_retiring
+
+TmaL2:
+  tma_branch_mispredicts
+  tma_core_bound
+  tma_fetch_bandwidth
+  tma_fetch_latency
+  tma_heavy_operations
+  tma_light_operations
+  tma_machine_clears
+  tma_memory_bound
+
+TmaL3mem:
+  tma_dram_bound
+  tma_l1_bound
+  tma_l2_bound
+  tma_l3_bound
+  tma_store_bound
+
+TopdownL1:
+  tma_backend_bound
+  tma_bad_speculation
+  tma_frontend_bound
+  tma_retiring
+
+TopdownL2:
+  tma_branch_mispredicts
+  tma_core_bound
+  tma_fetch_bandwidth
+  tma_fetch_latency
+  tma_heavy_operations
+  tma_ifetch_bandwidth
+  tma_ifetch_latency
+  tma_light_operations
+  tma_machine_clears
+  tma_memory_bound
+  tma_resource_bound
+
+TopdownL3:
+  tma_allocation_restriction
+  tma_branch_detect
+  tma_branch_resteer
+  tma_branch_resteers
+  tma_cisc
+  tma_decode
+  tma_divider
+  tma_dram_bound
+  tma_dsb
+  tma_dsb_switches
+  tma_fast_nuke
+  tma_few_uops_instructions
+  tma_fp_arith
+  tma_fused_instructions
+  tma_icache_misses
+  tma_int_operations
+  tma_itlb_misses
+  tma_l1_bound
+  tma_l2_bound
+  tma_l3_bound
+  tma_lcp
+  tma_lsd
+  tma_mem_scheduler
+  tma_memory_operations
+  tma_microcode_sequencer
+  tma_mite
+  tma_ms
+  tma_ms_switches
+  tma_non_fused_branches
+  tma_non_mem_scheduler
+  tma_nuke
+  tma_other_fb
+  tma_other_light_ops
+  tma_other_mispredicts
+  tma_other_nukes
+  tma_ports_utilization
+  tma_predecode
+  tma_register
+  tma_reorder_buffer
+  tma_serialization
+  tma_serializing_operation
+  tma_store_bound
+
+TopdownL4:
+  tma_assists
+  tma_c01_wait
+  tma_c02_wait
+  tma_cisc
+  tma_clears_resteers
+  tma_code_l2_hit
+  tma_code_l2_miss
+  tma_code_stlb_hit
+  tma_code_stlb_miss
+  tma_contested_accesses
+  tma_data_sharing
+  tma_decoder0_alone
+  tma_dtlb_load
+  tma_dtlb_store
+  tma_false_sharing
+  tma_fb_full
+  tma_fp_divider
+  tma_fp_scalar
+  tma_fp_vector
+  tma_int_divider
+  tma_int_vector_128b
+  tma_int_vector_256b
+  tma_l1_latency_dependency
+  tma_l2_hit_latency
+  tma_l3_hit_latency
+  tma_lock_latency
+  tma_mem_bandwidth
+  tma_mem_latency
+  tma_memory_fence
+  tma_mispredicts_resteers
+  tma_nop_instructions
+  tma_ports_utilized_0
+  tma_ports_utilized_1
+  tma_ports_utilized_2
+  tma_ports_utilized_3m
+  tma_shuffles_256b
+  tma_slow_pause
+  tma_split_loads
+  tma_split_stores
+  tma_sq_full
+  tma_store_fwd_blk
+  tma_store_latency
+  tma_streaming_stores
+  tma_unknown_branches
+  tma_x87_use
+
+TopdownL5:
+  tma_alu_op_utilization
+  tma_avx_assists
+  tma_code_stlb_miss_2m
+  tma_code_stlb_miss_4k
+  tma_fp_assists
+  tma_fp_vector_128b
+  tma_fp_vector_256b
+  tma_load_op_utilization
+  tma_load_stlb_hit
+  tma_load_stlb_miss
+  tma_mixing_vectors
+  tma_page_faults
+  tma_store_op_utilization
+  tma_store_stlb_hit
+  tma_store_stlb_miss
+
+TopdownL6:
+  tma_load_stlb_miss_1g
+  tma_load_stlb_miss_2m
+  tma_load_stlb_miss_4k
+  tma_port_0
+  tma_port_1
+  tma_port_6
+  tma_store_stlb_miss_1g
+  tma_store_stlb_miss_2m
+  tma_store_stlb_miss_4k
+
+load_store_bound:
+  tma_info_load_miss_bound_%_loadmissbound_with_l2hit
+  tma_info_load_miss_bound_%_loadmissbound_with_l2miss
+  tma_info_load_miss_bound_%_loadmissbound_with_l3hit
+  tma_info_load_miss_bound_%_loadmissbound_with_l3miss
+  tma_info_load_store_bound_l1_bound
+  tma_info_load_store_bound_load_bound
+  tma_info_load_store_bound_store_bound
+
+lpm_br:
+  lpm_br_cond_insn_between_branches
+  lpm_br_cond_mispred
+  lpm_br_cond_retired
+  lpm_br_far_insn_between_branches
+  lpm_br_far_retired
+  lpm_br_taken_insn_between_branches
+  lpm_br_taken_mispred
+  lpm_br_taken_retired
+  lpm_br_total_insn_between_branches
+  lpm_br_total_insn_fe_resteers
+  lpm_br_total_mispred
+  lpm_br_total_retired
+
+lpm_br_cond:
+  lpm_br_cond_insn_between_branches
+  lpm_br_cond_mispred
+  lpm_br_cond_retired
+
+lpm_br_cond_tkn:
+  lpm_br_cond_insn_between_branches
+  lpm_br_cond_mispred
+  lpm_br_cond_retired
+
+lpm_br_far:
+  lpm_br_far_insn_between_branches
+  lpm_br_far_retired
+
+lpm_br_taken:
+  lpm_br_taken_insn_between_branches
+  lpm_br_taken_mispred
+  lpm_br_taken_retired
+
+lpm_br_total:
+  lpm_br_total_insn_between_branches
+  lpm_br_total_insn_fe_resteers
+  lpm_br_total_mispred
+  lpm_br_total_retired
+
+lpm_cpu_power:
+  lpm_cpu_power_cores
+  lpm_cpu_power_gpu
+  lpm_cpu_power_pkg
+  lpm_cpu_power_psys
+  lpm_cpu_power_ram
+
+lpm_cs:
+  lpm_cs_br_taken
+  lpm_cs_cycles
+  lpm_cs_instr
+  lpm_cs_l2_misses
+  lpm_cs_loads
+  lpm_cs_rate
+  lpm_cs_stores
+
+lpm_cycles:
+  lpm_cycles_guest
+  lpm_cycles_kernel
+  lpm_cycles_total
+  lpm_cycles_user
+
+lpm_fpu:
+  lpm_fpu_128_double_flops
+  lpm_fpu_128_double_of_total
+  lpm_fpu_128_double_ops
+  lpm_fpu_128_single_flops
+  lpm_fpu_128_single_of_total
+  lpm_fpu_128_single_ops
+  lpm_fpu_256_double_flops
+  lpm_fpu_256_double_of_total
+  lpm_fpu_256_double_ops
+  lpm_fpu_256_single_flops
+  lpm_fpu_256_single_of_total
+  lpm_fpu_256_single_ops
+  lpm_fpu_64_double_flops
+  lpm_fpu_64_double_of_total
+  lpm_fpu_64_double_ops
+  lpm_fpu_64_single_flops
+  lpm_fpu_64_single_of_total
+  lpm_fpu_64_single_ops
+  lpm_fpu_assists
+  lpm_fpu_total_flopc
+  lpm_fpu_total_flops
+
+lpm_fpu_128:
+  lpm_fpu_128_double_flops
+  lpm_fpu_128_double_of_total
+  lpm_fpu_128_double_ops
+  lpm_fpu_128_single_flops
+  lpm_fpu_128_single_of_total
+  lpm_fpu_128_single_ops
+
+lpm_fpu_128_double:
+  lpm_fpu_128_double_flops
+  lpm_fpu_128_double_of_total
+  lpm_fpu_128_double_ops
+
+lpm_fpu_128_single:
+  lpm_fpu_128_single_flops
+  lpm_fpu_128_single_of_total
+  lpm_fpu_128_single_ops
+
+lpm_fpu_256:
+  lpm_fpu_256_double_flops
+  lpm_fpu_256_double_of_total
+  lpm_fpu_256_double_ops
+  lpm_fpu_256_single_flops
+  lpm_fpu_256_single_of_total
+  lpm_fpu_256_single_ops
+
+lpm_fpu_256_double:
+  lpm_fpu_256_double_flops
+  lpm_fpu_256_double_of_total
+  lpm_fpu_256_double_ops
+
+lpm_fpu_256_single:
+  lpm_fpu_256_single_flops
+  lpm_fpu_256_single_of_total
+  lpm_fpu_256_single_ops
+
+lpm_fpu_64:
+  lpm_fpu_64_double_flops
+  lpm_fpu_64_double_of_total
+  lpm_fpu_64_double_ops
+  lpm_fpu_64_single_flops
+  lpm_fpu_64_single_of_total
+  lpm_fpu_64_single_ops
+
+lpm_fpu_64_double:
+  lpm_fpu_64_double_flops
+  lpm_fpu_64_double_of_total
+  lpm_fpu_64_double_ops
+
+lpm_fpu_64_single:
+  lpm_fpu_64_single_flops
+  lpm_fpu_64_single_of_total
+  lpm_fpu_64_single_ops
+
+lpm_fpu_total:
+  lpm_fpu_total_flopc
+  lpm_fpu_total_flops
+
+lpm_idle:
+  lpm_idle
+
+lpm_ilp:
+  lpm_ilp_idle
+  lpm_ilp_inst_ret_0
+  lpm_ilp_inst_ret_1
+  lpm_ilp_inst_ret_2
+  lpm_ilp_inst_ret_3
+  lpm_ilp_inst_ret_4
+  lpm_ilp_inst_ret_5
+
+lpm_l2:
+  lpm_l2_code_hits
+  lpm_l2_code_misses
+  lpm_l2_code_requests
+  lpm_l2_rd_hits
+  lpm_l2_rd_misses
+  lpm_l2_rd_requests
+  lpm_l2_rfo_hits
+  lpm_l2_rfo_misses
+  lpm_l2_rfo_requests
+  lpm_l2_totals_in
+
+lpm_l2_code:
+  lpm_l2_code_hits
+  lpm_l2_code_misses
+  lpm_l2_code_requests
+
+lpm_l2_rd:
+  lpm_l2_rd_hits
+  lpm_l2_rd_misses
+  lpm_l2_rd_requests
+
+lpm_l2_rfo:
+  lpm_l2_rfo_hits
+  lpm_l2_rfo_misses
+  lpm_l2_rfo_requests
+
+lpm_l2_totals:
+  lpm_l2_totals_in
+
+lpm_ldst:
+  lpm_ldst_atomic_lds
+  lpm_ldst_ld_hit_swpf
+  lpm_ldst_prcnt_loads
+  lpm_ldst_prcnt_stores
+  lpm_ldst_ret_lds_1
+  lpm_ldst_ret_lds_2
+  lpm_ldst_ret_lds_3
+  lpm_ldst_ret_sts_1
+  lpm_ldst_ret_sts_2
+  lpm_ldst_ret_sts_3
+  lpm_ldst_total_loads
+  lpm_ldst_total_stores
+
+lpm_ldst_prcnt:
+  lpm_ldst_prcnt_loads
+  lpm_ldst_prcnt_stores
+
+lpm_ldst_ret_lds:
+  lpm_ldst_ret_lds_1
+  lpm_ldst_ret_lds_2
+  lpm_ldst_ret_lds_3
+
+lpm_ldst_ret_sts:
+  lpm_ldst_ret_sts_1
+  lpm_ldst_ret_sts_2
+  lpm_ldst_ret_sts_3
+
+lpm_ldst_total:
+  lpm_ldst_total_loads
+  lpm_ldst_total_stores
+
+lpm_mlp:
+  lpm_mlp
+
+lpm_ports:
+  lpm_port_0
+  lpm_port_1
+  lpm_port_2_3_10
+  lpm_port_4_9
+  lpm_port_5_11
+  lpm_port_6
+  lpm_port_7_8
+
+lpm_swpf:
+  lpm_swpf_bkdwn_nta_per_swpf
+  lpm_swpf_bkdwn_nta_rate
+  lpm_swpf_bkdwn_t0_per_swpf
+  lpm_swpf_bkdwn_t0_rate
+  lpm_swpf_bkdwn_t1_t2_per_swpf
+  lpm_swpf_bkdwn_t1_t2_rate
+  lpm_swpf_bkdwn_w_per_swpf
+  lpm_swpf_bkdwn_w_rate
+  lpm_swpf_totals_exec
+  lpm_swpf_totals_insn_per_pf
+  lpm_swpf_totals_loads_per_pf
+
+lpm_swpf_bkdwn:
+  lpm_swpf_bkdwn_nta_per_swpf
+  lpm_swpf_bkdwn_nta_rate
+  lpm_swpf_bkdwn_t0_per_swpf
+  lpm_swpf_bkdwn_t0_rate
+  lpm_swpf_bkdwn_t1_t2_per_swpf
+  lpm_swpf_bkdwn_t1_t2_rate
+  lpm_swpf_bkdwn_w_per_swpf
+  lpm_swpf_bkdwn_w_rate
+
+lpm_swpf_bkdwn_nta:
+  lpm_swpf_bkdwn_nta_per_swpf
+  lpm_swpf_bkdwn_nta_rate
+
+lpm_swpf_bkdwn_t0:
+  lpm_swpf_bkdwn_t0_per_swpf
+  lpm_swpf_bkdwn_t0_rate
+
+lpm_swpf_bkdwn_t1_t2:
+  lpm_swpf_bkdwn_t1_t2_per_swpf
+  lpm_swpf_bkdwn_t1_t2_rate
+
+lpm_swpf_bkdwn_w:
+  lpm_swpf_bkdwn_w_per_swpf
+  lpm_swpf_bkdwn_w_rate
+
+lpm_swpf_totals:
+  lpm_swpf_totals_exec
+  lpm_swpf_totals_insn_per_pf
+  lpm_swpf_totals_loads_per_pf
+
+smi:
+  smi_cycles
+  smi_num
+
+tma_L1_group:
+  tma_backend_bound
+  tma_bad_speculation
+  tma_frontend_bound
+  tma_info_core_coreipc
+  tma_info_inst_mix_instructions
+  tma_info_thread_slots
+  tma_info_thread_slots_utilization
+  tma_retiring
+
+tma_L2_group:
+  tma_branch_mispredicts
+  tma_core_bound
+  tma_fetch_bandwidth
+  tma_fetch_latency
+  tma_heavy_operations
+  tma_ifetch_bandwidth
+  tma_ifetch_latency
+  tma_light_operations
+  tma_machine_clears
+  tma_memory_bound
+  tma_resource_bound
+
+tma_L3_group:
+  tma_allocation_restriction
+  tma_branch_detect
+  tma_branch_resteer
+  tma_branch_resteers
+  tma_cisc
+  tma_decode
+  tma_divider
+  tma_dram_bound
+  tma_dsb
+  tma_dsb_switches
+  tma_fast_nuke
+  tma_few_uops_instructions
+  tma_fp_arith
+  tma_fused_instructions
+  tma_icache_misses
+  tma_int_operations
+  tma_itlb_misses
+  tma_l1_bound
+  tma_l2_bound
+  tma_l3_bound
+  tma_lcp
+  tma_lsd
+  tma_mem_scheduler
+  tma_memory_operations
+  tma_microcode_sequencer
+  tma_mite
+  tma_ms
+  tma_ms_switches
+  tma_non_fused_branches
+  tma_non_mem_scheduler
+  tma_nuke
+  tma_other_fb
+  tma_other_light_ops
+  tma_other_mispredicts
+  tma_other_nukes
+  tma_ports_utilization
+  tma_predecode
+  tma_register
+  tma_reorder_buffer
+  tma_serialization
+  tma_serializing_operation
+  tma_store_bound
+
+tma_L4_group:
+  tma_assists
+  tma_c01_wait
+  tma_c02_wait
+  tma_cisc
+  tma_clears_resteers
+  tma_code_l2_hit
+  tma_code_l2_miss
+  tma_code_stlb_hit
+  tma_code_stlb_miss
+  tma_contested_accesses
+  tma_data_sharing
+  tma_decoder0_alone
+  tma_dtlb_load
+  tma_dtlb_store
+  tma_false_sharing
+  tma_fb_full
+  tma_fp_divider
+  tma_fp_scalar
+  tma_fp_vector
+  tma_int_divider
+  tma_int_vector_128b
+  tma_int_vector_256b
+  tma_l1_latency_dependency
+  tma_l2_hit_latency
+  tma_l3_hit_latency
+  tma_lock_latency
+  tma_mem_bandwidth
+  tma_mem_latency
+  tma_memory_fence
+  tma_mispredicts_resteers
+  tma_nop_instructions
+  tma_ports_utilized_0
+  tma_ports_utilized_1
+  tma_ports_utilized_2
+  tma_ports_utilized_3m
+  tma_shuffles_256b
+  tma_slow_pause
+  tma_split_loads
+  tma_split_stores
+  tma_sq_full
+  tma_store_fwd_blk
+  tma_store_latency
+  tma_streaming_stores
+  tma_unknown_branches
+  tma_x87_use
+
+tma_L5_group:
+  tma_alu_op_utilization
+  tma_avx_assists
+  tma_code_stlb_miss_2m
+  tma_code_stlb_miss_4k
+  tma_fp_assists
+  tma_fp_vector_128b
+  tma_fp_vector_256b
+  tma_load_op_utilization
+  tma_load_stlb_hit
+  tma_load_stlb_miss
+  tma_mixing_vectors
+  tma_page_faults
+  tma_store_op_utilization
+  tma_store_stlb_hit
+  tma_store_stlb_miss
+
+tma_L6_group:
+  tma_load_stlb_miss_1g
+  tma_load_stlb_miss_2m
+  tma_load_stlb_miss_4k
+  tma_port_0
+  tma_port_1
+  tma_port_6
+  tma_store_stlb_miss_1g
+  tma_store_stlb_miss_2m
+  tma_store_stlb_miss_4k
+
+tma_alu_op_utilization_group:
+  tma_port_0
+  tma_port_1
+  tma_port_6
+
+tma_assists_group:
+  tma_avx_assists
+  tma_fp_assists
+  tma_page_faults
+
+tma_backend_bound_group:
+  tma_core_bound
+  tma_memory_bound
+  tma_resource_bound
+
+tma_bad_speculation_group:
+  tma_branch_mispredicts
+  tma_machine_clears
+
+tma_branch_mispredicts_group:
+  tma_other_mispredicts
+
+tma_branch_resteers_group:
+  tma_clears_resteers
+  tma_mispredicts_resteers
+  tma_unknown_branches
+
+tma_code_stlb_miss_group:
+  tma_code_stlb_miss_2m
+  tma_code_stlb_miss_4k
+
+tma_core_bound_group:
+  tma_allocation_restriction
+  tma_divider
+  tma_ports_utilization
+  tma_serializing_operation
+
+tma_divider_group:
+  tma_fp_divider
+  tma_int_divider
+
+tma_dram_bound_group:
+  tma_mem_bandwidth
+  tma_mem_latency
+
+tma_dtlb_load_group:
+  tma_load_stlb_hit
+  tma_load_stlb_miss
+
+tma_dtlb_store_group:
+  tma_store_stlb_hit
+  tma_store_stlb_miss
+
+tma_fetch_bandwidth_group:
+  tma_dsb
+  tma_lsd
+  tma_mite
+  tma_ms
+
+tma_fetch_latency_group:
+  tma_branch_resteers
+  tma_dsb_switches
+  tma_icache_misses
+  tma_itlb_misses
+  tma_lcp
+  tma_ms_switches
+
+tma_fp_arith_group:
+  tma_fp_scalar
+  tma_fp_vector
+  tma_x87_use
+
+tma_fp_vector_group:
+  tma_fp_vector_128b
+  tma_fp_vector_256b
+
+tma_frontend_bound_group:
+  tma_fetch_bandwidth
+  tma_fetch_latency
+  tma_ifetch_bandwidth
+  tma_ifetch_latency
+
+tma_heavy_operations_group:
+  tma_few_uops_instructions
+  tma_microcode_sequencer
+
+tma_icache_misses_group:
+  tma_code_l2_hit
+  tma_code_l2_miss
+
+tma_ifetch_bandwidth_group:
+  tma_cisc
+  tma_decode
+  tma_other_fb
+  tma_predecode
+
+tma_ifetch_latency_group:
+  tma_branch_detect
+  tma_branch_resteer
+  tma_icache_misses
+  tma_itlb_misses
+
+tma_info_bottleneck_%_dtlb_miss_bound_cycles:
+  tma_info_bottleneck_%_dtlb_miss_bound_cycles
+
+tma_info_br_inst_mix_ipbranch:
+  tma_info_br_inst_mix_ipbranch
+
+tma_info_br_inst_mix_ipcall:
+  tma_info_br_inst_mix_ipcall
+
+tma_info_br_inst_mix_ipfarbranch:
+  tma_info_br_inst_mix_ipfarbranch
+
+tma_info_br_inst_mix_ipmisp_cond_ntaken:
+  tma_info_br_inst_mix_ipmisp_cond_ntaken
+
+tma_info_br_inst_mix_ipmisp_cond_taken:
+  tma_info_br_inst_mix_ipmisp_cond_taken
+
+tma_info_br_inst_mix_ipmisp_indirect:
+  tma_info_br_inst_mix_ipmisp_indirect
+
+tma_info_br_inst_mix_ipmisp_ret:
+  tma_info_br_inst_mix_ipmisp_ret
+
+tma_info_br_inst_mix_ipmispredict:
+  tma_info_br_inst_mix_ipmispredict
+
+tma_info_br_mispredict_bound_branch_mispredict_ratio:
+  tma_info_br_mispredict_bound_branch_mispredict_ratio
+
+tma_info_br_mispredict_bound_branch_mispredict_to_unknown_branch_ratio:
+  tma_info_br_mispredict_bound_branch_mispredict_to_unknown_branch_ratio
+
+tma_info_buffer_stalls_%_load_buffer_stall_cycles:
+  tma_info_buffer_stalls_%_load_buffer_stall_cycles
+
+tma_info_buffer_stalls_%_mem_rsv_stall_cycles:
+  tma_info_buffer_stalls_%_mem_rsv_stall_cycles
+
+tma_info_buffer_stalls_%_store_buffer_stall_cycles:
+  tma_info_buffer_stalls_%_store_buffer_stall_cycles
+
+tma_info_core_cpi:
+  tma_info_core_cpi
+
+tma_info_core_ipc:
+  tma_info_core_ipc
+
+tma_info_core_upi:
+  tma_info_core_upi
+
+tma_info_ifetch_miss_bound_%_ifetchmissbound_with_l2hit:
+  tma_info_ifetch_miss_bound_%_ifetchmissbound_with_l2hit
+
+tma_info_ifetch_miss_bound_%_ifetchmissbound_with_l2miss:
+  tma_info_ifetch_miss_bound_%_ifetchmissbound_with_l2miss
+
+tma_info_ifetch_miss_bound_%_ifetchmissbound_with_l3hit:
+  tma_info_ifetch_miss_bound_%_ifetchmissbound_with_l3hit
+
+tma_info_ifetch_miss_bound_%_ifetchmissbound_with_l3miss:
+  tma_info_ifetch_miss_bound_%_ifetchmissbound_with_l3miss
+
+tma_info_machine_clear_bound_machine_clears_disamb_pki:
+  tma_info_machine_clear_bound_machine_clears_disamb_pki
+
+tma_info_machine_clear_bound_machine_clears_fp_assist_pki:
+  tma_info_machine_clear_bound_machine_clears_fp_assist_pki
+
+tma_info_machine_clear_bound_machine_clears_monuke_pki:
+  tma_info_machine_clear_bound_machine_clears_monuke_pki
+
+tma_info_machine_clear_bound_machine_clears_mrn_pki:
+  tma_info_machine_clear_bound_machine_clears_mrn_pki
+
+tma_info_machine_clear_bound_machine_clears_page_fault_pki:
+  tma_info_machine_clear_bound_machine_clears_page_fault_pki
+
+tma_info_machine_clear_bound_machine_clears_smc_pki:
+  tma_info_machine_clear_bound_machine_clears_smc_pki
+
+tma_info_mem_exec_blocks_%_loads_with_adressaliasing:
+  tma_info_mem_exec_blocks_%_loads_with_adressaliasing
+
+tma_info_mem_exec_blocks_%_loads_with_storefwdblk:
+  tma_info_mem_exec_blocks_%_loads_with_storefwdblk
+
+tma_info_mem_exec_bound_%_loadhead_with_l1miss:
+  tma_info_mem_exec_bound_%_loadhead_with_l1miss
+
+tma_info_mem_exec_bound_%_loadhead_with_otherpipelineblks:
+  tma_info_mem_exec_bound_%_loadhead_with_otherpipelineblks
+
+tma_info_mem_exec_bound_%_loadhead_with_pagewalk:
+  tma_info_mem_exec_bound_%_loadhead_with_pagewalk
+
+tma_info_mem_exec_bound_%_loadhead_with_stlbhit:
+  tma_info_mem_exec_bound_%_loadhead_with_stlbhit
+
+tma_info_mem_exec_bound_%_loadhead_with_storefwding:
+  tma_info_mem_exec_bound_%_loadhead_with_storefwding
+
+tma_info_mem_mix_ipload:
+  tma_info_mem_mix_ipload
+
+tma_info_mem_mix_ipstore:
+  tma_info_mem_mix_ipstore
+
+tma_info_mem_mix_load_locks_ratio:
+  tma_info_mem_mix_load_locks_ratio
+
+tma_info_mem_mix_load_splits_ratio:
+  tma_info_mem_mix_load_splits_ratio
+
+tma_info_mem_mix_memload_ratio:
+  tma_info_mem_mix_memload_ratio
+
+tma_info_serialization_%_tpause_cycles:
+  tma_info_serialization_%_tpause_cycles
+
+tma_info_system_cpu_utilization:
+  tma_info_system_cpu_utilization
+
+tma_info_system_mux:
+  tma_info_system_mux
+
+tma_info_uop_mix_fpdiv_uop_ratio:
+  tma_info_uop_mix_fpdiv_uop_ratio
+
+tma_info_uop_mix_idiv_uop_ratio:
+  tma_info_uop_mix_idiv_uop_ratio
+
+tma_info_uop_mix_microcode_uop_ratio:
+  tma_info_uop_mix_microcode_uop_ratio
+
+tma_info_uop_mix_x87_uop_ratio:
+  tma_info_uop_mix_x87_uop_ratio
+
+tma_int_operations_group:
+  tma_int_vector_128b
+  tma_int_vector_256b
+
+tma_issue2P:
+  tma_fp_scalar
+  tma_fp_vector
+  tma_fp_vector_128b
+  tma_fp_vector_256b
+  tma_int_vector_128b
+  tma_int_vector_256b
+  tma_port_0
+  tma_port_1
+  tma_port_6
+  tma_ports_utilized_2
+
+tma_issueBM:
+  tma_bottleneck_mispredictions
+  tma_branch_mispredicts
+  tma_info_bad_spec_branch_misprediction_cost
+  tma_mispredicts_resteers
+
+tma_issueBW:
+  tma_bottleneck_data_cache_memory_bandwidth
+  tma_fb_full
+  tma_info_system_dram_bw_use
+  tma_mem_bandwidth
+  tma_sq_full
+
+tma_issueComp:
+  tma_bottleneck_compute_bound_est
+
+tma_issueD0:
+  tma_decoder0_alone
+  tma_few_uops_instructions
+
+tma_issueFB:
+  tma_dsb_switches
+  tma_fetch_bandwidth
+  tma_info_botlnk_l2_dsb_bandwidth
+  tma_info_botlnk_l2_dsb_misses
+  tma_info_frontend_dsb_coverage
+  tma_info_inst_mix_iptb
+  tma_lcp
+
+tma_issueFL:
+  tma_info_botlnk_l2_ic_misses
+
+tma_issueL1:
+  tma_l1_bound
+  tma_ports_utilized_1
+
+tma_issueLat:
+  tma_bottleneck_data_cache_memory_latency
+  tma_l3_hit_latency
+  tma_mem_latency
+
+tma_issueMC:
+  tma_clears_resteers
+  tma_l1_bound
+  tma_machine_clears
+  tma_microcode_sequencer
+  tma_ms_switches
+
+tma_issueMS:
+  tma_bottleneck_irregular_overhead
+  tma_microcode_sequencer
+  tma_ms_switches
+
+tma_issueMV:
+  tma_mixing_vectors
+  tma_ms_switches
+
+tma_issueRFO:
+  tma_lock_latency
+  tma_store_latency
+
+tma_issueSL:
+  tma_fb_full
+  tma_store_latency
+
+tma_issueSO:
+  tma_ms_switches
+  tma_serializing_operation
+
+tma_issueSmSt:
+  tma_fb_full
+  tma_streaming_stores
+
+tma_issueSpSt:
+  tma_split_stores
+
+tma_issueSyncxn:
+  tma_bottleneck_memory_synchronization
+  tma_contested_accesses
+  tma_data_sharing
+  tma_false_sharing
+  tma_machine_clears
+
+tma_issueTLB:
+  tma_bottleneck_memory_data_tlbs
+  tma_dtlb_load
+  tma_dtlb_store
+
+tma_itlb_misses_group:
+  tma_code_stlb_hit
+  tma_code_stlb_miss
+
+tma_l1_bound_group:
+  tma_dtlb_load
+  tma_fb_full
+  tma_l1_latency_dependency
+  tma_lock_latency
+  tma_split_loads
+  tma_store_fwd_blk
+
+tma_l2_bound_group:
+  tma_l2_hit_latency
+
+tma_l3_bound_group:
+  tma_contested_accesses
+  tma_data_sharing
+  tma_l3_hit_latency
+  tma_sq_full
+
+tma_light_operations_group:
+  tma_fp_arith
+  tma_fused_instructions
+  tma_int_operations
+  tma_memory_operations
+  tma_non_fused_branches
+  tma_other_light_ops
+
+tma_load_stlb_miss_group:
+  tma_load_stlb_miss_1g
+  tma_load_stlb_miss_2m
+  tma_load_stlb_miss_4k
+
+tma_machine_clears_group:
+  tma_fast_nuke
+  tma_nuke
+  tma_other_nukes
+
+tma_memory_bound_group:
+  tma_dram_bound
+  tma_l1_bound
+  tma_l2_bound
+  tma_l3_bound
+  tma_store_bound
+
+tma_microcode_sequencer_group:
+  tma_assists
+  tma_cisc
+
+tma_mite_group:
+  tma_decoder0_alone
+
+tma_other_light_ops_group:
+  tma_nop_instructions
+  tma_shuffles_256b
+
+tma_ports_utilization_group:
+  tma_ports_utilized_0
+  tma_ports_utilized_1
+  tma_ports_utilized_2
+  tma_ports_utilized_3m
+
+tma_ports_utilized_0_group:
+  tma_mixing_vectors
+
+tma_ports_utilized_3m_group:
+  tma_alu_op_utilization
+  tma_load_op_utilization
+  tma_store_op_utilization
+
+tma_resource_bound_group:
+  tma_mem_scheduler
+  tma_non_mem_scheduler
+  tma_register
+  tma_reorder_buffer
+  tma_serialization
+
+tma_retiring_group:
+  tma_heavy_operations
+  tma_light_operations
+
+tma_serializing_operation_group:
+  tma_c01_wait
+  tma_c02_wait
+  tma_memory_fence
+  tma_slow_pause
+
+tma_store_bound_group:
+  tma_dtlb_store
+  tma_false_sharing
+  tma_split_stores
+  tma_store_latency
+  tma_streaming_stores
+
+tma_store_stlb_miss_group:
+  tma_store_stlb_miss_1g
+  tma_store_stlb_miss_2m
+  tma_store_stlb_miss_4k
+
+transaction:
+  tsx_aborted_cycles
+  tsx_cycles_per_elision
+  tsx_cycles_per_transaction
+  tsx_transactional_cycles
+
+# status=0

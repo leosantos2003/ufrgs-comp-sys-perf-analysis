@@ -122,6 +122,52 @@ Para cada uso relevante, informe: qual ferramenta foi usada, como ela foi usada,
 | Decisão | aceito |
 | Pendências ou limitações | `B=1` ainda, linhas `perf` não são contadores válidos enquanto houver multiplexação |
 
+## Registro do agente — 2026-11-05: piloto e calibração de lote
+
+| Campo | Registro |
+|---|---|
+| Ferramenta | Codex, assistente de programação. |
+| Como foi usada | O grupo solicitou a implementação do item 5 do roteiro. O agente leu o plano, a configuração, o código e o protocolo documental; implementou a interface de lote, a automação do piloto e executou a coleta somente após confirmar AC e afinidade. |
+| Dados fornecidos | `plano-implementacao-etapa-2.md`, `config/experiment.yaml`, código C++, Makefile, README, inventário de ambiente e registros anteriores do laboratório. |
+| O que ajudou a produzir | `--batch` em `ag_bench`, testes do lote, `scripts/calibrate_batch.py`, configuração dos três pontos, alvos `make pilot` e `make check-pilot`, documentação e o registro de laboratório deste estado, incluindo a explicação acessível de tempo bruto, `B` e conversão para tempo por AG. |
+| Como a saída foi avaliada | A implementação preserva `G` e os fatores `N` e `L`; o piloto propõe `B` por configuração a partir de saídas brutas e exige AC/afinidade. O primeiro extremo excedeu o protocolo e levou à redução prévia da grade; o piloto revisado ficou na faixa. |
+| Verificação automática | `make test`, `make run`, smoke test direto com `--batch 3`, `make design`, `make check-design`, `make check-pilot`, `git diff --check`, dois inventários com AC e pilotos em três pontos. O primeiro piloto completo rejeitou a grade `4 × 4`; o segundo confirmou `G=100`, a grade `3 × 3` e os três pontos dentro da faixa. |
+| Verificação humana | Pendente: o grupo deve revisar a semântica de lote, a redução da grade, os três pontos revisados e os diretórios brutos antes de aceitar a campanha principal. |
+
+## Revisão humana do registro de 2026-11-05 — piloto e calibração de lote
+
+| Campo | Registro |
+|---|---|
+| Pessoas que revisaram | Leonardo e Felipe |
+| O que foi revisado | Interface `--batch`, `scripts/calibrate_batch.py`, três pontos, limites de duração e documentação associada. |
+| Como foi conferido | Ler códigos gerados, ler explicações e rodar comandos, ler arquivos em `data/raw` (`manifest.txt`, `summary.csv`, `observations.csv`, `recommendation.md`) |
+| Comandos e resultado | `make test` — todos os testes passam, `make run` — faz uma linha CSV, `./build/ag_bench --header --population 16 --length 16 --generations 5 \ --batch 3 --seed 20261105 --crossover 0.90 --mutation 0.01 --mode baseline` — linha CSV com batch == 3, `make check-design` — confirma DOE com 180 execuções planejadas, `make check-pilot`, `git diff --check` |
+| Decisão | aceito |
+| Pendências ou limitações | Calibrar B nas seis combinações que restam, gerar DOE definitivo, não usar perf enquanto houver multiplexação |
+
+## Registro do agente — 2026-11-07: calibração completa e congelamento do DOE
+
+| Campo | Registro |
+|---|---|
+| Ferramenta | Codex, assistente de programação. |
+| Como foi usada | Após a revisão humana do piloto, o grupo pediu a calibração das seis combinações restantes, o congelamento explícito de `B=92` para `128 × 64`, a geração do DOE definitivo e a documentação das novas coletas. |
+| Dados fornecidos | Configuração, código, resultados brutos dos pilotos de 2026-11-05 e 2026-11-07, e a decisão explícita do grupo de manter `B=92` no ponto pequeno. |
+| O que ajudou a produzir | Opção `--remaining-grid` em `scripts/calibrate_batch.py`, alvos de Make, mapa `frozen_batches` na configuração, DOE de 180 linhas com lote por tratamento, calibração bruta das seis combinações, inventário de ambiente e este registro de laboratório. |
+| Como a saída foi avaliada | O script exigiu AC e afinidade, preservou 25 observações e verificou o núcleo efetivo. O gerador recusaria mapa de lotes incompleto ou tratamento fora da grade; o valor 92 foi escolhido pelo grupo, não inferido pelo agente a partir da repetição mais recente. |
+| Verificação automática | `python3 -m py_compile scripts/generate_design.py scripts/calibrate_batch.py`, `make test`, `make run`, smoke test com `--batch 3`, `make environment`, `make calibrate-remaining`, `make design`, `make check-design`, `make check-pilot` e `make check-calibrate-remaining`. |
+| Verificação humana | Pendente: o grupo deve conferir os seis valores adicionais, o mapa congelado, o novo DOE e este registro antes de aceitar este estado para commit. |
+
+## Revisão humana do registro de 2026-11-07 — calibração completa e DOE
+
+| Campo | Registro |
+|---|---|
+| Pessoas que revisaram | Leonardo e Felipe |
+| O que foi revisado | Calibração complementar, escolha de `B=92`, mapa `frozen_batches`, `config/design.csv` e documentação associada. |
+| Como foi conferido | Ler configuração, scrpits, labbook e CSVs, executar comandos |
+| Comandos e resultado | `make test`, `make check-design`, `make check-pilot`, `make check-calibrate-remaining`, `git diff --check`, tudo certo |
+| Decisão | aceito |
+| Pendências ou limitações | `perf` continua inválido por multiplexação, a campanha principal ainda não foi executada. |
+
 ## Modelo para o próximo par de registros
 
 Para cada novo uso, acrescente primeiro o registro do agente e, imediatamente abaixo, a revisão humana correspondente. Copie e preencha o bloco de revisão abaixo.

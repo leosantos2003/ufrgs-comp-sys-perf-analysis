@@ -1,0 +1,4 @@
+intel_pstate_no_turbo=0
+cpufreq_boost=UNAVAILABLE
+perf_event_paranoid=0
+nmi_watchdog=1

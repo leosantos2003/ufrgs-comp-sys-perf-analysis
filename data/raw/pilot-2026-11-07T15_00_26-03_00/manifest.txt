@@ -1,0 +1,10 @@
+started_at=2026-11-07T15:00:26-03:00
+config=/home/leonardo/UFRGS/UFRGS - Engenharia de Computação/Cadeiras Eletivas/INF01146 - Avaliação de Desempenho/etapa-2/config/experiment.yaml
+binary=/home/leonardo/UFRGS/UFRGS - Engenharia de Computação/Cadeiras Eletivas/INF01146 - Avaliação de Desempenho/etapa-2/build/ag_bench
+target_core=0
+power_state=AC type=Mains online=1
+G=100
+pilot_replications=3
+target_duration_ns=500000000,2000000000
+completed_at=2026-11-07T15:00:34-03:00
+status=completed

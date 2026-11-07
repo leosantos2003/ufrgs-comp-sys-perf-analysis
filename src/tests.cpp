@@ -227,6 +227,11 @@ void test_configuration_validation() {
     config.mutation_probability = 1.1;
     expect_throws([&config] { ag::validate_config(config); },
                   "probabilidade acima de um deve ser rejeitada");
+
+    config = ag::Config{};
+    config.batch = 0;
+    expect_throws([&config] { ag::validate_config(config); },
+                  "lote vazio deve ser rejeitado");
 }
 
 void test_deterministic_run() {
@@ -330,6 +335,32 @@ void test_phase_mode() {
                  "instrumentação por fases não pode alterar o melhor fitness");
 }
 
+void test_batch_mode() {
+    ag::Config single_config{};
+    single_config.population_size = 16;
+    single_config.chromosome_length = 16;
+    single_config.generations = 5;
+    single_config.seed = 20261105;
+
+    const ag::RunResult single = ag::run(single_config, ag::MeasurementMode::Baseline);
+    ag::Config batch_config = single_config;
+    batch_config.batch = 3;
+    const ag::RunResult first = ag::run(batch_config, ag::MeasurementMode::Baseline);
+    const ag::RunResult second = ag::run(batch_config, ag::MeasurementMode::Baseline);
+
+    expect_equal(first.checksum, second.checksum,
+                 "lote com mesma configuração deve ter checksum determinístico");
+    expect_equal(first.best_fitness, single.best_fitness,
+                 "lote não pode mudar o melhor fitness de cada execução completa");
+    expect(first.elapsed_ns > 0, "lote deve produzir duração positiva");
+
+    const ag::RunResult phases = ag::run(batch_config, ag::MeasurementMode::Phases);
+    expect_equal(phases.checksum, first.checksum,
+                 "fases não podem alterar o checksum do lote");
+    expect_equal(phases.best_fitness, first.best_fitness,
+                 "fases não podem alterar o resultado do lote");
+}
+
 }  // namespace
 
 int main() {
@@ -343,6 +374,7 @@ int main() {
         test_against_simple_reference();
         test_population_shape_and_fitness_after_each_generation();
         test_phase_mode();
+        test_batch_mode();
         std::cout << "Todos os testes do AG passaram.\n";
         return EXIT_SUCCESS;
     } catch (const std::exception& exception) {

@@ -1,0 +1,1 @@
+taskset -c 0 '/home/leonardo/UFRGS/UFRGS - Engenharia de Computação/Cadeiras Eletivas/INF01146 - Avaliação de Desempenho/etapa-2/build/ag_bench' --header --population 128 --length 64 --generations 100 --batch 1 --seed 3139949430156496785 --crossover 0.9 --mutation 0.01 --mode baseline

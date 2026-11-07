@@ -1,0 +1,6 @@
+5073955,,cpu_core/cycles/,1205117,56.00,,
+6592010,,cpu_core/instructions/,1205117,56.00,,
+143136,,cpu_core/cache-references/,1205117,56.00,,
+60271,,cpu_core/cache-misses/,1205117,56.00,,
+1,,context-switches,2129980,100.00,,
+1,,cpu-migrations,2129980,100.00,,

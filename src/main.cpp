@@ -32,6 +32,7 @@ int current_cpu_id() {
            << "  --population N       tamanho da população (padrão: 128)\n"
            << "  --length L           comprimento do cromossomo (padrão: 64)\n"
            << "  --generations G      gerações por execução (padrão: 100)\n"
+           << "  --batch B            execuções completas agregadas (padrão: 1)\n"
            << "  --seed S              semente do mt19937_64 (padrão: 0)\n"
            << "  --crossover P         probabilidade de crossover [0,1] (padrão: 0.90)\n"
            << "  --mutation P          probabilidade de mutação por gene [0,1] (padrão: 0.01)\n"
@@ -91,6 +92,8 @@ Arguments parse_arguments(const int argc, char* argv[]) {
             arguments.config.chromosome_length = parse_size(option_value(argc, argv, index, option), option);
         } else if (option == "--generations") {
             arguments.config.generations = parse_size(option_value(argc, argv, index, option), option);
+        } else if (option == "--batch") {
+            arguments.config.batch = parse_size(option_value(argc, argv, index, option), option);
         } else if (option == "--seed") {
             arguments.config.seed = parse_seed(option_value(argc, argv, index, option));
         } else if (option == "--crossover") {
@@ -116,7 +119,7 @@ Arguments parse_arguments(const int argc, char* argv[]) {
 }
 
 void print_header() {
-    std::cout << "population_size,chromosome_length,generations,seed,crossover_probability,"
+    std::cout << "population_size,chromosome_length,generations,batch,seed,crossover_probability,"
                  "mutation_probability,measurement_mode,core_id,elapsed_ns,evaluation_ns,selection_ns,"
                  "crossover_ns,mutation_ns,replacement_ns,best_fitness,checksum\n";
 }
@@ -124,7 +127,8 @@ void print_header() {
 void print_result(const Arguments& arguments, const ag::RunResult& result) {
     std::cout << std::setprecision(17) << arguments.config.population_size << ','
               << arguments.config.chromosome_length << ',' << arguments.config.generations << ','
-              << arguments.config.seed << ',' << arguments.config.crossover_probability << ','
+              << arguments.config.batch << ',' << arguments.config.seed << ','
+              << arguments.config.crossover_probability << ','
               << arguments.config.mutation_probability << ',' << ag::to_string(arguments.mode) << ','
               << current_cpu_id() << ','
               << result.elapsed_ns << ',' << result.phase_timings.evaluation_ns << ','

@@ -1,6 +1,6 @@
 .DEFAULT_GOAL := help
 
-.PHONY: help build test run environment design check-design clean
+.PHONY: help build test run environment design check-design pilot check-pilot calibrate-remaining check-calibrate-remaining clean
 
 help:
 	@printf '%s\n' 'Alvos disponíveis:'
@@ -8,8 +8,12 @@ help:
 	@printf '%s\n' '  make test   - compila e executa os testes determinísticos'
 	@printf '%s\n' '  make run    - executa uma configuração pequena de demonstração'
 	@printf '%s\n' '  make environment - captura inventário e testa taskset/perf'
-	@printf '%s\n' '  make design - gera e valida o DOE piloto em config/design.csv'
-	@printf '%s\n' '  make check-design - verifica o DOE piloto sem regravá-lo'
+	@printf '%s\n' '  make design - gera e valida o DOE em config/design.csv'
+	@printf '%s\n' '  make check-design - verifica o DOE sem regravá-lo'
+	@printf '%s\n' '  make pilot - executa o piloto de três pontos e recomenda B'
+	@printf '%s\n' '  make check-pilot - valida a configuração do piloto sem medir'
+	@printf '%s\n' '  make calibrate-remaining - calibra B nas combinações da grade fora do piloto'
+	@printf '%s\n' '  make check-calibrate-remaining - valida essa calibração sem medir'
 	@printf '%s\n' '  make clean  - remove somente build/'
 
 build:
@@ -29,6 +33,18 @@ design:
 
 check-design:
 	./scripts/generate_design.py --check
+
+pilot: build
+	python3 ./scripts/calibrate_batch.py
+
+check-pilot: build
+	python3 ./scripts/calibrate_batch.py --dry-run
+
+calibrate-remaining: build
+	python3 ./scripts/calibrate_batch.py --remaining-grid
+
+check-calibrate-remaining: build
+	python3 ./scripts/calibrate_batch.py --remaining-grid --dry-run
 
 clean:
 	rm -rf build

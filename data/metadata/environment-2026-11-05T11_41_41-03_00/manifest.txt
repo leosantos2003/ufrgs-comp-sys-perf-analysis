@@ -1,0 +1,4 @@
+captured_at=2026-11-05T11:41:41-03:00
+target_core=0
+binary=/home/leonardo/UFRGS/UFRGS - Engenharia de Computação/Cadeiras Eletivas/INF01146 - Avaliação de Desempenho/etapa-2/build/ag_bench
+git_commit=648b15b431e3a42f720d4b79aed680b5bcef7d8e

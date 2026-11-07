@@ -37,6 +37,10 @@ make test       # compila e executa a suíte determinística
 make run        # executa uma configuração demonstrativa
 make design     # gera e valida o DOE piloto em config/design.csv
 make check-design # valida o DOE existente sem regravá-lo
+make check-pilot # valida o piloto pequeno/médio/grande sem medir
+make pilot       # executa o piloto e grava as evidências em data/raw/
+make check-calibrate-remaining # valida a calibração das combinações restantes, sem medir
+make calibrate-remaining # calibra B nas combinações restantes e grava as evidências
 ./build/ag_bench --help
 ```
 
@@ -45,10 +49,24 @@ make check-design # valida o DOE existente sem regravá-lo
 linha por execução, identificadores, modo de medição, tratamento `N × L`,
 réplica, semente, lote, CPU alvo e uma ordem global aleatorizada. A
 aleatorização e as sementes são determinísticas a partir de
-`design.design_random_seed`; o lote inicial `B=1` é provisório até a
-calibração. O comando não mede o AG nem escreve em `data/raw/`.
+`design.design_random_seed`. Antes de todos os lotes serem congelados, o
+lote inicial `B=1` é provisório; depois disso, o gerador usa o mapa
+`design.measurement_batch.frozen_batches`, com um valor por tratamento
+`N × L`. O comando não mede o AG nem escreve em `data/raw/`.
 
 `ag_bench` emite uma linha CSV por execução. A região cronometrada contém somente o laço de `G` gerações; inicialização, checksum e escrita da saída ficam fora dela. Os argumentos usados numa campanha devem reproduzir os controles congelados em `config/experiment.yaml`.
+
+Antes da campanha, `make pilot` executa uma execução de aquecimento e três réplicas `baseline` nos três pontos configurados (`small`, `medium`, `large`), sempre sob `taskset` no CPU configurado e somente com energia AC confirmada. Para cada ponto, ele mede primeiro com `B=1`, recomenda `B = ceil(0,5 s / mediana)` e verifica o lote recomendado. As saídas literais de cada chamada, uma tabela de observações e uma recomendação ficam em um novo diretório `data/raw/pilot-<timestamp>/`. O comando não muda `G`, os níveis de `N`/`L`, `experiment.yaml` ou `design.csv`: a decisão de aceitar a grade e congelar `B` por configuração exige revisão humana e novo DOE. `make check-pilot` somente valida a configuração e mostra os comandos planejados.
+
+O argumento `--batch B` do executável agrega `B` execuções completas idênticas do AG; cada uma mantém os mesmos `G` gerações e a mesma semente. O `elapsed_ns` publicado é a soma dos trechos medidos dessas execuções, e as métricas normalizadas futuras devem usar `B × N × L × G` como trabalho total.
+
+Depois do piloto de três pontos, `make calibrate-remaining` aplica o mesmo
+protocolo às combinações da grade que ainda não foram calibradas: um
+aquecimento, três réplicas com `B=1` por combinação e uma verificação com o
+lote calculado. Ele também exige AC, afinidade com o CPU configurado e
+preserva cada comando e saída em um novo diretório de `data/raw/`. Após a
+revisão humana, o grupo transfere os lotes escolhidos para `frozen_batches` e
+executa `make design` para congelar o DOE.
 
 Antes de uma campanha, capture o ambiente e verifique a afinidade configurada:
 

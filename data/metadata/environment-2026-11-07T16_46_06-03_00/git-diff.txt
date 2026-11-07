@@ -1,0 +1,4 @@
+# comando: git -C /home/leonardo/UFRGS/UFRGS\ -\ Engenharia\ de\ Computação/Cadeiras\ Eletivas/INF01146\ -\ Avaliação\ de\ Desempenho/etapa-2 diff --check
+
+
+# status=0

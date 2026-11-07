@@ -1,0 +1,27 @@
+# comando: git -C /home/leonardo/UFRGS/UFRGS\ -\ Engenharia\ de\ Computação/Cadeiras\ Eletivas/INF01146\ -\ Avaliação\ de\ Desempenho/etapa-2 status --short
+
+ M Makefile
+ M README.md
+ M config/design.csv
+ M config/experiment.yaml
+ M docs/difficulties.md
+ M docs/environment.md
+ M docs/labbook.md
+ M docs/uso-ia.md
+ M scripts/generate_design.py
+ M src/ga.cpp
+ M src/ga.hpp
+ M src/main.cpp
+ M src/tests.cpp
+?? data/metadata/environment-2026-11-05T11_41_41-03_00/
+?? data/metadata/environment-2026-11-05T11_48_04-03_00/
+?? data/metadata/environment-2026-11-07T15_00_08-03_00/
+?? data/metadata/environment-2026-11-07T16_46_06-03_00/
+?? data/raw/pilot-2026-11-05T11_41_49-03_00/
+?? data/raw/pilot-2026-11-05T11_44_03-03_00/
+?? data/raw/pilot-2026-11-05T11_48_11-03_00/
+?? data/raw/pilot-2026-11-07T15_00_26-03_00/
+?? docs/labbook/2026-11-05-piloto-tres-pontos.md
+?? scripts/calibrate_batch.py
+
+# status=0

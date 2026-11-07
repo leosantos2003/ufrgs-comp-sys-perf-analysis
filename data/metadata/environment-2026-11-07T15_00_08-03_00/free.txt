@@ -1,0 +1,7 @@
+# comando: free -h
+
+               total       usada       livre    compart.  buff/cache  disponível
+Mem.:           15Gi       4,5Gi       6,8Gi       405Mi       4,7Gi        10Gi
+Swap:          4,0Gi          0B       4,0Gi
+
+# status=0

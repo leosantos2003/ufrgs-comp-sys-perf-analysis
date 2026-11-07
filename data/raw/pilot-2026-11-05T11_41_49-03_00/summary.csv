@@ -1,0 +1,4 @@
+point,N,L,G,baseline_replications,median_elapsed_ns_batch_1,recommended_batch,projected_elapsed_ns,verification_elapsed_ns,target_status
+small,128,64,100,3,5507824,91,501211984,561665853,within_target
+medium,512,1024,100,3,326257623,2,652515246,706201249,within_target
+large,8192,4096,100,3,21708705476,1,21708705476,22966647640,above_target

@@ -39,106 +39,33 @@ std::uint64_t population_checksum(const Population& population) {
     return checksum;
 }
 
-}  // namespace
-
-void validate_config(const Config& config) {
-    if (config.population_size == 0) {
-        throw std::invalid_argument("population_size deve ser maior que zero");
+std::uint64_t checked_add(const std::uint64_t first,
+                          const std::uint64_t second,
+                          const char* const field) {
+    if (second > std::numeric_limits<std::uint64_t>::max() - first) {
+        throw std::overflow_error(std::string("overflow ao agregar ") + field);
     }
-    if (config.chromosome_length == 0) {
-        throw std::invalid_argument("chromosome_length deve ser maior que zero");
-    }
-    if (config.generations == 0) {
-        throw std::invalid_argument("generations deve ser maior que zero");
-    }
-    if (!is_probability(config.crossover_probability)) {
-        throw std::invalid_argument("crossover_probability deve estar entre 0 e 1");
-    }
-    if (!is_probability(config.mutation_probability)) {
-        throw std::invalid_argument("mutation_probability deve estar entre 0 e 1");
-    }
+    return first + second;
 }
 
-std::size_t one_max(const Chromosome& chromosome) {
-    std::size_t fitness = 0;
-    for (const Gene gene : chromosome) {
-        if (gene > 1U) {
-            throw std::invalid_argument("cromossomo contém gene que não é binário");
-        }
-        fitness += static_cast<std::size_t>(gene);
+std::uint64_t append_checksum(const std::uint64_t accumulated,
+                              const std::uint64_t checksum) {
+    // FNV-1a sobre os bytes do checksum de cada execução: para B > 1 torna
+    // observável que todo o lote foi executado, sem alterar o checksum de B=1.
+    std::uint64_t result = accumulated;
+    for (unsigned int byte = 0; byte < sizeof(checksum); ++byte) {
+        result ^= (checksum >> (byte * 8U)) & 0xffU;
+        result *= 1099511628211ULL;
     }
-    return fitness;
+    return result;
 }
 
-std::size_t tournament_winner(const std::vector<std::size_t>& fitness,
-                              const std::size_t first,
-                              const std::size_t second) {
-    if (first >= fitness.size() || second >= fitness.size()) {
-        throw std::out_of_range("índice de torneio fora da população");
-    }
-
-    if (fitness[first] > fitness[second]) {
-        return first;
-    }
-    if (fitness[second] > fitness[first]) {
-        return second;
-    }
-    // Desempate determinístico: o menor índice vence.
-    return std::min(first, second);
-}
-
-void crossover_one_point(const Chromosome& first_parent,
-                         const Chromosome& second_parent,
-                         const std::size_t cut_point,
-                         Chromosome& child) {
-    if (first_parent.size() != second_parent.size() || child.size() != first_parent.size()) {
-        throw std::invalid_argument("crossover requer cromossomos com o mesmo tamanho pré-alocado");
-    }
-    if (cut_point == 0 || cut_point >= first_parent.size()) {
-        throw std::out_of_range("ponto de corte deve estar entre 1 e L - 1");
-    }
-
-    std::copy_n(first_parent.begin(), static_cast<std::ptrdiff_t>(cut_point), child.begin());
-    std::copy(second_parent.begin() + static_cast<std::ptrdiff_t>(cut_point),
-              second_parent.end(),
-              child.begin() + static_cast<std::ptrdiff_t>(cut_point));
-}
-
-void mutate_bit_flip(Chromosome& chromosome,
-                     const double probability_per_gene,
-                     std::mt19937_64& random_engine) {
-    if (!is_probability(probability_per_gene)) {
-        throw std::invalid_argument("probability_per_gene deve estar entre 0 e 1");
-    }
-    if (probability_per_gene == 0.0) {
-        return;
-    }
-    if (probability_per_gene == 1.0) {
-        for (Gene& gene : chromosome) {
-            gene = static_cast<Gene>(1U - gene);
-        }
-        return;
-    }
-
-    std::bernoulli_distribution should_flip(probability_per_gene);
-    for (Gene& gene : chromosome) {
-        if (gene > 1U) {
-            throw std::invalid_argument("cromossomo contém gene que não é binário");
-        }
-        if (should_flip(random_engine)) {
-            gene = static_cast<Gene>(1U - gene);
-        }
-    }
-}
-
-RunResult run(const Config& config,
-              const MeasurementMode mode
+RunResult run_once(const Config& config,
+                   const MeasurementMode mode
 #ifdef AG_TESTING
-              , const GenerationObserver& generation_observer
+                   , const GenerationObserver& generation_observer
 #endif
 ) {
-    validate_config(config);
-
     std::mt19937_64 random_engine(config.seed);
     std::bernoulli_distribution initial_gene(0.5);
     std::uniform_int_distribution<std::size_t> individual_index(0, config.population_size - 1);
@@ -256,6 +183,144 @@ RunResult run(const Config& config,
     }
     result.checksum = population_checksum(population);
     return result;
+}
+
+}  // namespace
+
+void validate_config(const Config& config) {
+    if (config.population_size == 0) {
+        throw std::invalid_argument("population_size deve ser maior que zero");
+    }
+    if (config.chromosome_length == 0) {
+        throw std::invalid_argument("chromosome_length deve ser maior que zero");
+    }
+    if (config.generations == 0) {
+        throw std::invalid_argument("generations deve ser maior que zero");
+    }
+    if (config.batch == 0) {
+        throw std::invalid_argument("batch deve ser maior que zero");
+    }
+    if (!is_probability(config.crossover_probability)) {
+        throw std::invalid_argument("crossover_probability deve estar entre 0 e 1");
+    }
+    if (!is_probability(config.mutation_probability)) {
+        throw std::invalid_argument("mutation_probability deve estar entre 0 e 1");
+    }
+}
+
+std::size_t one_max(const Chromosome& chromosome) {
+    std::size_t fitness = 0;
+    for (const Gene gene : chromosome) {
+        if (gene > 1U) {
+            throw std::invalid_argument("cromossomo contém gene que não é binário");
+        }
+        fitness += static_cast<std::size_t>(gene);
+    }
+    return fitness;
+}
+
+std::size_t tournament_winner(const std::vector<std::size_t>& fitness,
+                              const std::size_t first,
+                              const std::size_t second) {
+    if (first >= fitness.size() || second >= fitness.size()) {
+        throw std::out_of_range("índice de torneio fora da população");
+    }
+
+    if (fitness[first] > fitness[second]) {
+        return first;
+    }
+    if (fitness[second] > fitness[first]) {
+        return second;
+    }
+    // Desempate determinístico: o menor índice vence.
+    return std::min(first, second);
+}
+
+void crossover_one_point(const Chromosome& first_parent,
+                         const Chromosome& second_parent,
+                         const std::size_t cut_point,
+                         Chromosome& child) {
+    if (first_parent.size() != second_parent.size() || child.size() != first_parent.size()) {
+        throw std::invalid_argument("crossover requer cromossomos com o mesmo tamanho pré-alocado");
+    }
+    if (cut_point == 0 || cut_point >= first_parent.size()) {
+        throw std::out_of_range("ponto de corte deve estar entre 1 e L - 1");
+    }
+
+    std::copy_n(first_parent.begin(), static_cast<std::ptrdiff_t>(cut_point), child.begin());
+    std::copy(second_parent.begin() + static_cast<std::ptrdiff_t>(cut_point),
+              second_parent.end(),
+              child.begin() + static_cast<std::ptrdiff_t>(cut_point));
+}
+
+void mutate_bit_flip(Chromosome& chromosome,
+                     const double probability_per_gene,
+                     std::mt19937_64& random_engine) {
+    if (!is_probability(probability_per_gene)) {
+        throw std::invalid_argument("probability_per_gene deve estar entre 0 e 1");
+    }
+    if (probability_per_gene == 0.0) {
+        return;
+    }
+    if (probability_per_gene == 1.0) {
+        for (Gene& gene : chromosome) {
+            gene = static_cast<Gene>(1U - gene);
+        }
+        return;
+    }
+
+    std::bernoulli_distribution should_flip(probability_per_gene);
+    for (Gene& gene : chromosome) {
+        if (gene > 1U) {
+            throw std::invalid_argument("cromossomo contém gene que não é binário");
+        }
+        if (should_flip(random_engine)) {
+            gene = static_cast<Gene>(1U - gene);
+        }
+    }
+}
+
+RunResult run(const Config& config,
+              const MeasurementMode mode
+#ifdef AG_TESTING
+              , const GenerationObserver& generation_observer
+#endif
+) {
+    validate_config(config);
+    if (config.batch == 1) {
+        return run_once(config, mode
+#ifdef AG_TESTING
+                        , generation_observer
+#endif
+        );
+    }
+
+    RunResult aggregate{};
+    std::uint64_t aggregate_checksum = 1469598103934665603ULL;
+    for (std::size_t execution = 0; execution < config.batch; ++execution) {
+        // A mesma configuração e semente são repetidas deliberadamente: B só
+        // amplifica a duração da observação, sem virar fator estocástico.
+        const RunResult single = run_once(config, mode
+#ifdef AG_TESTING
+                                          , generation_observer
+#endif
+        );
+        aggregate.elapsed_ns = checked_add(aggregate.elapsed_ns, single.elapsed_ns, "elapsed_ns");
+        aggregate.phase_timings.evaluation_ns = checked_add(
+            aggregate.phase_timings.evaluation_ns, single.phase_timings.evaluation_ns, "evaluation_ns");
+        aggregate.phase_timings.selection_ns = checked_add(
+            aggregate.phase_timings.selection_ns, single.phase_timings.selection_ns, "selection_ns");
+        aggregate.phase_timings.crossover_ns = checked_add(
+            aggregate.phase_timings.crossover_ns, single.phase_timings.crossover_ns, "crossover_ns");
+        aggregate.phase_timings.mutation_ns = checked_add(
+            aggregate.phase_timings.mutation_ns, single.phase_timings.mutation_ns, "mutation_ns");
+        aggregate.phase_timings.replacement_ns = checked_add(
+            aggregate.phase_timings.replacement_ns, single.phase_timings.replacement_ns, "replacement_ns");
+        aggregate.best_fitness = std::max(aggregate.best_fitness, single.best_fitness);
+        aggregate_checksum = append_checksum(aggregate_checksum, single.checksum);
+    }
+    aggregate.checksum = aggregate_checksum;
+    return aggregate;
 }
 
 const char* to_string(const MeasurementMode mode) {

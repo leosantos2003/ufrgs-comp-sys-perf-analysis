@@ -1,0 +1,2 @@
+AC type=Mains online=1 status=UNAVAILABLE
+BAT0 type=Battery online=UNAVAILABLE status=Charging
