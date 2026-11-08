@@ -36,6 +36,8 @@ from generate_design import (
 ROOT = Path(__file__).resolve().parents[1]
 RAW_ROOT = ROOT / "data" / "raw"
 PROCESSED_ROOT = ROOT / "data" / "processed"
+FROZEN_INPUTS_ROOT = ROOT / "data" / "metadata" / "frozen-inputs"
+METADATA_ROOT = ROOT / "data" / "metadata"
 DEFAULT_BASELINE = RAW_ROOT / "baseline-2026-11-07T17_08_32-03_00"
 DEFAULT_PHASES = RAW_ROOT / "phases-2026-11-08T00_39_18-03_00"
 DEFAULT_PERF = RAW_ROOT / "perf-2026-11-08T01_45_16-03_00"
@@ -307,6 +309,22 @@ def git_file(commit: str, path: str) -> bytes | None:
     return completed.stdout if completed.returncode == 0 else None
 
 
+def archived_snapshot(config_hash: str, design_hash: str) -> tuple[str, bytes, bytes] | None:
+    """Lê um par histórico enviado junto da entrega, sem exigir `.git`.
+
+    Os manifestos das campanhas registram somente hashes. A cópia literal dos
+    dois arquivos fica em metadata e é criada pelo script de arquivamento; os
+    hashes ainda são conferidos abaixo antes de qualquer uso.
+    """
+    directory = FROZEN_INPUTS_ROOT / f"config-{config_hash}_design-{design_hash}"
+    config_path = directory / "experiment.yaml"
+    design_path = directory / "design.csv"
+    try:
+        return (f"snapshot arquivado {repository_relative(directory)}", config_path.read_bytes(), design_path.read_bytes())
+    except OSError:
+        return None
+
+
 def frozen_snapshot(directory: Path) -> FrozenSnapshot:
     """Resolve o par configuração/DOE pelo hash do manifesto da campanha.
 
@@ -327,14 +345,18 @@ def frozen_snapshot(directory: Path) -> FrozenSnapshot:
         candidates.append(("worktree atual", DEFAULT_CONFIG.read_bytes(), DEFAULT_DESIGN.read_bytes()))
     except OSError as error:
         raise ValidationError(f"não foi possível ler configuração atual: {error}") from error
-    commits = subprocess.run(
-        ["git", "-C", str(ROOT), "rev-list", "--all"], check=True, capture_output=True, text=True
-    ).stdout.splitlines()
-    for commit in commits:
-        config = git_file(commit, "config/experiment.yaml")
-        design = git_file(commit, "config/design.csv")
-        if config is not None and design is not None:
-            candidates.append((f"Git {commit}", config, design))
+    archived = archived_snapshot(config_hash, design_hash)
+    if archived is not None:
+        candidates.append(archived)
+    history = subprocess.run(
+        ["git", "-C", str(ROOT), "rev-list", "--all"], check=False, capture_output=True, text=True
+    )
+    if history.returncode == 0:
+        for commit in history.stdout.splitlines():
+            config = git_file(commit, "config/experiment.yaml")
+            design = git_file(commit, "config/design.csv")
+            if config is not None and design is not None:
+                candidates.append((f"Git {commit}", config, design))
     for label, config, design in candidates:
         if sha256_bytes(config) != config_hash or sha256_bytes(design) != design_hash:
             continue
@@ -352,7 +374,7 @@ def frozen_snapshot(directory: Path) -> FrozenSnapshot:
             mutation_probability=mutation,
         )
     raise ValidationError(
-        "não foi encontrado no worktree ou histórico Git o par de configuração e DOE "
+        "não foi encontrado no worktree, snapshot arquivado ou histórico Git o par de configuração e DOE "
         f"referenciado por {repository_relative(directory / 'manifest.txt')}"
     )
 
@@ -540,15 +562,38 @@ def compact_text(path: Path) -> str:
         raise ValidationError(f"não foi possível ler {repository_relative(path)}: {error}") from error
 
 
+def resolve_metadata_directory(recorded: str) -> Path:
+    """Localiza um inventário preservado depois que a entrega muda de pasta.
+
+    As campanhas antigas guardam em `environment.status` o caminho absoluto
+    observado no momento da coleta. Esse texto continua sendo uma evidência,
+    mas não deve impedir a auditoria de uma cópia relocada do repositório. O
+    diretório de metadados é resolvido pelo seu nome sob `data/metadata/` e
+    continua sujeito às verificações de existência e de escopo.
+    """
+    original = Path(recorded)
+    if original.is_absolute() and original.is_relative_to(ROOT):
+        candidate = original
+    elif original.is_absolute():
+        if not original.name.startswith("environment-"):
+            raise ValidationError(f"metadata_dir absoluto inválido: {original}")
+        candidate = METADATA_ROOT / original.name
+    else:
+        candidate = ROOT / original
+    try:
+        candidate.resolve().relative_to(ROOT)
+    except ValueError as error:
+        raise ValidationError(f"metadata_dir fora do repositório: {candidate}") from error
+    if not candidate.is_dir():
+        raise ValidationError(f"metadata_dir ausente: {repository_relative(candidate)}")
+    return candidate
+
+
 def read_environment(directory: Path, mode: str) -> dict[str, str]:
     status = parse_key_values(directory / "environment.status")
     if status.get("exit_status") != "0" or not status.get("metadata_dir"):
         raise ValidationError(f"inventário inválido para campanha {directory.name}")
-    metadata = Path(status["metadata_dir"])
-    try:
-        metadata.resolve().relative_to(ROOT)
-    except ValueError as error:
-        raise ValidationError(f"metadata_dir fora do repositório: {metadata}") from error
+    metadata = resolve_metadata_directory(status["metadata_dir"])
     manifest = parse_key_values(metadata / "manifest.txt")
     required = ("captured_at", "target_core", "git_commit", "binary")
     if any(not manifest.get(field) for field in required):

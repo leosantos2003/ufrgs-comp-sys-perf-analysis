@@ -4,7 +4,7 @@ PHASES_BASELINE ?= data/raw/baseline-2026-11-07T17_08_32-03_00
 
 QUARTO ?= quarto
 
-.PHONY: help all build test run environment design check-design pilot check-pilot calibrate-remaining check-calibrate-remaining baseline check-baseline phases check-phases perf check-perf validate-data check-data analyse clean
+.PHONY: help all build test run environment design check-design pilot check-pilot calibrate-remaining check-calibrate-remaining baseline check-baseline phases check-phases perf check-perf archive-inputs check-archive-inputs validate-data check-data analyse slides clean
 
 help:
 	@printf '%s\n' 'Alvos disponíveis:'
@@ -24,9 +24,12 @@ help:
 	@printf '%s\n' '  make check-phases - valida a campanha phases sem medir'
 	@printf '%s\n' '  make perf - executa os grupos perf somente se cada um não for multiplexado'
 	@printf '%s\n' '  make check-perf - valida o plano da campanha perf sem medir'
+	@printf '%s\n' '  make archive-inputs - materializa snapshots históricos de config/DOE para entrega sem .git'
+	@printf '%s\n' '  make check-archive-inputs - valida os snapshots históricos sem regravá-los'
 	@printf '%s\n' '  make validate-data - valida as campanhas brutas e gera os CSVs tratados'
 	@printf '%s\n' '  make check-data - valida as campanhas brutas sem gerar derivados'
 	@printf '%s\n' '  make analyse - recria tabelas, figuras e o caderno HTML renderizado'
+	@printf '%s\n' '  make slides - compila os slides da Etapa 2 (requer pdflatex e Inkscape)'
 	@printf '%s\n' '  make all - executa verificações reproduzíveis e renderiza a análise'
 	@printf '%s\n' '  make clean  - remove somente build/'
 
@@ -78,14 +81,23 @@ perf: build
 check-perf: build
 	python3 ./scripts/run_experiments.py --mode perf --dry-run
 
-validate-data:
+archive-inputs:
+	python3 ./scripts/archive_frozen_inputs.py
+
+check-archive-inputs:
+	python3 ./scripts/archive_frozen_inputs.py --check
+
+validate-data: check-archive-inputs
 	python3 ./scripts/validate_data.py
 
-check-data:
+check-data: check-archive-inputs
 	python3 ./scripts/validate_data.py --check
 
 analyse: validate-data
 	python3 ./scripts/render_analysis.py --quarto "$(QUARTO)"
+
+slides:
+	./scripts/build_slides.sh
 
 all: test check-design check-baseline check-phases check-perf analyse
 

@@ -47,9 +47,12 @@ make check-phases   # valida a campanha phases e a referência baseline, sem med
 make phases         # executa phases e quantifica o overhead pareado
 make check-perf     # valida a campanha perf, sem medir
 make perf           # coleta perf somente com eventos sem multiplexação
+make archive-inputs # materializa snapshots históricos de config/DOE
+make check-archive-inputs # valida os snapshots históricos sem regravá-los
 make check-data     # valida as campanhas brutas sem gerar dados derivados
 make validate-data  # gera data/processed/ a partir das campanhas validadas
 make analyse        # recria tabelas, SVGs e results/etapa2.html
+make slides         # compila slides/slides-etapa-2.tex para PDF
 make all            # verificações reproduzíveis e análise renderizada
 ./build/ag_bench --help
 ```
@@ -143,7 +146,13 @@ O alvo lê o CPU lógico `target_core` de `config/experiment.yaml`, executa um t
 
 `make validate-data` é a única entrada dos dados tratados. Ele lê as campanhas brutas selecionadas, confere o esquema, a chave de cada observação, o status, o CPU efetivo, os controles do AG e os contratos de fases e contadores. Para campanhas feitas antes de uma revisão do DOE, a validação resolve a versão exata de `experiment.yaml` e `design.csv` pelos hashes preservados em seus manifestos; assim, a ordem histórica não é confundida com a ordem atual. As saídas reconstruíveis são `data/processed/measurements.csv`, `data/processed/environment.csv` e um relatório de validação.
 
+Os pares históricos de configuração e DOE usados pelas campanhas também ficam em `data/metadata/frozen-inputs/`, identificados pelos mesmos hashes do manifesto. `make archive-inputs` os materializa a partir do histórico quando necessário, e `make check-archive-inputs` verifica-os sem regravar. Assim, `make all` valida a entrega mesmo quando ela for extraída sem o diretório `.git`.
+
+Os arquivos brutos registram os caminhos absolutos observados durante a coleta. Na validação, esses valores continuam preservados como evidência, enquanto o inventário de ambiente é localizado pelo diretório correspondente sob `data/metadata/`; assim, extrair a entrega em outro caminho não altera nem invalida a campanha histórica.
+
 `make analyse` executa essa validação e então usa [analysis/etapa2.qmd](analysis/etapa2.qmd) como fonte da análise. O caderno calcula `T_g = T/(B G)`, `Q = B N L G/T`, IPC e taxa de cache apenas dentro dos pares de eventos permitidos, gera os CSVs de sumário e os SVGs em `figures/`, e renderiza [results/etapa2.html](results/etapa2.html). A análise requer Python 3.12 e Quarto 1.x no `PATH`; em Linux, o executor também reconhece a instalação empacotada pelo RStudio. Suas dependências estão declaradas em [analysis/requirements.txt](analysis/requirements.txt). O HTML é o artefato auditável padrão; PDF depende de um motor configurado no ambiente do Quarto.
+
+Os slides da Etapa 2 estão em [slides/slides-etapa-2.tex](slides/slides-etapa-2.tex) e reutilizam o estilo do template fornecido. `make slides` recompila o PDF a partir dessa fonte e das figuras SVG já geradas pelo caderno. Esse alvo requer `pdflatex`, os pacotes LaTeX `svg` e de idioma `brazil` (em Ubuntu: `texlive-latex-extra` e `texlive-lang-portuguese`) e Inkscape; ele não gera dados nem altera figuras.
 
 ## Garantias de validação
 

@@ -1,0 +1,349 @@
+\documentclass[aspectratio=169,11pt]{beamer}
+
+% Apresentação da Etapa 2. O layout deriva de slides/template.tex e mantém
+% a identidade visual usada na apresentação da Etapa 1.
+\usepackage[utf8]{inputenc}
+\usepackage[T1]{fontenc}
+\usepackage[brazil]{babel}
+\usepackage{amsmath}
+\usepackage{amssymb}
+\usepackage{graphicx}
+\usepackage{svg}
+\usepackage{tikz}
+\usepackage[most]{tcolorbox}
+\usepackage{lmodern}
+\usepackage{array}
+\usepackage{tabularx}
+\usepackage{booktabs}
+
+\usetikzlibrary{shadows,shadows.blur}
+% As figuras do caderno já contêm seus rótulos. Evitar que o Inkscape os
+% reinterprete como LaTeX preserva textos como T_g e caracteres Unicode.
+\svgsetup{inkscapelatex=false}
+
+\definecolor{mainblue}{HTML}{3B35B9}
+\definecolor{darkblue}{HTML}{16175A}
+\definecolor{lightbox}{HTML}{ECECF7}
+\definecolor{alertred}{HTML}{D60000}
+\definecolor{alertbg}{HTML}{F8E5E5}
+
+\setbeamertemplate{navigation symbols}{}
+\setbeamercolor{background canvas}{bg=white}
+\setbeamercolor{normal text}{fg=black}
+\setbeamercolor{item}{fg=mainblue}
+\setbeamerfont{frametitle}{size=\Large,series=\mdseries}
+\setbeamerfont{normal text}{size=\normalsize}
+\setbeamersize{text margin left=0.60cm,text margin right=0.60cm}
+\setbeamertemplate{itemize item}{\color{mainblue}$\blacktriangleright$}
+\setbeamertemplate{itemize subitem}{\color{mainblue}$\blacktriangleright$}
+\setlength{\leftmargini}{1.5em}
+\setlength{\leftmarginii}{1.3em}
+
+\setbeamercolor{frametitle}{bg=mainblue,fg=white}
+\setbeamertemplate{frametitle}{%
+    \nointerlineskip%
+    \begin{beamercolorbox}[wd=\paperwidth,ht=0.72cm,dp=0.17cm,leftskip=0.32cm]{frametitle}%
+        \usebeamerfont{frametitle}\insertframetitle
+    \end{beamercolorbox}%
+}
+
+\setbeamercolor{footerleft}{bg=darkblue,fg=white}
+\setbeamercolor{footerright}{bg=mainblue,fg=white}
+\newcommand{\footersafespace}{0.30cm}
+\newcommand{\footerheight}{0.25cm}
+\newcommand{\footerdepth}{0.09cm}
+\setbeamertemplate{footline}{%
+    \leavevmode%
+    \vbox{%
+        \vskip\footersafespace%
+        \hbox to \paperwidth{%
+            \begin{beamercolorbox}[wd=0.85\paperwidth,ht=\footerheight,dp=\footerdepth,leftskip=0.10cm]{footerleft}%
+                \tiny INF01146 -- Avaliação de Desempenho -- Trabalho Final: Etapa 2%
+            \end{beamercolorbox}%
+            \begin{beamercolorbox}[wd=0.15\paperwidth,ht=\footerheight,dp=\footerdepth,rightskip=0.10cm]{footerright}%
+                \hfill\tiny\insertframenumber/\inserttotalframenumber%
+            \end{beamercolorbox}%
+        }%
+    }%
+}
+
+\tcbset{slidebox/.style={enhanced,boxrule=0pt,arc=2mm,outer arc=2mm,left=2.2mm,right=2.2mm,top=1.4mm,bottom=1.4mm,toptitle=1mm,bottomtitle=1mm,drop shadow={shadow xshift=1.4mm,shadow yshift=-1.4mm,opacity=0.35}}}
+\newtcolorbox{questionbox}[1]{slidebox,colback=lightbox,colframe=lightbox,coltitle=white,colbacktitle=darkblue,title=#1,fonttitle=\normalsize}
+\newtcolorbox{impactbox}[1]{slidebox,colback=alertbg,colframe=alertbg,coltitle=white,colbacktitle=alertred,title=#1,fonttitle=\normalsize}
+\newcommand{\slideimage}[2][]{%
+    \begin{center}\includesvg[width=\linewidth,height=0.58\textheight,keepaspectratio,#1]{#2}\end{center}%
+}
+\newcommand{\smallslideimage}[2][]{%
+    \begin{center}\includesvg[width=\linewidth,height=0.47\textheight,keepaspectratio,#1]{#2}\end{center}%
+}
+
+\title{Avaliação de Desempenho Computacional}
+\subtitle{Algoritmo Genético -- Etapa 2}
+\author{Felipe Avencourt Soares -- 342904\\Leonardo Rocha dos Santos -- 341831}
+\institute{Instituto de Informática -- UFRGS}
+\date{2026/2}
+
+\begin{document}
+
+{%
+\setbeamertemplate{frametitle}{}%
+\begin{frame}
+    \vfill
+    \begin{center}
+        \begin{tcolorbox}[enhanced,width=0.92\textwidth,colback=mainblue,colframe=mainblue,arc=2mm,boxrule=0pt,left=3mm,right=3mm,top=5mm,bottom=5mm,drop shadow={shadow xshift=1.7mm,shadow yshift=-1.7mm,opacity=0.35}]
+            \centering
+            {\color{white}\LARGE\inserttitle\par}
+            \vspace{0.15cm}
+            {\color{white}\Large\insertsubtitle}
+        \end{tcolorbox}
+        \vspace{0.75cm}
+        {\large\insertauthor}
+        \vspace{0.35cm}
+        {\small\insertinstitute}
+        \vspace{0.35cm}
+        {\small\insertdate}
+    \end{center}
+    \vfill
+\end{frame}
+}
+
+\begin{frame}{Pergunta de pesquisa e progresso}
+    \begin{questionbox}{Pergunta herdada da Etapa 1}
+        Como o tamanho da população $N$ e o comprimento do cromossomo $L$
+        afetam o desempenho computacional de um algoritmo genético sequencial?
+    \end{questionbox}
+    \vspace{0.22cm}
+    \begin{columns}[T,onlytextwidth]
+        \begin{column}{0.48\textwidth}
+            \textbf{Recorte mantido}
+            \begin{itemize}
+                \item OneMax, uma thread e $G=100$ gerações;
+                \item desempenho computacional, não qualidade da otimização;
+                \item fatores primários: $N$ e $L$.
+            \end{itemize}
+        \end{column}
+        \begin{column}{0.48\textwidth}
+            \textbf{Progresso demonstrável}
+            \begin{itemize}
+                \item nove tratamentos e campanhas concluídas;
+                \item dados validados, caderno e figuras renderizados;
+                \item resultados ainda descritivos e específicos da plataforma.
+            \end{itemize}
+        \end{column}
+    \end{columns}
+\end{frame}
+
+\begin{frame}{Desenho experimental congelado}
+    \renewcommand{\arraystretch}{1.20}
+    \begin{tabularx}{\textwidth}{>{\bfseries}p{0.26\textwidth} X}
+        Fatores & $N \in \{128,512,2048\}$ e $L \in \{64,256,1024\}$: fatorial completo com 9 tratamentos. \\
+        \hline
+        Controle do AG & C++20, uma thread, OneMax, seleção por torneio 2, crossover de um ponto ($p_c=0{,}90$), mutação bit-flip ($p_m=0{,}01$) e $G=100$. \\
+        \hline
+        Lote $B$ & Um valor calibrado por tratamento, entre 1 e 92, sem mudar $G$ nem os fatores. \\
+        \hline
+        Réplicas & 10 baseline, 5 phases, 5 IPC e 5 cache por tratamento. \\
+    \end{tabularx}
+    \vspace{0.16cm}
+    \begin{questionbox}{Unidades comparáveis}
+        Cada execução mede $B$ AGs completos. A análise usa
+        $T_g=T/(BG)$ e $Q=BNLG/T$, preservando o trabalho total realizado.
+    \end{questionbox}
+\end{frame}
+
+\begin{frame}{Ambiente e controles da campanha}
+    \begin{columns}[T,onlytextwidth]
+        \begin{column}{0.49\textwidth}
+            \textbf{Plataforma observada}
+            \begin{itemize}
+                \item Intel Core i7-1355U, Linux 7.0.0-42;
+                \item GCC 13.3.0, arquitetura x86\_64;
+                \item núcleo lógico 0, com afinidade confirmada;
+                \item L1d: 352 KiB (10 instâncias), L2: 6,5 MiB (4), L3: 12 MiB.
+            \end{itemize}
+        \end{column}
+        \begin{column}{0.48\textwidth}
+            \textbf{Controles registrados}
+            \begin{itemize}
+                \item aquecimento não contabilizado;
+                \item energia AC confirmada antes das campanhas;
+                \item seeds, ordem aleatória e hashes no DOE;
+                \item governor, Turbo, memória e versões no inventário bruto.
+            \end{itemize}
+        \end{column}
+    \end{columns}
+    \vspace{0.16cm}
+    \begin{impactbox}{Limite de interpretação}
+        Cache, frequência e alimentação foram registrados. Os resultados descrevem
+        esta máquina e não isolam causalidade microarquitetural.
+    \end{impactbox}
+\end{frame}
+
+\begin{frame}{Cadeia reprodutível e auditoria}
+    \renewcommand{\arraystretch}{1.28}
+    \begin{tabularx}{\textwidth}{>{\bfseries}p{0.22\textwidth} X}
+        Código e controles & \texttt{src/} e \texttt{config/experiment.yaml} definem o AG e os parâmetros fixos. \\
+        \hline
+        Projeto executável & \texttt{generate\_design.py} materializa \texttt{design.csv} com ordem, seeds, lotes e réplicas. \\
+        \hline
+        Evidência bruta & Cada \texttt{run\_id} preserva comando, saída literal, status, RSS, ambiente e hash. \\
+        \hline
+        Validação e análise & O validador confere chaves e controles; o Quarto gera tabelas, SVGs e o HTML. \\
+    \end{tabularx}
+    \vspace{0.10cm}
+    \begin{questionbox}{Resultado da validação}
+        90 observações \texttt{baseline}, 45 \texttt{phases}, 45 \texttt{ipc\_user} e 45
+        \texttt{cache\_user} foram validadas. Nenhuma observação foi removida ou editada.
+    \end{questionbox}
+\end{frame}
+
+\begin{frame}{Tempo por geração na grade}
+    \smallslideimage{../figures/tempo-geracao-heatmap}
+    \vspace{-0.18cm}
+    \begin{impactbox}{Leitura}
+        A mediana de $T_g$ aumenta de 56,3~$\mu$s ($N=128$, $L=64$) para
+        13,2 ms ($N=2048$, $L=1024$). O gráfico responde quanto custa uma geração,
+        não atribui esse crescimento a um componente isolado.
+    \end{impactbox}
+\end{frame}
+
+\begin{frame}{Vazão normalizada permanece próxima}
+    \smallslideimage{../figures/vazao-workset}
+    \vspace{-0.18cm}
+    \begin{questionbox}{Pergunta respondida}
+        Há mudança relevante no custo por gene? Nas réplicas \texttt{baseline}, a mediana
+        de $Q$ ficou entre 143,19 e 159,03 Mgenes/s. A variação observada é menor que
+        a diferença de tempo bruto entre os extremos da grade.
+    \end{questionbox}
+\end{frame}
+
+\begin{frame}{Fases internas e custo da instrumentação}
+    \begin{columns}[T,onlytextwidth]
+        \begin{column}{0.57\textwidth}
+            \includesvg[width=\linewidth,height=0.48\textheight,keepaspectratio]{../figures/composicao-fases}
+        \end{column}
+        \begin{column}{0.40\textwidth}
+            \textbf{O que foi medido}
+            \begin{itemize}
+                \item avaliação;
+                \item seleção;
+                \item crossover;
+                \item mutação;
+                \item substituição.
+            \end{itemize}
+            \vspace{0.08cm}
+            \begin{impactbox}{Resultado}
+                A mutação domina a composição média em todos os tratamentos.
+            \end{impactbox}
+        \end{column}
+    \end{columns}
+    \vspace{0.06cm}
+    \small O maior overhead mediano do modo \texttt{phases} foi 2,51\%. Os pares usam a mesma
+    configuração e seed, mas campanhas em instantes distintos continuam sendo diagnóstico.
+\end{frame}
+
+\begin{frame}{Contadores de hardware: evidência e cautela}
+    \begin{columns}[T,onlytextwidth]
+        \begin{column}{0.49\textwidth}
+            \includesvg[width=\linewidth,height=0.50\textheight,keepaspectratio]{../figures/ipc-workset}
+            \centering\small IPC mediano entre 1,84 e 1,90.
+        \end{column}
+        \begin{column}{0.49\textwidth}
+            \includesvg[width=\linewidth,height=0.50\textheight,keepaspectratio]{../figures/cache-miss-workset}
+            \centering\small Taxa de cache miss variável entre tratamentos.
+        \end{column}
+    \end{columns}
+    \vspace{0.02cm}
+    \begin{impactbox}{Regra de validade}
+        IPC combina ciclos e instruções da mesma linha \texttt{ipc\_user}; cache combina
+        referências e faltas da mesma linha \texttt{cache\_user}. Ambas as campanhas tiveram
+        100\% de tempo ativo, mas foram coletadas separadamente do tempo \texttt{baseline}.
+    \end{impactbox}
+\end{frame}
+
+\begin{frame}{Variabilidade observada}
+    \smallslideimage{../figures/variabilidade-baseline}
+    \vspace{-0.18cm}
+    \begin{questionbox}{Pergunta respondida}
+        As réplicas são estáveis o bastante para interpretar medianas? Todos os coeficientes
+        de variação de $T_g$ ficaram abaixo de 3\%, e nenhuma réplica ultrapassou o limiar
+        descritivo de 10\% da mediana. Não houve exclusão automática de pontos.
+    \end{questionbox}
+\end{frame}
+
+\begin{frame}{Dificuldades que mudaram o protocolo}
+    \renewcommand{\arraystretch}{1.22}
+    \begin{tabularx}{\textwidth}{>{\bfseries}p{0.27\textwidth} X X}
+        Evidência & Decisão & Limite remanescente \\
+        \hline
+        Grade 4 por 4: extremo levou cerca de 22 s. & Reduzir para 3 por 3 antes da campanha e manter $G=100$. & Os resultados não cobrem o antigo extremo. \\
+        \hline
+        Conjunto inicial de \texttt{perf} teve 91\% de tempo ativo. & Separar IPC e cache; fixar o próprio \texttt{perf} no núcleo 0. & Não combinar grupos como se fossem uma única observação. \\
+        \hline
+        Temporizadores internos alteram a execução. & Medir \texttt{phases} e comparar com pares \texttt{baseline}. & O overhead é diagnóstico entre campanhas. \\
+    \end{tabularx}
+\end{frame}
+
+\begin{frame}{Decisão de validação e Etapa 3}
+    \begin{columns}[T,onlytextwidth]
+        \begin{column}{0.48\textwidth}
+            \textbf{Já validado}
+            \begin{itemize}
+                \item AG e testes determinísticos;
+                \item DOE, afinidade, aquecimento e réplicas;
+                \item dados brutos, validação e análise literal;
+                \item figuras com unidades, incerteza e limites explícitos.
+            \end{itemize}
+        \end{column}
+        \begin{column}{0.48\textwidth}
+            \textbf{Para ampliar na Etapa 3}
+            \begin{itemize}
+                \item aprofundar a interpretação estatística;
+                \item testar novas hipóteses sem alterar a campanha histórica;
+                \item discutir implicações e recomendações somente onde houver evidência.
+            \end{itemize}
+        \end{column}
+    \end{columns}
+    \vspace{0.20cm}
+    \begin{questionbox}{Síntese}
+        O estudo já é reproduzível e tem resultados preliminares. A conclusão causal sobre
+        cache ou microarquitetura exige evidência adicional, não apenas correlação descritiva.
+    \end{questionbox}
+\end{frame}
+
+\begin{frame}{Transparência sobre uso de IA}
+    \begin{questionbox}{Uso documentado}
+        Codex auxiliou a implementar automações, organizar documentação e redigir este deck.
+        Não alterou medições brutas manualmente nem substitui a revisão humana.
+    \end{questionbox}
+    \vspace{0.25cm}
+    \renewcommand{\arraystretch}{1.28}
+    \begin{tabularx}{\textwidth}{>{\bfseries}p{0.28\textwidth} X}
+        Dados fornecidos & Código, configuração, campanhas brutas, análise, plano e materiais da disciplina. \\
+        \hline
+        Fluxo de aceitação & Assistência do agente, verificações automatizadas, revisão humana e integração no repositório. \\
+        \hline
+        Evidência completa & \texttt{docs/uso-ia.md}, labbook, scripts, dados preservados e comandos de reprodução. \\
+    \end{tabularx}
+\end{frame}
+
+\begin{frame}{Como auditar a entrega}
+    \begin{enumerate}
+        \item Obter um clone limpo com dados brutos e metadados preservados.
+        \item Executar \texttt{make all} para testes, checagens, validação e caderno HTML.
+        \item Abrir \texttt{results/etapa2.html} e comparar tabelas, SVGs e interpretações.
+        \item Executar \texttt{make slides} em ambiente com \texttt{pdflatex} e Inkscape.
+    \end{enumerate}
+    \vspace{0.16cm}
+    \begin{questionbox}{Critério do roteiro}
+        Outra pessoa deve conseguir seguir o README sem caminhos absolutos, dados tratados
+        pré-existentes ou intervenção manual na cadeia de dados.
+    \end{questionbox}
+    \vspace{0.08cm}
+    \begin{impactbox}{Limite conhecido}
+        O HTML é o artefato de análise atual. A compilação do PDF dos slides requer uma
+        distribuição TeX com o pacote \texttt{svg} e Inkscape.
+    \end{impactbox}
+\end{frame}
+
+\end{document}

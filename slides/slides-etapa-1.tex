@@ -1,0 +1,967 @@
+\documentclass[aspectratio=169,11pt]{beamer}
+
+% ============================================================
+% PACOTES
+% ============================================================
+
+\usepackage[utf8]{inputenc}
+\usepackage[T1]{fontenc}
+\usepackage[brazil]{babel}
+
+\usepackage{amsmath}
+\usepackage{amssymb}
+\usepackage{graphicx}
+\usepackage{tikz}
+\usepackage[most]{tcolorbox}
+\usepackage{lmodern}
+\usepackage{array}
+\usepackage{tabularx}
+\usepackage{booktabs}
+
+\usetikzlibrary{
+    shadows,
+    shadows.blur
+}
+
+% ============================================================
+% CORES
+% ============================================================
+
+\definecolor{mainblue}{HTML}{3B35B9}
+\definecolor{darkblue}{HTML}{16175A}
+
+\definecolor{lightbox}{HTML}{ECECF7}
+
+\definecolor{alertred}{HTML}{D60000}
+\definecolor{alertbg}{HTML}{F8E5E5}
+
+\definecolor{softgray}{HTML}{F7F7F9}
+
+% ============================================================
+% CONFIGURAÇÃO GERAL DO BEAMER
+% ============================================================
+
+\setbeamertemplate{navigation symbols}{}
+
+\setbeamercolor{background canvas}{bg=white}
+\setbeamercolor{normal text}{fg=black}
+\setbeamercolor{item}{fg=mainblue}
+
+\setbeamerfont{frametitle}{size=\Large,series=\mdseries}
+\setbeamerfont{normal text}{size=\normalsize}
+
+\setbeamersize{text margin left=0.60cm,text margin right=0.60cm}
+
+\setbeamertemplate{itemize item}{\color{mainblue}$\blacktriangleright$}
+\setbeamertemplate{itemize subitem}{\color{mainblue}$\blacktriangleright$}
+
+\setlength{\leftmargini}{1.5em}
+\setlength{\leftmarginii}{1.3em}
+
+% ============================================================
+% FAIXA SUPERIOR / TÍTULO DO SLIDE
+% ============================================================
+
+\setbeamercolor{frametitle}{bg=mainblue,fg=white}
+
+\setbeamertemplate{frametitle}{%
+    \nointerlineskip%
+    \begin{beamercolorbox}[
+        wd=\paperwidth,
+        ht=0.72cm,
+        dp=0.17cm,
+        leftskip=0.32cm
+    ]{frametitle}%
+        \usebeamerfont{frametitle}%
+        \insertframetitle%
+    \end{beamercolorbox}%
+}
+
+% ============================================================
+% RODAPÉ
+% ============================================================
+
+\setbeamercolor{footerleft}{bg=darkblue,fg=white}
+\setbeamercolor{footerright}{bg=mainblue,fg=white}
+
+\newcommand{\footersafespace}{0.30cm}
+\newcommand{\footerheight}{0.25cm}
+\newcommand{\footerdepth}{0.09cm}
+
+\setbeamertemplate{footline}{%
+    \leavevmode%
+    \vbox{%
+        \vskip\footersafespace%
+        \hbox to \paperwidth{%
+            \begin{beamercolorbox}[
+                wd=0.85\paperwidth,
+                ht=\footerheight,
+                dp=\footerdepth,
+                leftskip=0.10cm
+            ]{footerleft}%
+                \tiny
+                INF01146 -- Avaliação de Desempenho -- Trabalho Final: Etapa 1%
+            \end{beamercolorbox}%
+            \begin{beamercolorbox}[
+                wd=0.15\paperwidth,
+                ht=\footerheight,
+                dp=\footerdepth,
+                rightskip=0.10cm
+            ]{footerright}%
+                \hfill
+                \tiny
+                \insertframenumber/\inserttotalframenumber%
+            \end{beamercolorbox}%
+        }%
+    }%
+}
+
+% ============================================================
+% CAIXAS
+% ============================================================
+
+\tcbset{
+    slidebox/.style={
+        enhanced,
+        boxrule=0pt,
+        arc=2mm,
+        outer arc=2mm,
+        left=2.2mm,
+        right=2.2mm,
+        top=1.4mm,
+        bottom=1.4mm,
+        toptitle=1mm,
+        bottomtitle=1mm,
+        drop shadow={
+            shadow xshift=1.4mm,
+            shadow yshift=-1.4mm,
+            opacity=0.35
+        }
+    }
+}
+
+\newtcolorbox{questionbox}[1]{
+    slidebox,
+    colback=lightbox,
+    colframe=lightbox,
+    coltitle=white,
+    colbacktitle=darkblue,
+    title=#1,
+    fonttitle=\normalsize
+}
+
+\newtcolorbox{impactbox}[1]{
+    slidebox,
+    colback=alertbg,
+    colframe=alertbg,
+    coltitle=white,
+    colbacktitle=alertred,
+    title=#1,
+    fonttitle=\normalsize
+}
+
+\newcommand{\sectionframe}[1]{%
+    {%
+    \setbeamertemplate{frametitle}{}%
+    \begin{frame}
+        \centering
+        \vfill
+        {\Large #1}
+        \vfill
+    \end{frame}
+    }%
+}
+
+\newcommand{\bits}[1]{\texttt{#1}}
+
+% ============================================================
+% METADADOS
+% ============================================================
+
+\title{Avaliação de Desempenho Computacional}
+\subtitle{Algoritmo Genético -- Etapa 1}
+
+\author{
+    Felipe Avencourt Soares -- 342904\\
+    Leonardo Rocha dos Santos -- 341831
+}
+\institute{Instituto de Informática -- UFRGS}
+\date{2026/2}
+
+% ============================================================
+% DOCUMENTO
+% ============================================================
+
+\begin{document}
+
+% ============================================================
+% CAPA
+% ============================================================
+
+{%
+\setbeamertemplate{frametitle}{}%
+
+\begin{frame}
+
+    \vfill
+
+    \begin{center}
+
+        \begin{tcolorbox}[
+            enhanced,
+            width=0.92\textwidth,
+            colback=mainblue,
+            colframe=mainblue,
+            arc=2mm,
+            boxrule=0pt,
+            left=3mm,
+            right=3mm,
+            top=5mm,
+            bottom=5mm,
+            drop shadow={
+                shadow xshift=1.7mm,
+                shadow yshift=-1.7mm,
+                opacity=0.35
+            }
+        ]
+
+            \centering
+
+            {\color{white}\LARGE
+                \inserttitle
+                \par
+            }
+
+            \vspace{0.15cm}
+
+            {\color{white}\Large
+                \insertsubtitle
+            }
+
+        \end{tcolorbox}
+
+        \vspace{0.75cm}
+
+        {\large
+            \insertauthor
+        }
+
+        \vspace{0.35cm}
+
+        {\small
+            \insertinstitute
+        }
+
+        \vspace{0.35cm}
+
+        {\small
+            \insertdate
+        }
+
+    \end{center}
+
+    \vfill
+
+\end{frame}
+}
+
+% ============================================================
+% SLIDE 2
+% ============================================================
+
+\begin{frame}{Ideia central}
+
+    \vspace{0.15cm}
+
+    \begin{questionbox}{Proposta}
+        Caracterizar o desempenho computacional de um
+        Algoritmo Genético sequencial ao variar o tamanho da
+        população e o tamanho dos cromossomos.
+    \end{questionbox}
+
+    \vspace{0.28cm}
+
+    \textbf{Não iremos:}
+
+    \begin{itemize}
+        \item provar que o AG encontra soluções melhores;
+        \item comparar versões sofisticadas de Algoritmos Genéticos;
+    \end{itemize}
+
+    \vspace{0.10cm}
+
+    \begin{impactbox}{Foco do trabalho}
+        O AG se trata apenas de uma carga de trabalho computacional controlável.
+    \end{impactbox}
+
+\end{frame}
+
+% ============================================================
+% SLIDE 3
+% ============================================================
+
+\begin{frame}{O que é um Algoritmo Genético?}
+
+    Um \textbf{Algoritmo Genético (AG)} é uma técnica de busca que mantém várias soluções
+    candidatas ao mesmo tempo.
+
+    \vspace{0.28cm}
+
+    \begin{columns}[T,onlytextwidth]
+
+        \begin{column}{0.48\textwidth}
+
+            \vspace{-0.18cm}
+
+            \begin{questionbox}{Ideia intuitiva}
+                Em vez de testar uma solução por vez, o algoritmo mantém uma população de
+                soluções e tenta melhorá-la geração após geração.
+            \end{questionbox}
+
+        \end{column}
+
+        \begin{column}{0.46\textwidth}
+
+            \textbf{Lógica geral:}
+
+            \begin{itemize}
+                \item avalia as soluções atuais;
+                \item escolhe as melhores como base;
+                \item combina e altera essas soluções;
+                \item repete o processo.
+            \end{itemize}
+
+        \end{column}
+
+    \end{columns}
+
+    \vspace{0.18cm}
+
+    \begin{impactbox}{Importante}
+        O AG se baseia em vetores, números aleatórios e laços de repetição. São apenas
+        operações computacionais inspiradas na evolução biológica.
+    \end{impactbox}
+
+\end{frame}
+
+% ============================================================
+% SLIDE 4
+% ============================================================
+
+\begin{frame}{Conceitos principais de um AG}
+
+    \vspace{0.05cm}
+
+    \renewcommand{\arraystretch}{1.25}
+    \begin{tabularx}{\textwidth}{>{\bfseries}p{0.27\textwidth} X}
+        Indivíduo & Uma solução candidata para o problema. \\
+        \hline
+        Cromossomo & A forma como o indivíduo é armazenado no programa. Neste trabalho, será um vetor binário. \\
+        \hline
+        População & Conjunto de $N$ indivíduos mantidos simultaneamente. \\
+        \hline
+        Fitness & Valor numérico que mede a qualidade de um indivíduo. \\
+        \hline
+        Geração & Uma iteração completa: avaliar, selecionar, cruzar, mutar e criar nova população. \\
+    \end{tabularx}
+
+    \vspace{0.25cm}
+
+    \begin{questionbox}{Exemplo}
+        O cromossomo \bits{101101} representa um indivíduo binário com $L=6$.
+    \end{questionbox}
+
+\end{frame}
+
+% ============================================================
+% SLIDE 5
+% ============================================================
+
+\begin{frame}{Representação usada no Trabalho}
+
+    \vspace{0.05cm}
+
+    Cada indivíduo será um vetor de bits com comprimento $L$.
+
+    \vspace{0.18cm}
+
+    \[
+        \underbrace{[1,0,1,1,0,1]}_{\text{um indivíduo}}
+        \qquad L=6
+    \]
+
+    \vspace{0.15cm}
+
+    A população contém $N$ indivíduos:
+
+    \vspace{0.05cm}
+
+    \[
+        \begin{array}{c}
+        \bits{101101} \\
+        \bits{001011} \\
+        \bits{111000} \\
+        \vdots \\
+        \bits{010110}
+        \end{array}
+        \qquad
+        \left\}
+        \begin{array}{l}
+        N \text{ linhas} \\
+        L \text{ bits por linha}
+        \end{array}
+        \right.
+    \]
+
+    \vspace{0.08cm}
+
+    \textbf{Relação com desempenho:}
+    aumentar $N$ ou $L$ aumenta dados manipulados e trabalho por geração.
+
+\end{frame}
+
+% ============================================================
+% SLIDE 6
+% ============================================================
+
+\begin{frame}{Fitness OneMax: cálculo da aptidão}
+
+    \vspace{0.10cm}
+
+    A função de fitness escolhida será \textbf{OneMax}.
+
+    \vspace{0.18cm}
+
+    Ela conta quantos bits iguais a 1 existem no cromossomo.
+
+    \vspace{0.25cm}
+
+    \[
+        x = [1,0,1,1,0,1]
+    \]
+
+    \[
+        fitness(x) = 1 + 0 + 1 + 1 + 0 + 1 = 4
+    \]
+
+    \vspace{0.15cm}
+
+    \begin{questionbox}{Por que usar OneMax?}
+        É simples, controlada e fácil de verificar. Assim, o problema de
+        otimização não esconde o comportamento computacional do AG.
+    \end{questionbox}
+
+\end{frame}
+
+% ============================================================
+% SLIDE 7
+% ============================================================
+
+\begin{frame}{Etapas de uma geração}
+
+    \vspace{0.15cm}
+
+    Em cada geração, o AG executa as seguintes etapas:
+
+    \vspace{0.15cm}
+
+    \begin{enumerate}
+        \item \textbf{Avaliação}: calcula o fitness de cada indivíduo.
+        \item \textbf{Seleção}: escolhe indivíduos para serem pais.
+        \item \textbf{Crossover}: combina partes dos pais para gerar filhos.
+        \item \textbf{Mutação}: altera alguns bits dos filhos.
+        \item \textbf{Substituição}: a nova população passa a ser usada na próxima geração.
+    \end{enumerate}
+
+    \vspace{0.20cm}
+
+    \[
+        \text{População atual}
+        \rightarrow
+        \text{avaliação}
+        \rightarrow
+        \text{seleção}
+        \rightarrow
+        \text{crossover}
+        \rightarrow
+        \text{mutação}
+        \rightarrow
+        \text{nova população}
+    \]
+
+    \begin{impactbox}{No experimento}
+        O número de gerações $G$ será fixo para que todas as configurações
+        executem uma quantidade comparável de trabalho.
+    \end{impactbox}
+
+\end{frame}
+
+% ============================================================
+% SLIDE 8
+% ============================================================
+
+\begin{frame}{Seleção por torneio}
+
+    \vspace{0.10cm}
+
+    A seleção define quais indivíduos serão usados como pais.
+
+    \vspace{0.20cm}
+
+    \begin{questionbox}{Torneio de tamanho 2}
+        Escolhem-se dois indivíduos aleatoriamente. O que tiver maior fitness
+        vence e é selecionado como pai.
+    \end{questionbox}
+
+    \vspace{0.25cm}
+
+    \[
+        \begin{array}{rcl}
+        A &=& \bits{101101} \quad fitness(A)=4 \\
+        B &=& \bits{001011} \quad fitness(B)=3
+        \end{array}
+    \]
+
+    \vspace{0.10cm}
+
+    \[
+        fitness(A) > fitness(B) \quad \Rightarrow \quad A \text{ vence o torneio}
+    \]
+
+    \vspace{0.08cm}
+
+    \textbf{Efeito computacional:}
+    acessa valores de fitness e realiza comparações.
+
+\end{frame}
+
+% ============================================================
+% SLIDE 9
+% ============================================================
+
+\begin{frame}{Crossover: combinando dois pais}
+
+    \vspace{0.10cm}
+
+    O crossover gera novos indivíduos combinando partes de dois pais.
+
+    \vspace{0.20cm}
+
+    \begin{questionbox}{Crossover de um ponto}
+        Escolhe-se uma posição de corte. O filho recebe a primeira parte de
+        um pai e a segunda parte do outro.
+    \end{questionbox}
+
+    \vspace{0.25cm}
+
+    \[
+        \begin{array}{rcl}
+        Pai\;1 &=& \bits{101\,|\,101} \\
+        Pai\;2 &=& \bits{001\,|\,011} \\
+        \hline
+        Filho &=& \bits{101\,|\,011}
+        \end{array}
+    \]
+
+    \vspace{0.08cm}
+
+    \textbf{Efeito computacional:}
+    copia e combina posições do cromossomo; custo cresce com $L$.
+
+\end{frame}
+
+% ============================================================
+% SLIDE 10
+% ============================================================
+
+\begin{frame}{Mutação: pequenas alterações aleatórias}
+
+    \vspace{0.10cm}
+
+    A mutação altera alguns bits dos filhos após o crossover.
+
+    \vspace{0.20cm}
+
+    \begin{questionbox}{Mutação bit-flip}
+        Cada posição pode ser invertida: $0 \rightarrow 1$ ou $1 \rightarrow 0$.
+    \end{questionbox}
+
+    \vspace{0.25cm}
+
+    \[
+        \bits{101011}
+        \quad \xrightarrow{\text{inverte a posição 4}} \quad
+        \bits{101111}
+    \]
+
+    \vspace{0.20cm}
+
+    \begin{impactbox}{Efeito computacional}
+        A mutação envolve percorrer cromossomos e gerar decisões aleatórias.
+        Mesmo sendo conceitualmente simples, pode ter custo relevante.
+    \end{impactbox}
+
+\end{frame}
+
+% ============================================================
+% SLIDE 11
+% ============================================================
+
+\begin{frame}{Lógica computacional do AG}
+
+    \vspace{0.05cm}
+
+    Para uma população com $N$ indivíduos e cromossomos de tamanho $L$:
+
+    \vspace{0.15cm}
+
+    \begin{itemize}
+        \item a avaliação percorre aproximadamente $N \times L$ bits por geração;
+        \item crossover e mutação também manipulam cromossomos de tamanho $L$;
+        \item com $G$ gerações, a carga nominal cresce com $N \times L \times G$.
+    \end{itemize}
+
+    \vspace{0.12cm}
+
+    \[
+        \text{carga nominal} \approx N \times L \times G
+    \]
+
+    \vspace{0.02cm}
+
+    \begin{questionbox}{Exemplo}
+        Se $N=1000$, $L=256$ e $G=100$, então
+        $NLG = 25.600.000$ posições de cromossomo são consideradas
+        na normalização.
+    \end{questionbox}
+
+\end{frame}
+
+% ============================================================
+% SLIDE 12
+% ============================================================
+
+\begin{frame}{Objeto computacional}
+
+    \begin{columns}[T,onlytextwidth]
+
+        \begin{column}{0.49\textwidth}
+
+            \textbf{AG geracional sequencial}
+
+            \begin{itemize}
+                \item Implementação em C++
+                \item Execução em Linux
+                \item Uma única thread
+                \item Número fixo de gerações $G$
+            \end{itemize}
+
+        \end{column}
+
+        \begin{column}{0.48\textwidth}
+
+            \textbf{Configuração simplificada}
+
+            \begin{itemize}
+                \item Fitness OneMax
+                \item Seleção por torneio
+                \item Crossover de um ponto
+                \item Mutação bit-flip
+            \end{itemize}
+
+        \end{column}
+
+    \end{columns}
+
+    \vspace{0.25cm}
+
+    \begin{impactbox}{Delimitação}
+        A complexidade do trabalho está na avaliação de desempenho computacional,
+        não na sofisticação do Algoritmo Genético.
+    \end{impactbox}
+
+\end{frame}
+
+% ============================================================
+% SLIDE 13
+% ============================================================
+
+\begin{frame}{Questão de pesquisa}
+
+    \vspace{0.15cm}
+
+    \begin{questionbox}{Pergunta principal}
+        Como o aumento de $N$ e $L$ afeta o desempenho computacional
+        de um Algoritmo Genético sequencial?
+    \end{questionbox}
+
+    \vspace{0.28cm}
+
+    \textbf{Pergunta operacional:}
+
+    \begin{itemize}
+        \item O custo cresce proporcionalmente a $N \times L$?
+        \item Ou surgem regimes diferentes quando o conjunto de trabalho aumenta?
+    \end{itemize}
+
+    \vspace{0.12cm}
+
+    \begin{impactbox}{Hipótese}
+        Para populações pequenas, o custo normalizado tenderá a ser estável.
+        Para populações maiores, pode haver algumas degradaçãos associadas à hierarquia
+        de memória.
+    \end{impactbox}
+
+\end{frame}
+
+% ============================================================
+% SLIDE 14
+% ============================================================
+
+\begin{frame}{Fatores experimentais}
+
+    \vspace{0.08cm}
+
+    \renewcommand{\arraystretch}{1.30}
+    \begin{tabularx}{\textwidth}{>{\bfseries}c X X}
+        Símbolo & Fator & Significado computacional \\
+        \hline
+        $N$ & Tamanho da população & Número de indivíduos processados por geração \\
+        $L$ & Comprimento do cromossomo & Número de posições binárias por indivíduo \\
+    \end{tabularx}
+
+    \vspace{0.28cm}
+
+    \[
+        \text{carga nominal por execução} \approx N \times L \times G
+    \]
+
+    \vspace{0.10cm}
+
+    \begin{questionbox}{Controle experimental}
+        Taxa de mutação, probabilidade de crossover, método de seleção
+        e número de gerações serão mantidos constantes.
+    \end{questionbox}
+
+\end{frame}
+
+% ============================================================
+% SLIDE 15
+% ============================================================
+
+\begin{frame}{Técnica de avaliação}
+
+    \textbf{Técnica escolhida: medição em sistema real.}
+
+    \vspace{0.08cm}
+
+    \begin{columns}[T,onlytextwidth]
+
+        \begin{column}{0.48\textwidth}
+            \textbf{Ambiente experimental}
+
+            \small
+            \begin{itemize}
+                \item Ubuntu 24.04.4 LTS / kernel 7.0.0-30-generic
+                \item Intel Core i7-1355U (2 P-cores + 8 E-cores)
+                \item RAM: 15 GiB
+                \item Caches: L1 privada por núcleo; L2 privada/compartilhada
+          conforme o tipo de núcleo; L3 12 MiB compartilhada
+                \item C++ com GCC 13.3.0
+                \item Compilação: otimização \texttt{-O3}
+                \item Execução em uma única thread, fixada em um núcleo
+            \end{itemize}
+        \end{column}
+
+        \begin{column}{0.48\textwidth}
+            \textbf{Procedimento}
+
+            \small
+            \begin{itemize}
+                \item Repetir cada configuração $(N,L)$.
+                \item Registrar sementes pseudoaleatórias.
+                \item Manter hardware, software e flags fixos.
+            \end{itemize}
+
+            \vspace{0.25cm}
+
+            \begin{impactbox}{Ferramentas previstas}
+                \small
+                \begin{itemize}
+                    \item Relógio monotônico: tempos.
+                    \item \texttt{perf stat}: contadores de hardware.
+                    \item \texttt{/usr/bin/time -v}: pico de memória RAM.
+                \end{itemize}
+            \end{impactbox}
+        \end{column}
+
+    \end{columns}
+
+\end{frame}
+
+% ============================================================
+% SLIDE 16
+% ============================================================
+
+\begin{frame}{Métricas primárias}
+
+    \begin{columns}[T,onlytextwidth]
+
+        \begin{column}{0.50\textwidth}
+
+            \textbf{Tempo por geração}
+
+            \[
+                T_g = \frac{T}{G}
+            \]
+
+            \begin{itemize}
+                \item Unidade: ms/geração
+                \item Lower is better
+            \end{itemize}
+
+        \end{column}
+
+        \begin{column}{0.47\textwidth}
+
+            \textbf{Vazão normalizada}
+
+            \[
+                Q = \frac{NLG}{T}
+            \]
+
+            \begin{itemize}
+                \item Posições de cromossomo/s
+                \item Higher is better
+            \end{itemize}
+
+        \end{column}
+
+    \end{columns}
+
+    \vspace{0.22cm}
+
+    \begin{questionbox}{Interpretação}
+        Se $Q$ cair conforme $N$ e $L$ aumentam, cada unidade nominal
+        de trabalho está ficando mais cara.
+    \end{questionbox}
+
+\end{frame}
+
+% ============================================================
+% SLIDE 17
+% ============================================================
+
+\begin{frame}{Métricas explicativas}
+
+    \begin{columns}[T,onlytextwidth]
+
+        \begin{column}{0.48\textwidth}
+
+            \textbf{Contadores de hardware}
+
+            \begin{itemize}
+                \item Ciclos de CPU
+                \item Instruções executadas
+                \item IPC
+                \item Referências e faltas de cache
+                \item Pico de memória RAM
+            \end{itemize}
+
+            \[
+                IPC =
+                \frac{\text{instruções}}
+                     {\text{ciclos}}
+            \]
+
+        \end{column}
+
+        \begin{column}{0.48\textwidth}
+
+            \textbf{Decomposição do tempo}
+
+            \begin{itemize}
+                \item Avaliação da aptidão
+                \item Seleção
+                \item Crossover
+                \item Mutação
+            \end{itemize}
+
+            \[
+                P_{\text{fase}}
+                =
+                \frac{T_{\text{fase}}}
+                     {T_{\text{total}}}
+                \times 100\%
+            \]
+
+            \begin{center}
+                \small
+                Percentual do tempo gasto em cada etapa.
+            \end{center}
+
+        \end{column}
+
+    \end{columns}
+
+    \vspace{0.08cm}
+
+    \begin{questionbox}{Registro das medições}
+        Uma linha por execução em arquivo CSV, contendo
+        $N$, $L$, $G$, semente, número da repetição e todas
+        as métricas coletadas.
+    \end{questionbox}
+
+\end{frame}
+
+% ============================================================
+% SLIDE 18
+% ============================================================
+
+\begin{frame}{Resultado esperado}
+
+    \textbf{Nosso estudo não pretende simplesmente concluir que cargas maiores demoram mais.}
+
+    \vspace{0.18cm}
+
+    \begin{itemize}
+        \item Identificar se há mudança de regime no desempenho.
+        \item Medir se o custo por unidade de trabalho permanece estável.
+        \item Relacionar degradações a eventos de hardware quando possível.
+        \item Descobrir qual fase do AG domina o tempo de execução.
+    \end{itemize}
+
+    \vspace{0.22cm}
+
+    \begin{impactbox}{Mensagem principal}
+        O objetivo é explicar o comportamento computacional do AG,
+        não avaliar sua eficácia como algoritmo de otimização, pois este não é o foco da disciplina.
+    \end{impactbox}
+
+\end{frame}
+
+% ============================================================
+% SLIDE 19
+% ============================================================
+
+\begin{frame}{Resumo da Etapa 1}
+
+    \renewcommand{\arraystretch}{1.28}
+    \begin{tabularx}{\textwidth}{>{\bfseries}c X}
+        Objeto computacional & AG sequencial simples, binário, com OneMax, medido sob variação de $N$ e $L$. \\
+        \hline
+        Método de análise & Medição em sistema real Linux, com instrumentação interna e contadores de hardware. \\
+        \hline
+        Métricas & Tempo por geração, vazão normalizada, ciclos, instruções, IPC, cache misses, memória e tempo por fase. \\
+    \end{tabularx}
+
+    \vspace{0.30cm}
+
+    \begin{questionbox}{Por que nossa escolha se justifica?}
+        O AG fornece uma carga computacional parametrizável. Ao alterar $N$ e $L$,
+        podemos estudar escala dos dados, custo de execução e gargalos da máquina.
+    \end{questionbox}
+
+\end{frame}
+
+\end{document}

@@ -237,6 +237,29 @@ Para cada uso relevante, informe: qual ferramenta foi usada, como ela foi usada,
 | Decisão | aceito |
 | Pendências ou limitações | Cache e tempo foram coletados em campanhas distintas, interpretação permanece descritiva |
 
+## Registro do agente — 2026-11-08: slides e auditoria final
+
+| Campo | Registro |
+|---|---|
+| Ferramenta | Codex, assistente de programação. |
+| Como foi usada | O grupo solicitou a implementação do item 9 do roteiro. O agente leu o plano, a configuração, o README, o caderno de laboratório, o enunciado em PDF e os slides/template da Etapa 1; organizou um deck da Etapa 2, um alvo de compilação e a documentação da auditoria. |
+| Dados fornecidos | Repositório completo, `Projeto.pdf`, `slides/slides-etapa-1.pdf`, `slides/slides-etapa-1.tex`, `slides/template.tex`, resultados gerados, figuras SVG e documentos do experimento. |
+| O que ajudou a produzir | `slides/slides-etapa-2.tex`, `scripts/build_slides.sh`, o alvo `make slides`, `scripts/archive_frozen_inputs.py`, snapshots históricos em `data/metadata/frozen-inputs/`, validação de caminhos relocados, instruções estáveis no README, este registro, o registro de dificuldades e o novo estado do labbook. O conteúdo do deck foi redigido a partir das tabelas e figuras já geradas; não foram produzidas nem alteradas medições. |
+| Como a saída foi avaliada | A fonte foi comparada ao estilo e à narrativa da Etapa 1 e cobre ambiente, DOE, reprodutibilidade, resultados, fases, contadores, dificuldades, validação e transparência sobre IA. Os snapshots foram aceitos somente quando seus hashes coincidiam com os manifestos. Uma cópia sem `.git` e fora do caminho original executou a cadeia inteira, provando que o validador usa os artefatos preservados, não o local histórico. O log de compilação identificou a ausência de `brazil.ldf` e, depois, a reinterpretação indevida dos rótulos SVG pelo Inkscape. O build agora verifica a dependência de idioma, mantém o texto vetorial produzido pelo caderno e gerou o PDF de 14 páginas. As páginas foram rasterizadas e inspecionadas quanto a texto cortado e sobreposição. |
+| Verificação automática | Inspeção dos documentos de referência, `bash -n scripts/build_slides.sh`, `make slides` com diagnóstico de dependência ausente e, depois, com sucesso, `pdfinfo`, rasterização das 14 páginas, `python3 -m py_compile scripts/validate_data.py scripts/archive_frozen_inputs.py`, `make archive-inputs`, `make check-data`, `make test`, auditoria em cópia limpa sem `.git` com `make all` e `git diff --check`. |
+| Verificação humana | Pendente: o grupo deve abrir o PDF, conferir que as conclusões verbais refletem o HTML/tabelas e aceitar ou corrigir o registro abaixo antes do commit. |
+
+## Revisão humana do registro de 2026-11-08 — slides e auditoria final
+
+| Campo | Registro |
+|---|---|
+| Pessoas que revisaram | Leonardo e Felipe |
+| O que foi revisado | PDF dos slides da Etapa 2, relatório HTML, roteiro de auditoria e registros de dificuldades e uso de IA |
+| Como foi conferido | Executar `make all` e `make slides`, abrir o PDF e o HTML, comparar números, gráficos, limitações e a descrição do uso de IA |
+| Comandos e resultado | `make all` — passou; `make slides` — gerou o PDF, comparação visual e numérica — aprovada |
+| Decisão | aceito |
+| Pendências ou limitações | A recompilação local do PDF requer `pdflatex` com os pacotes `svg`/`brazil` e Inkscape, os resultados permanecem específicos da plataforma, e a interpretação de cache é descritiva, pois as campanhas ocorreram separadamente |
+
 ## Modelo para o próximo par de registros
 
 Para cada novo uso, acrescente primeiro o registro do agente e, imediatamente abaixo, a revisão humana correspondente. Copie e preencha o bloco de revisão abaixo.

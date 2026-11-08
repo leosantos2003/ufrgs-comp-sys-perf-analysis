@@ -22,4 +22,13 @@ __pycache__/
 .Rhistory
 Projeto.pdf
 graphics-material/
-slides/
+
+# Intermediários da compilação Beamer. As fontes e PDFs finais em slides/
+# fazem parte da entrega e, portanto, não são ignorados.
+slides/*.aux
+slides/*.log
+slides/*.nav
+slides/*.out
+slides/*.snm
+slides/*.toc
+slides/svg-inkscape/
