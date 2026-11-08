@@ -16,7 +16,7 @@
 \usepackage{tabularx}
 \usepackage{booktabs}
 
-\usetikzlibrary{shadows,shadows.blur}
+\usetikzlibrary{shadows,shadows.blur,positioning,arrows.meta}
 % As figuras do caderno já contêm seus rótulos. Evitar que o Inkscape os
 % reinterprete como LaTeX preserva textos como T_g e caracteres Unicode.
 \svgsetup{inkscapelatex=false}
@@ -70,18 +70,24 @@
 \tcbset{slidebox/.style={enhanced,boxrule=0pt,arc=2mm,outer arc=2mm,left=2.2mm,right=2.2mm,top=1.4mm,bottom=1.4mm,toptitle=1mm,bottomtitle=1mm,drop shadow={shadow xshift=1.4mm,shadow yshift=-1.4mm,opacity=0.35}}}
 \newtcolorbox{questionbox}[1]{slidebox,colback=lightbox,colframe=lightbox,coltitle=white,colbacktitle=darkblue,title=#1,fonttitle=\normalsize}
 \newtcolorbox{impactbox}[1]{slidebox,colback=alertbg,colframe=alertbg,coltitle=white,colbacktitle=alertred,title=#1,fonttitle=\normalsize}
-\newcommand{\slideimage}[2][]{%
-    \begin{center}\includesvg[width=\linewidth,height=0.58\textheight,keepaspectratio,#1]{#2}\end{center}%
+\newcommand{\chartimage}[2][]{%
+    \begin{center}\includesvg[width=\linewidth,height=0.68\textheight,keepaspectratio,#1]{#2}\end{center}%
 }
-\newcommand{\smallslideimage}[2][]{%
-    \begin{center}\includesvg[width=\linewidth,height=0.47\textheight,keepaspectratio,#1]{#2}\end{center}%
+\newcommand{\chartcaption}[1]{%
+    \vspace{-0.16cm}\par\footnotesize\textcolor{darkblue}{\textbf{Leitura.}} #1\par%
+}
+\tikzset{
+  flowbox/.style={rounded corners=2mm, fill=lightbox, draw=mainblue,
+    line width=0.6pt, minimum height=1.25cm, align=center, text width=2.18cm,
+    font=\small},
+  flowarrow/.style={-{Stealth[length=2.0mm]}, mainblue, line width=0.7pt}
 }
 
 \title{Avaliação de Desempenho Computacional}
 \subtitle{Algoritmo Genético -- Etapa 2}
-\author{Felipe Avencourt Soares -- 342904\\Leonardo Rocha dos Santos -- 341831}
-\institute{Instituto de Informática -- UFRGS}
-\date{2026/2}
+\author{Felipe Avencourt Soares -- 342904\\[0.20cm]Leonardo Rocha dos Santos -- 341831}
+\institute{Instituto de Informática -- UFRGS 2026/2}
+\date{}
 
 \begin{document}
 
@@ -97,253 +103,388 @@
             {\color{white}\Large\insertsubtitle}
         \end{tcolorbox}
         \vspace{0.75cm}
-        {\large\insertauthor}
+        {\large\insertauthor\par}
         \vspace{0.35cm}
-        {\small\insertinstitute}
-        \vspace{0.35cm}
-        {\small\insertdate}
+        {\small\insertinstitute\par}
     \end{center}
     \vfill
 \end{frame}
 }
 
-\begin{frame}{Pergunta de pesquisa e progresso}
+\begin{frame}{Nossa jornada nesta apresentação}
+    \begin{enumerate}
+        \item A pergunta e o algoritmo que medimos.
+        \item O experimento: fatores, controles, réplicas e métricas.
+        \item A cadeia que transforma uma execução em evidência auditável.
+        \item Os resultados: tempo, vazão, fases, contadores e variabilidade.
+        \item O que já validamos, os limites e o próximo passo.
+    \end{enumerate}
+    \vspace{0.32cm}
+    \begin{questionbox}{Ideia central}
+        Nós estudamos o custo de executar o algoritmo. A qualidade das soluções
+        encontradas pelo algoritmo fica fora deste experimento.
+    \end{questionbox}
+\end{frame}
+
+\begin{frame}{Pergunta de pesquisa e recorte}
     \begin{questionbox}{Pergunta herdada da Etapa 1}
         Como o tamanho da população $N$ e o comprimento do cromossomo $L$
         afetam o desempenho computacional de um algoritmo genético sequencial?
     \end{questionbox}
-    \vspace{0.22cm}
+    \vspace{0.28cm}
     \begin{columns}[T,onlytextwidth]
         \begin{column}{0.48\textwidth}
-            \textbf{Recorte mantido}
+            \textbf{O que varia}
             \begin{itemize}
-                \item OneMax, uma thread e $G=100$ gerações;
-                \item desempenho computacional, não qualidade da otimização;
-                \item fatores primários: $N$ e $L$.
+                \item $N$: número de indivíduos na população;
+                \item $L$: número de genes em cada cromossomo.
             \end{itemize}
         \end{column}
         \begin{column}{0.48\textwidth}
-            \textbf{Progresso demonstrável}
+            \textbf{O que permanece fixo}
             \begin{itemize}
-                \item nove tratamentos e campanhas concluídas;
-                \item dados validados, caderno e figuras renderizados;
-                \item resultados ainda descritivos e específicos da plataforma.
+                \item uma thread e $G=100$ gerações;
+                \item regras do algoritmo e ambiente registrado.
             \end{itemize}
         \end{column}
     \end{columns}
+    \vspace{0.25cm}
+    \begin{impactbox}{Escopo}
+        A resposta procurada é sobre tempo de execução e trabalho por gene.
+        Este estudo não compara a qualidade de otimização do AG.
+    \end{impactbox}
 \end{frame}
 
-\begin{frame}{Desenho experimental congelado}
-    \renewcommand{\arraystretch}{1.20}
-    \begin{tabularx}{\textwidth}{>{\bfseries}p{0.26\textwidth} X}
-        Fatores & $N \in \{128,512,2048\}$ e $L \in \{64,256,1024\}$: fatorial completo com 9 tratamentos. \\
-        \hline
-        Controle do AG & C++20, uma thread, OneMax, seleção por torneio 2, crossover de um ponto ($p_c=0{,}90$), mutação bit-flip ($p_m=0{,}01$) e $G=100$. \\
-        \hline
-        Lote $B$ & Um valor calibrado por tratamento, entre 1 e 92, sem mudar $G$ nem os fatores. \\
-        \hline
-        Réplicas & 10 baseline, 5 phases, 5 IPC e 5 cache por tratamento. \\
-    \end{tabularx}
-    \vspace{0.16cm}
-    \begin{questionbox}{Unidades comparáveis}
-        Cada execução mede $B$ AGs completos. A análise usa
-        $T_g=T/(BG)$ e $Q=BNLG/T$, preservando o trabalho total realizado.
+\begin{frame}{O algoritmo genético em uma geração}
+    \begin{center}
+    \begin{tikzpicture}[node distance=0.36cm and 0.33cm]
+        \node[flowbox] (population) {\textbf{População}\\$N$ cromossomos\\com $L$ genes};
+        \node[flowbox, right=of population] (fitness) {\textbf{Avaliação}\\OneMax conta\\os genes iguais a 1};
+        \node[flowbox, right=of fitness] (selection) {\textbf{Seleção}\\torneio escolhe\\os pais};
+        \node[flowbox, right=of selection] (crossover) {\textbf{Crossover}\\um ponto combina\\os pais};
+        \node[flowbox, below=of crossover] (mutation) {\textbf{Mutação}\\cada gene pode\\mudar de 0 para 1\\ou de 1 para 0};
+        \node[flowbox, left=of mutation] (replacement) {\textbf{Substituição}\\a nova população\\entra no lugar da anterior};
+        \draw[flowarrow] (population) -- (fitness);
+        \draw[flowarrow] (fitness) -- (selection);
+        \draw[flowarrow] (selection) -- (crossover);
+        \draw[flowarrow] (crossover) -- (mutation);
+        \draw[flowarrow] (mutation) -- (replacement);
+    \end{tikzpicture}
+    \end{center}
+    \vspace{0.08cm}
+    \begin{questionbox}{Exemplo simples}
+        Para o cromossomo \texttt{1 0 1 1 0}, o OneMax vale 3. Medimos o ciclo acima
+        repetido 100 vezes, sem encerrar antes do fim.
     \end{questionbox}
 \end{frame}
 
-\begin{frame}{Ambiente e controles da campanha}
+\begin{frame}{O que o experimento compara}
+    \renewcommand{\arraystretch}{1.32}
+    \begin{tabularx}{\textwidth}{>{\bfseries}p{0.23\textwidth} X}
+        População $N$ & $128$, $512$ e $2048$ indivíduos. \\
+        \hline
+        Cromossomo $L$ & $64$, $256$ e $1024$ genes por indivíduo. \\
+        \hline
+        Tratamentos & Grade fatorial $3 \times 3$: todas as nove combinações de $N$ e $L$. \\
+        \hline
+        Controles & C++20, uma thread, OneMax, torneio 2, crossover de um ponto, $p_c=0{,}90$, mutação bit-flip, $p_m=0{,}01$ e $G=100$. \\
+    \end{tabularx}
+    \vspace{0.28cm}
+    \begin{questionbox}{Por que uma grade fatorial?}
+        Ela mostra o efeito de aumentar a população, o cromossomo e os dois juntos,
+        sem trocar as regras do AG em cada caso.
+    \end{questionbox}
+\end{frame}
+
+\begin{frame}{Como uma campanha produz comparações justas}
+    \begin{columns}[T,onlytextwidth]
+        \begin{column}{0.48\textwidth}
+            \textbf{Antes e durante a coleta}
+            \begin{itemize}
+                \item afinidade no CPU lógico 0;
+                \item aquecimento fora da medição;
+                \item energia AC confirmada;
+                \item mesmo binário e mesmos controles.
+            \end{itemize}
+        \end{column}
+        \begin{column}{0.48\textwidth}
+            \textbf{Planejamento das execuções}
+            \begin{itemize}
+                \item ordem aleatória no CSV;
+                \item sementes registradas;
+                \item 10 réplicas de tempo por tratamento;
+                \item 5 réplicas para fases, IPC e cache.
+            \end{itemize}
+        \end{column}
+    \end{columns}
+    \vspace{0.25cm}
+    \begin{questionbox}{Lote $B$}
+        Algumas configurações são muito rápidas. Nelas, uma observação mede $B$ execuções
+        completas do mesmo AG para formar uma duração estável. $B$ foi calibrado por tratamento,
+        sem mudar $N$, $L$ ou $G$.
+    \end{questionbox}
+\end{frame}
+
+\begin{frame}{Métricas: o que medimos e por quê}
+    \small
+    \renewcommand{\arraystretch}{1.16}
+    \begin{tabularx}{\textwidth}{>{\bfseries}p{0.22\textwidth} p{0.27\textwidth} X}
+        Medida & Significado simples & Pergunta que responde \\
+        \hline
+        $T_g=T/(BG)$ & tempo por geração & Quanto custa uma geração do AG? \\
+        \hline
+        $Q=BNLG/T$ & genes processados por segundo & O custo por gene muda entre os tratamentos? \\
+        \hline
+        Fases & parcela do tempo em cada fase do AG & Em que parte do AG o tempo se concentra? \\
+        \hline
+        IPC e cache & instruções por ciclo e taxa de faltas de cache & Há pistas de mudança no comportamento do processador? \\
+    \end{tabularx}
+    \vspace{0.14cm}
+    \footnotesize\textcolor{alertred}{\textbf{Cuidado.}} Tempo, IPC e cache vieram de campanhas
+    separadas. Os contadores ajudam a levantar hipóteses, mas não demonstram uma causa sozinhos.
+\end{frame}
+
+\begin{frame}{Três modos de medição, uma função para cada um}
+    \begin{columns}[T,onlytextwidth]
+        \begin{column}{0.31\textwidth}
+            \begin{questionbox}{\texttt{baseline}}
+                Mede o laço completo de gerações. É a fonte principal de $T_g$ e $Q$.
+            \end{questionbox}
+        \end{column}
+        \begin{column}{0.31\textwidth}
+            \begin{questionbox}{\texttt{phases}}
+                Mede as cinco fases internas. Serve para explicar a composição do tempo.
+            \end{questionbox}
+        \end{column}
+        \begin{column}{0.31\textwidth}
+            \begin{questionbox}{\texttt{perf}}
+                Coleta dois grupos: IPC e cache. Não mistura eventos de execuções diferentes.
+            \end{questionbox}
+        \end{column}
+    \end{columns}
+    \vspace{0.32cm}
+    \begin{impactbox}{Regra de validade dos contadores}
+        IPC usa ciclos e instruções da mesma linha \texttt{ipc\_user}. Cache usa referências
+        e faltas da mesma linha \texttt{cache\_user}. Todos os grupos aceitos tiveram 100\% de tempo ativo.
+    \end{impactbox}
+\end{frame}
+
+\begin{frame}{Ambiente observado e limite da comparação}
     \begin{columns}[T,onlytextwidth]
         \begin{column}{0.49\textwidth}
-            \textbf{Plataforma observada}
+            \textbf{Plataforma usada}
             \begin{itemize}
                 \item Intel Core i7-1355U, Linux 7.0.0-42;
-                \item GCC 13.3.0, arquitetura x86\_64;
-                \item núcleo lógico 0, com afinidade confirmada;
-                \item L1d: 352 KiB (10 instâncias), L2: 6,5 MiB (4), L3: 12 MiB.
+                \item GCC 13.3.0 e arquitetura x86\_64;
+                \item CPU lógico 0, com afinidade confirmada;
+                \item L1d: 352 KiB, L2: 6,5 MiB, L3: 12 MiB.
             \end{itemize}
         \end{column}
         \begin{column}{0.48\textwidth}
-            \textbf{Controles registrados}
+            \textbf{Metadados preservados}
             \begin{itemize}
-                \item aquecimento não contabilizado;
-                \item energia AC confirmada antes das campanhas;
-                \item seeds, ordem aleatória e hashes no DOE;
-                \item governor, Turbo, memória e versões no inventário bruto.
+                \item versão do kernel e das ferramentas;
+                \item topologia e caches da CPU;
+                \item governor, Turbo, memória e alimentação;
+                \item hash do binário e controles do AG.
+            \end{itemize}
+        \end{column}
+    \end{columns}
+    \vspace{0.22cm}
+    \begin{impactbox}{Limite}
+        Os resultados descrevem esta plataforma. As capacidades de cache ajudam a dar contexto,
+        porém não identificam sozinhas uma causa microarquitetural.
+    \end{impactbox}
+\end{frame}
+
+\begin{frame}{Da configuração ao gráfico, sem edição manual}
+    \begin{center}
+    \begin{tikzpicture}[node distance=0.35cm]
+        \node[flowbox, text width=2.35cm] (config) {\textbf{Código e controles}\\AG e configuração};
+        \node[flowbox, text width=2.35cm, right=of config] (design) {\textbf{DOE em CSV}\\ordem, sementes, lotes e réplicas};
+        \node[flowbox, text width=2.35cm, right=of design] (raw) {\textbf{Dados brutos}\\comando, saída, status e ambiente};
+        \node[flowbox, text width=2.35cm, right=of raw] (report) {\textbf{Validação e análise}\\CSV tratado, HTML e SVGs};
+        \draw[flowarrow] (config) -- (design);
+        \draw[flowarrow] (design) -- (raw);
+        \draw[flowarrow] (raw) -- (report);
+    \end{tikzpicture}
+    \end{center}
+    \vspace{0.28cm}
+    \begin{questionbox}{Por que essa cadeia importa?}
+        Cada resultado pode voltar ao \texttt{run\_id}, à saída original, ao binário e ao
+        desenho que planejou a execução. O caderno Quarto gera as figuras a partir dos dados validados.
+    \end{questionbox}
+\end{frame}
+
+\begin{frame}{Dados validados e como ler os gráficos}
+    \begin{columns}[T,onlytextwidth]
+        \begin{column}{0.48\textwidth}
+            \textbf{Checagens antes da análise}
+            \begin{itemize}
+                \item esquema, status e tempo positivo;
+                \item núcleo e controles congelados;
+                \item contratos de fases e contadores.
+            \end{itemize}
+        \end{column}
+        \begin{column}{0.48\textwidth}
+            \textbf{Dados aceitos}
+            \begin{itemize}
+                \item 90 observações \texttt{baseline};
+                \item 45 observações \texttt{phases};
+                \item 45 para IPC e 45 para cache, sem remoções.
             \end{itemize}
         \end{column}
     \end{columns}
     \vspace{0.16cm}
-    \begin{impactbox}{Limite de interpretação}
-        Cache, frequência e alimentação foram registrados. Os resultados descrevem
-        esta máquina e não isolam causalidade microarquitetural.
-    \end{impactbox}
-\end{frame}
-
-\begin{frame}{Cadeia reprodutível e auditoria}
-    \renewcommand{\arraystretch}{1.28}
-    \begin{tabularx}{\textwidth}{>{\bfseries}p{0.22\textwidth} X}
-        Código e controles & \texttt{src/} e \texttt{config/experiment.yaml} definem o AG e os parâmetros fixos. \\
-        \hline
-        Projeto executável & \texttt{generate\_design.py} materializa \texttt{design.csv} com ordem, seeds, lotes e réplicas. \\
-        \hline
-        Evidência bruta & Cada \texttt{run\_id} preserva comando, saída literal, status, RSS, ambiente e hash. \\
-        \hline
-        Validação e análise & O validador confere chaves e controles; o Quarto gera tabelas, SVGs e o HTML. \\
-    \end{tabularx}
-    \vspace{0.10cm}
-    \begin{questionbox}{Resultado da validação}
-        90 observações \texttt{baseline}, 45 \texttt{phases}, 45 \texttt{ipc\_user} e 45
-        \texttt{cache\_user} foram validadas. Nenhuma observação foi removida ou editada.
+    \begin{questionbox}{Chave para os gráficos de pontos}
+        \textbf{Ponto} = mediana das réplicas de um tratamento. \textbf{Barra} = intervalo bootstrap
+        de 95\% para essa mediana: reamostramos as réplicas 5.000 vezes, recalculamos a mediana e
+        usamos os percentis de 2,5\% e 97,5\%. A barra não mostra o mínimo e o máximo das réplicas.
     \end{questionbox}
 \end{frame}
 
-\begin{frame}{Tempo por geração na grade}
-    \smallslideimage{../figures/tempo-geracao-heatmap}
-    \vspace{-0.18cm}
-    \begin{impactbox}{Leitura}
-        A mediana de $T_g$ aumenta de 56,3~$\mu$s ($N=128$, $L=64$) para
-        13,2 ms ($N=2048$, $L=1024$). O gráfico responde quanto custa uma geração,
-        não atribui esse crescimento a um componente isolado.
-    \end{impactbox}
+\begin{frame}{Quanto custa uma geração do AG?}
+    \chartimage{../figures/tempo-geracao-heatmap}
+    \chartcaption{Cada célula combina $N$ e $L$. A mediana de $T_g$ cresce de 56,3~$\mu$s para
+    13,2 ms entre os extremos da grade.}
 \end{frame}
 
-\begin{frame}{Vazão normalizada permanece próxima}
-    \smallslideimage{../figures/vazao-workset}
-    \vspace{-0.18cm}
-    \begin{questionbox}{Pergunta respondida}
-        Há mudança relevante no custo por gene? Nas réplicas \texttt{baseline}, a mediana
-        de $Q$ ficou entre 143,19 e 159,03 Mgenes/s. A variação observada é menor que
-        a diferença de tempo bruto entre os extremos da grade.
-    \end{questionbox}
+\begin{frame}{Vazão por gene: pontos com intervalo}
+    \chartimage{../figures/vazao-workset}
+    \chartcaption{\textbf{Eixos:} cada painel fixa $L$, o eixo $x$ mostra $N$ e o eixo $y$ mostra $Q$.
+    \textbf{Ponto:} mediana de $Q=BNLG/T$ em 10 réplicas \texttt{baseline}. \textbf{Barra:} IC bootstrap
+    de 95\%. \textbf{Uso:} comparar a velocidade por gene entre os tratamentos.}
 \end{frame}
 
-\begin{frame}{Fases internas e custo da instrumentação}
-    \begin{columns}[T,onlytextwidth]
-        \begin{column}{0.57\textwidth}
-            \includesvg[width=\linewidth,height=0.48\textheight,keepaspectratio]{../figures/composicao-fases}
-        \end{column}
-        \begin{column}{0.40\textwidth}
-            \textbf{O que foi medido}
-            \begin{itemize}
-                \item avaliação;
-                \item seleção;
-                \item crossover;
-                \item mutação;
-                \item substituição.
-            \end{itemize}
-            \vspace{0.08cm}
-            \begin{impactbox}{Resultado}
-                A mutação domina a composição média em todos os tratamentos.
-            \end{impactbox}
-        \end{column}
-    \end{columns}
-    \vspace{0.06cm}
-    \small O maior overhead mediano do modo \texttt{phases} foi 2,51\%. Os pares usam a mesma
-    configuração e seed, mas campanhas em instantes distintos continuam sendo diagnóstico.
+\begin{frame}{Em que parte do AG o tempo se concentra?}
+    \chartimage{../figures/composicao-fases}
+    \chartcaption{Cada barra soma 100\% do tempo médio das cinco réplicas \texttt{phases}. A mutação
+    ocupa a maior parcela em todos os tratamentos.}
 \end{frame}
 
-\begin{frame}{Contadores de hardware: evidência e cautela}
-    \begin{columns}[T,onlytextwidth]
-        \begin{column}{0.49\textwidth}
-            \includesvg[width=\linewidth,height=0.50\textheight,keepaspectratio]{../figures/ipc-workset}
-            \centering\small IPC mediano entre 1,84 e 1,90.
-        \end{column}
-        \begin{column}{0.49\textwidth}
-            \includesvg[width=\linewidth,height=0.50\textheight,keepaspectratio]{../figures/cache-miss-workset}
-            \centering\small Taxa de cache miss variável entre tratamentos.
-        \end{column}
-    \end{columns}
-    \vspace{0.02cm}
-    \begin{impactbox}{Regra de validade}
-        IPC combina ciclos e instruções da mesma linha \texttt{ipc\_user}; cache combina
-        referências e faltas da mesma linha \texttt{cache\_user}. Ambas as campanhas tiveram
-        100\% de tempo ativo, mas foram coletadas separadamente do tempo \texttt{baseline}.
-    \end{impactbox}
+\begin{frame}{Overhead da instrumentação: pontos horizontais}
+    \chartimage{../figures/overhead-fases}
+    \chartcaption{\textbf{Eixos:} cada linha é um tratamento, e o eixo horizontal mostra a diferença percentual.
+    \textbf{Ponto:} mediana de $100(T_{phases}-T_{baseline})/T_{baseline}$ em 5 pares da mesma configuração.
+    \textbf{Barra:} IC bootstrap de 95\%. A linha em 0\% indica nenhuma diferença. \textbf{Uso:} medir o efeito
+    dos temporizadores no tempo principal.}
 \end{frame}
 
-\begin{frame}{Variabilidade observada}
-    \smallslideimage{../figures/variabilidade-baseline}
-    \vspace{-0.18cm}
-    \begin{questionbox}{Pergunta respondida}
-        As réplicas são estáveis o bastante para interpretar medianas? Todos os coeficientes
-        de variação de $T_g$ ficaram abaixo de 3\%, e nenhuma réplica ultrapassou o limiar
-        descritivo de 10\% da mediana. Não houve exclusão automática de pontos.
-    \end{questionbox}
+\begin{frame}{Instruções por ciclo (IPC): pontos com intervalo}
+    \chartimage{../figures/ipc-workset}
+    \chartcaption{\textbf{Eixos:} cada painel fixa $L$, o eixo $x$ mostra $N$ e o eixo $y$ mostra IPC.
+    \textbf{Ponto:} mediana de $instructions/cycles$ em 5 réplicas \texttt{ipc\_user}. \textbf{Barra:}
+    IC bootstrap de 95\%. \textbf{Uso:} verificar se o ritmo de instruções por ciclo muda entre tratamentos.}
 \end{frame}
 
-\begin{frame}{Dificuldades que mudaram o protocolo}
-    \renewcommand{\arraystretch}{1.22}
+\begin{frame}{Taxa de faltas de cache: pontos com intervalo}
+    \chartimage{../figures/cache-miss-workset}
+    \chartcaption{\textbf{Eixos:} cada painel fixa $L$, o eixo $x$ mostra $N$ e o eixo $y$ mostra a taxa.
+    \textbf{Ponto:} mediana de $100\,cache\_misses/cache\_references$ em 5 réplicas \texttt{cache\_user}.
+    \textbf{Barra:} IC bootstrap de 95\%. \textbf{Uso:} procurar evidência compatível com pressão de memória.}
+\end{frame}
+
+\begin{frame}{Variação entre réplicas: pontos horizontais}
+    \chartimage{../figures/variabilidade-baseline}
+    \chartcaption{\textbf{Eixos:} cada linha é um tratamento e o eixo horizontal mostra o coeficiente de
+    variação. \textbf{Ponto:} $100\,desvio\text{-}padrão/média$ de $T_g$ nas 10 réplicas \texttt{baseline}.
+    Não há barra porque este gráfico resume dispersão observada. \textbf{Uso:} avaliar se as medianas são estáveis.}
+\end{frame}
+
+\begin{frame}{Dificuldades que levaram a decisões explícitas}
+    \renewcommand{\arraystretch}{1.27}
     \begin{tabularx}{\textwidth}{>{\bfseries}p{0.27\textwidth} X X}
-        Evidência & Decisão & Limite remanescente \\
+        Evidência & Decisão tomada & Limite atual \\
         \hline
-        Grade 4 por 4: extremo levou cerca de 22 s. & Reduzir para 3 por 3 antes da campanha e manter $G=100$. & Os resultados não cobrem o antigo extremo. \\
+        Na grade 4 por 4, o maior caso levou cerca de 22 s. & Reduzimos a grade para 3 por 3 antes da campanha e mantivemos $G=100$. & O estudo não cobre o extremo antigo. \\
         \hline
-        Conjunto inicial de \texttt{perf} teve 91\% de tempo ativo. & Separar IPC e cache; fixar o próprio \texttt{perf} no núcleo 0. & Não combinar grupos como se fossem uma única observação. \\
+        O primeiro conjunto de \texttt{perf} teve 91\% de tempo ativo. & Separamos IPC e cache e fixamos o \texttt{perf} no CPU 0. & Não combinamos grupos como uma única observação. \\
         \hline
-        Temporizadores internos alteram a execução. & Medir \texttt{phases} e comparar com pares \texttt{baseline}. & O overhead é diagnóstico entre campanhas. \\
+        Os temporizadores internos mudam a execução. & Medimos \texttt{phases} e comparamos pares com \texttt{baseline}. & O overhead permanece um diagnóstico entre campanhas. \\
     \end{tabularx}
 \end{frame}
 
-\begin{frame}{Decisão de validação e Etapa 3}
+\begin{frame}{Cobertura dos critérios da Etapa 2: método e infraestrutura}
+    \renewcommand{\arraystretch}{1.28}
+    \begin{tabularx}{\textwidth}{>{\bfseries}p{0.20\textwidth} X >{\bfseries}p{0.20\textwidth} X}
+        DESC & ambiente real, CPU e metadados & DOE & grade fatorial, CSV, sementes e lotes \\
+        \hline
+        REPRO & código, hashes, dados brutos e \texttt{make all} & BOAS & afinidade, aquecimento, réplicas e ordem aleatória \\
+        \hline
+        DSBOX & dados tidy, Quarto, Python e geração automática & & \\
+    \end{tabularx}
+    \vspace{0.30cm}
+    \begin{questionbox}{Evidência que pode ser conferida}
+        \texttt{docs/environment.md}, \texttt{config/experiment.yaml}, \texttt{config/design.csv},
+        dados em \texttt{data/raw/} e scripts no repositório registram esses critérios.
+    \end{questionbox}
+\end{frame}
+
+\begin{frame}{Cobertura dos critérios da Etapa 2: evidência e comunicação}
+    \renewcommand{\arraystretch}{1.35}
+    \begin{tabularx}{\textwidth}{>{\bfseries}p{0.20\textwidth} X >{\bfseries}p{0.20\textwidth} X}
+        RESULTS & tabelas, sete gráficos e interpretação & LITERAL & caderno com prosa, código, saída e figuras \\
+        \hline
+        DIFF & dificuldades, evidências, decisões e limites & PRES / OPIN & progresso verificável, validação e próximos passos \\
+    \end{tabularx}
+    \vspace{0.32cm}
+    \begin{impactbox}{Mensagem dos resultados}
+        O tempo por geração cresce com a grade. A vazão normalizada permanece em uma faixa próxima.
+        Fases e contadores ajudam a explicar o cenário, com limites registrados para a interpretação.
+    \end{impactbox}
+\end{frame}
+
+\begin{frame}{Decisão de validação e caminho para a Etapa 3}
     \begin{columns}[T,onlytextwidth]
         \begin{column}{0.48\textwidth}
-            \textbf{Já validado}
+            \textbf{Já validado nesta etapa}
             \begin{itemize}
                 \item AG e testes determinísticos;
-                \item DOE, afinidade, aquecimento e réplicas;
-                \item dados brutos, validação e análise literal;
-                \item figuras com unidades, incerteza e limites explícitos.
+                \item DOE, campanhas e dados brutos;
+                \item validação, caderno e figuras;
+                \item rastreabilidade até cada execução.
             \end{itemize}
         \end{column}
         \begin{column}{0.48\textwidth}
-            \textbf{Para ampliar na Etapa 3}
+            \textbf{Próximo passo}
             \begin{itemize}
                 \item aprofundar a interpretação estatística;
-                \item testar novas hipóteses sem alterar a campanha histórica;
-                \item discutir implicações e recomendações somente onde houver evidência.
+                \item testar hipóteses novas em novos blocos;
+                \item formular recomendações apenas com evidência suficiente.
             \end{itemize}
         \end{column}
     \end{columns}
-    \vspace{0.20cm}
-    \begin{questionbox}{Síntese}
-        O estudo já é reproduzível e tem resultados preliminares. A conclusão causal sobre
-        cache ou microarquitetura exige evidência adicional, não apenas correlação descritiva.
-    \end{questionbox}
-\end{frame}
-
-\begin{frame}{Transparência sobre uso de IA}
-    \begin{questionbox}{Uso documentado}
-        Codex auxiliou a implementar automações, organizar documentação e redigir este deck.
-        Não alterou medições brutas manualmente nem substitui a revisão humana.
-    \end{questionbox}
     \vspace{0.25cm}
-    \renewcommand{\arraystretch}{1.28}
-    \begin{tabularx}{\textwidth}{>{\bfseries}p{0.28\textwidth} X}
-        Dados fornecidos & Código, configuração, campanhas brutas, análise, plano e materiais da disciplina. \\
-        \hline
-        Fluxo de aceitação & Assistência do agente, verificações automatizadas, revisão humana e integração no repositório. \\
-        \hline
-        Evidência completa & \texttt{docs/uso-ia.md}, labbook, scripts, dados preservados e comandos de reprodução. \\
-    \end{tabularx}
+    \begin{impactbox}{Conclusão}
+        O experimento já oferece resultados reproduzíveis e descritivos para a plataforma observada.
+        Uma explicação causal sobre cache ou microarquitetura exige novas evidências.
+    \end{impactbox}
 \end{frame}
 
-\begin{frame}{Como auditar a entrega}
-    \begin{enumerate}
-        \item Obter um clone limpo com dados brutos e metadados preservados.
-        \item Executar \texttt{make all} para testes, checagens, validação e caderno HTML.
-        \item Abrir \texttt{results/etapa2.html} e comparar tabelas, SVGs e interpretações.
-        \item Executar \texttt{make slides} em ambiente com \texttt{pdflatex} e Inkscape.
-    \end{enumerate}
-    \vspace{0.16cm}
-    \begin{questionbox}{Critério do roteiro}
-        Outra pessoa deve conseguir seguir o README sem caminhos absolutos, dados tratados
-        pré-existentes ou intervenção manual na cadeia de dados.
+\begin{frame}{Como conferir a entrega e o uso de IA}
+    \begin{columns}[T,onlytextwidth]
+        \begin{column}{0.58\textwidth}
+            \textbf{Roteiro de auditoria}
+            \begin{enumerate}
+                \item Executar \texttt{make all} em um clone com os dados brutos.
+                \item Abrir \texttt{results/etapa2.html} e comparar tabelas, figuras e texto.
+                \item Executar \texttt{make slides} para regenerar este PDF.
+            \end{enumerate}
+        \end{column}
+        \begin{column}{0.38\textwidth}
+            \textbf{Uso de IA}
+            \begin{itemize}
+                \item automações, documentação e slides;
+                \item medições brutas preservadas;
+                \item revisão humana registrada.
+            \end{itemize}
+        \end{column}
+    \end{columns}
+    \vspace{0.22cm}
+    \begin{questionbox}{Documentação completa}
+        O README, o labbook, \texttt{docs/difficulties.md} e \texttt{docs/uso-ia.md} permitem revisar
+        o processo, as limitações e a participação da IA.
     \end{questionbox}
-    \vspace{0.08cm}
-    \begin{impactbox}{Limite conhecido}
-        O HTML é o artefato de análise atual. A compilação do PDF dos slides requer uma
-        distribuição TeX com o pacote \texttt{svg} e Inkscape.
-    \end{impactbox}
 \end{frame}
 
 \end{document}

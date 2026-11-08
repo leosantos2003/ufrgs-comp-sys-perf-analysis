@@ -260,6 +260,29 @@ Para cada uso relevante, informe: qual ferramenta foi usada, como ela foi usada,
 | Decisão | aceito |
 | Pendências ou limitações | A recompilação local do PDF requer `pdflatex` com os pacotes `svg`/`brazil` e Inkscape, os resultados permanecem específicos da plataforma, e a interpretação de cache é descritiva, pois as campanhas ocorreram separadamente |
 
+## Registro do agente — 2026-11-08: revisão de clareza da apresentação
+
+| Campo | Registro |
+|---|---|
+| Ferramenta | Codex, assistente de programação. |
+| Como foi usada | O grupo pediu uma revisão da apresentação para simplificar a linguagem, explicar o algoritmo e o projeto experimental, ampliar gráficos e cobrir explicitamente os critérios da Etapa 2. O agente leu o plano, a configuração, o README, o labbook, o deck atual, a análise e os documentos de ambiente e dificuldades. |
+| Dados fornecidos | Repositório completo, `slides/slides-etapa-2.tex`, PDF atual, figuras SVG geradas pelo caderno, `data/processed/analysis-report.md`, configuração e documentos do protocolo. |
+| O que ajudou a produzir | A reorganização de `slides/slides-etapa-2.tex`, o PDF recompilado, o registro deste estado no labbook e esta declaração. O agente criou diagramas explicativos, textos em linguagem mais direta, um slide por gráfico e slides de cobertura dos critérios. Após feedback do grupo, também definiu em cada gráfico de vazão, overhead, IPC, cache e variabilidade o tipo, os eixos, o cálculo do ponto, o significado da barra e o uso da métrica. Por solicitação do grupo, centralizou os dois nomes em linhas separadas na capa e reuniu a afiliação e o semestre abaixo deles. Nenhuma medição, figura-fonte ou cálculo foi alterado. |
+| Como a saída foi avaliada | Cada afirmação numérica e cada limite do deck foi comparado ao relatório de análise, ao ambiente e ao registro de dificuldades. A fonte compilou com `make slides`; o PDF de 23 páginas foi rasterizado e inspecionado para conferir legibilidade dos gráficos, texto e ausência de corte ou sobreposição. A segunda inspeção verificou especificamente as chaves de leitura dos slides 13, 15, 16, 17 e 18 e a hierarquia centralizada da capa. |
+| Verificação automática | `make slides`, `pdfinfo slides/slides-etapa-2.pdf`, rasterização das páginas com `pdftoppm` e `git diff --check`. |
+| Verificação humana | Pendente: Leonardo e Felipe devem revisar a narrativa em modo de apresentação, confirmar que 23 slides cabem no tempo disponível, conferir os resultados contra o HTML e aceitar ou corrigir este registro antes do commit. |
+
+## Revisão humana do registro de 2026-11-08 — revisão de clareza da apresentação
+
+| Campo | Registro |
+|---|---|
+| Pessoas que revisaram | Leonardo e Felipe |
+| O que foi revisado | PDF dos slides, narrativa, tamanho dos gráficos, cobertura dos critérios e coerência com o relatório HTML. |
+| Como foi conferido | ler os slides e verificar coerência |
+| Comandos e resultado | `make slides` |
+| Decisão | aceito |
+| Pendências ou limitações | A apresentação mantém resultados específicos da plataforma e interpretação descritiva dos contadores. |
+
 ## Modelo para o próximo par de registros
 
 Para cada novo uso, acrescente primeiro o registro do agente e, imediatamente abaixo, a revisão humana correspondente. Copie e preencha o bloco de revisão abaixo.
