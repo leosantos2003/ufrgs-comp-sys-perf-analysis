@@ -1,7 +1,5 @@
 \documentclass[aspectratio=169,11pt]{beamer}
 
-% Apresentação da Etapa 2. O layout deriva de slides/template.tex e mantém
-% a identidade visual usada na apresentação da Etapa 1.
 \usepackage[utf8]{inputenc}
 \usepackage[T1]{fontenc}
 \usepackage[brazil]{babel}
@@ -17,8 +15,6 @@
 \usepackage{booktabs}
 
 \usetikzlibrary{shadows,shadows.blur,positioning,arrows.meta}
-% As figuras do caderno já contêm seus rótulos. Evitar que o Inkscape os
-% reinterprete como LaTeX preserva textos como T_g e caracteres Unicode.
 \svgsetup{inkscapelatex=false}
 
 \definecolor{mainblue}{HTML}{3B35B9}
@@ -420,71 +416,38 @@
     \end{questionbox}
 \end{frame}
 
-\begin{frame}{Cobertura dos critérios da Etapa 2: evidência e comunicação}
-    \renewcommand{\arraystretch}{1.35}
-    \begin{tabularx}{\textwidth}{>{\bfseries}p{0.20\textwidth} X >{\bfseries}p{0.20\textwidth} X}
-        RESULTS & tabelas, sete gráficos e interpretação & LITERAL & caderno com prosa, código, saída e figuras \\
-        \hline
-        DIFF & dificuldades, evidências, decisões e limites & PRES / OPIN & progresso verificável, validação e próximos passos \\
-    \end{tabularx}
-    \vspace{0.32cm}
-    \begin{impactbox}{Mensagem dos resultados}
-        O tempo por geração cresce com a grade. A vazão normalizada permanece em uma faixa próxima.
-        Fases e contadores ajudam a explicar o cenário, com limites registrados para a interpretação.
-    \end{impactbox}
-\end{frame}
-
-\begin{frame}{Decisão de validação e caminho para a Etapa 3}
+\begin{frame}{Conclusão: andamento do experimento}
     \begin{columns}[T,onlytextwidth]
-        \begin{column}{0.48\textwidth}
-            \textbf{Já validado nesta etapa}
-            \begin{itemize}
-                \item AG e testes determinísticos;
-                \item DOE, campanhas e dados brutos;
-                \item validação, caderno e figuras;
-                \item rastreabilidade até cada execução.
-            \end{itemize}
+        \begin{column}{0.49\textwidth}
+            \begin{questionbox}{O que já foi realizado}
+                \begin{itemize}
+                    \item AG implementado e validado com testes determinísticos;
+                    \item planejamento fatorial $3 \times 3$ executado;
+                    \item campanhas de tempo, fases, IPC e cache coletadas;
+                    \item dados validados e rastreáveis até cada execução;
+                    \item caderno de análise e sete visualizações gerados.
+                \end{itemize}
+            \end{questionbox}
         \end{column}
-        \begin{column}{0.48\textwidth}
-            \textbf{Próximo passo}
-            \begin{itemize}
-                \item aprofundar a interpretação estatística;
-                \item testar hipóteses novas em novos blocos;
-                \item formular recomendações apenas com evidência suficiente.
-            \end{itemize}
-        \end{column}
-    \end{columns}
-    \vspace{0.25cm}
-    \begin{impactbox}{Conclusão}
-        O experimento já oferece resultados reproduzíveis e descritivos para a plataforma observada.
-        Uma explicação causal sobre cache ou microarquitetura exige novas evidências.
-    \end{impactbox}
-\end{frame}
-
-\begin{frame}{Como conferir a entrega e o uso de IA}
-    \begin{columns}[T,onlytextwidth]
-        \begin{column}{0.58\textwidth}
-            \textbf{Roteiro de auditoria}
-            \begin{enumerate}
-                \item Executar \texttt{make all} em um clone com os dados brutos.
-                \item Abrir \texttt{results/etapa2.html} e comparar tabelas, figuras e texto.
-                \item Executar \texttt{make slides} para regenerar este PDF.
-            \end{enumerate}
-        \end{column}
-        \begin{column}{0.38\textwidth}
-            \textbf{Uso de IA}
-            \begin{itemize}
-                \item automações, documentação e slides;
-                \item medições brutas preservadas;
-                \item revisão humana registrada.
-            \end{itemize}
+        \begin{column}{0.47\textwidth}
+            \begin{questionbox}{O que os dados indicam}
+                \begin{itemize}
+                    \item o tempo por geração aumenta com $N$ e $L$;
+                    \item a vazão normalizada por gene permanece em faixa próxima;
+                    \item mutação concentra a maior parcela do tempo;
+                    \item IPC e faltas de cache oferecem evidências descritivas,
+                    não uma explicação causal.
+                \end{itemize}
+            \end{questionbox}
         \end{column}
     \end{columns}
     \vspace{0.22cm}
-    \begin{questionbox}{Documentação completa}
-        O README, o labbook, \texttt{docs/difficulties.md} e \texttt{docs/uso-ia.md} permitem revisar
-        o processo, as limitações e a participação da IA.
-    \end{questionbox}
+    \begin{impactbox}{Estado atual e continuidade}
+        A Etapa 2 está consolidada em uma campanha reproduzível, com resultados,
+        limitações e decisões documentados. O próximo passo é aprofundar a análise
+        estatística, investigar as hipóteses levantadas e ampliar os experimentos
+        somente quando houver justificativa.
+    \end{impactbox}
 \end{frame}
 
 \end{document}
