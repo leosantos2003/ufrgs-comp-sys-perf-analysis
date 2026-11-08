@@ -1,0 +1,162 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg xmlns="http://www.w3.org/2000/svg" width="1060" height="590" viewBox="0 0 1060 590" role="img" aria-labelledby="title desc">
+<title id="title">Tempo por geração aumenta em toda a grade</title>
+<desc id="desc">Tempo por geração aumenta em toda a grade</desc>
+<rect width="100%" height="100%" fill="white"/>
+<text x="530.00" y="32.00" font-family="sans-serif" font-size="18" fill="#172033" text-anchor="middle">T_g aumenta em toda a grade: 56 µs a 13,2 ms</text>
+<text x="530.00" y="54.00" font-family="sans-serif" font-size="12" fill="#475569" text-anchor="middle">Mediana baseline por tratamento (n=10); cores usam escala log10 para acompanhar ordens de grandeza.</text>
+<text x="280.00" y="104.00" font-family="sans-serif" font-size="12" fill="#172033" text-anchor="middle">Comprimento L = 64</text>
+<text x="460.00" y="104.00" font-family="sans-serif" font-size="12" fill="#172033" text-anchor="middle">Comprimento L = 256</text>
+<text x="640.00" y="104.00" font-family="sans-serif" font-size="12" fill="#172033" text-anchor="middle">Comprimento L = 1024</text>
+<text x="176.00" y="182.50" font-family="sans-serif" font-size="12" fill="#172033" text-anchor="end">População N = 128</text>
+<rect x="190" y="122" width="180" height="110" fill="rgb(230,244,255)" stroke="white"/>
+<text x="280.00" y="177.00" font-family="sans-serif" font-size="14" fill="#172033" text-anchor="middle">56.3 µs</text>
+<rect x="370" y="122" width="180" height="110" fill="rgb(177,205,231)" stroke="white"/>
+<text x="460.00" y="177.00" font-family="sans-serif" font-size="14" fill="#172033" text-anchor="middle">209.6 µs</text>
+<rect x="550" y="122" width="180" height="110" fill="rgb(121,164,206)" stroke="white"/>
+<text x="640.00" y="177.00" font-family="sans-serif" font-size="14" fill="#172033" text-anchor="middle">825.3 µs</text>
+<text x="176.00" y="292.50" font-family="sans-serif" font-size="12" fill="#172033" text-anchor="end">População N = 512</text>
+<rect x="190" y="232" width="180" height="110" fill="rgb(173,202,230)" stroke="white"/>
+<text x="280.00" y="287.00" font-family="sans-serif" font-size="14" fill="#172033" text-anchor="middle">228.8 µs</text>
+<rect x="370" y="232" width="180" height="110" fill="rgb(120,163,206)" stroke="white"/>
+<text x="460.00" y="287.00" font-family="sans-serif" font-size="14" fill="#172033" text-anchor="middle">845.3 µs</text>
+<rect x="550" y="232" width="180" height="110" fill="rgb(64,122,181)" stroke="white"/>
+<text x="640.00" y="287.00" font-family="sans-serif" font-size="14" fill="white" text-anchor="middle">3.31 ms</text>
+<text x="176.00" y="402.50" font-family="sans-serif" font-size="12" fill="#172033" text-anchor="end">População N = 2048</text>
+<rect x="190" y="342" width="180" height="110" fill="rgb(117,161,204)" stroke="white"/>
+<text x="280.00" y="397.00" font-family="sans-serif" font-size="14" fill="#172033" text-anchor="middle">912.1 µs</text>
+<rect x="370" y="342" width="180" height="110" fill="rgb(63,122,181)" stroke="white"/>
+<text x="460.00" y="397.00" font-family="sans-serif" font-size="14" fill="white" text-anchor="middle">3.39 ms</text>
+<rect x="550" y="342" width="180" height="110" fill="rgb(8,81,156)" stroke="white"/>
+<text x="640.00" y="397.00" font-family="sans-serif" font-size="14" fill="white" text-anchor="middle">13.19 ms</text>
+<rect x="790" y="452.00" width="20" height="3.75" fill="rgb(230,244,255)"/>
+<rect x="790" y="449.23" width="20" height="3.75" fill="rgb(228,243,254)"/>
+<rect x="790" y="446.45" width="20" height="3.75" fill="rgb(226,241,253)"/>
+<rect x="790" y="443.68" width="20" height="3.75" fill="rgb(224,240,253)"/>
+<rect x="790" y="440.91" width="20" height="3.75" fill="rgb(223,239,252)"/>
+<rect x="790" y="438.13" width="20" height="3.75" fill="rgb(221,237,251)"/>
+<rect x="790" y="435.36" width="20" height="3.75" fill="rgb(219,236,250)"/>
+<rect x="790" y="432.59" width="20" height="3.75" fill="rgb(217,234,249)"/>
+<rect x="790" y="429.82" width="20" height="3.75" fill="rgb(215,233,248)"/>
+<rect x="790" y="427.04" width="20" height="3.75" fill="rgb(213,232,248)"/>
+<rect x="790" y="424.27" width="20" height="3.75" fill="rgb(211,230,247)"/>
+<rect x="790" y="421.50" width="20" height="3.75" fill="rgb(209,229,246)"/>
+<rect x="790" y="418.72" width="20" height="3.75" fill="rgb(208,228,245)"/>
+<rect x="790" y="415.95" width="20" height="3.75" fill="rgb(206,226,244)"/>
+<rect x="790" y="413.18" width="20" height="3.75" fill="rgb(204,225,243)"/>
+<rect x="790" y="410.40" width="20" height="3.75" fill="rgb(202,223,243)"/>
+<rect x="790" y="407.63" width="20" height="3.75" fill="rgb(200,222,242)"/>
+<rect x="790" y="404.86" width="20" height="3.75" fill="rgb(198,221,241)"/>
+<rect x="790" y="402.08" width="20" height="3.75" fill="rgb(196,219,240)"/>
+<rect x="790" y="399.31" width="20" height="3.75" fill="rgb(195,218,239)"/>
+<rect x="790" y="396.54" width="20" height="3.75" fill="rgb(193,217,238)"/>
+<rect x="790" y="393.76" width="20" height="3.75" fill="rgb(191,215,238)"/>
+<rect x="790" y="390.99" width="20" height="3.75" fill="rgb(189,214,237)"/>
+<rect x="790" y="388.22" width="20" height="3.75" fill="rgb(187,212,236)"/>
+<rect x="790" y="385.45" width="20" height="3.75" fill="rgb(185,211,235)"/>
+<rect x="790" y="382.67" width="20" height="3.75" fill="rgb(183,210,234)"/>
+<rect x="790" y="379.90" width="20" height="3.75" fill="rgb(181,208,233)"/>
+<rect x="790" y="377.13" width="20" height="3.75" fill="rgb(180,207,233)"/>
+<rect x="790" y="374.35" width="20" height="3.75" fill="rgb(178,206,232)"/>
+<rect x="790" y="371.58" width="20" height="3.75" fill="rgb(176,204,231)"/>
+<rect x="790" y="368.81" width="20" height="3.75" fill="rgb(174,203,230)"/>
+<rect x="790" y="366.03" width="20" height="3.75" fill="rgb(172,202,229)"/>
+<rect x="790" y="363.26" width="20" height="3.75" fill="rgb(170,200,228)"/>
+<rect x="790" y="360.49" width="20" height="3.75" fill="rgb(168,199,228)"/>
+<rect x="790" y="357.71" width="20" height="3.75" fill="rgb(167,197,227)"/>
+<rect x="790" y="354.94" width="20" height="3.75" fill="rgb(165,196,226)"/>
+<rect x="790" y="352.17" width="20" height="3.75" fill="rgb(163,195,225)"/>
+<rect x="790" y="349.39" width="20" height="3.75" fill="rgb(161,193,224)"/>
+<rect x="790" y="346.62" width="20" height="3.75" fill="rgb(159,192,223)"/>
+<rect x="790" y="343.85" width="20" height="3.75" fill="rgb(157,191,223)"/>
+<rect x="790" y="341.08" width="20" height="3.75" fill="rgb(155,189,222)"/>
+<rect x="790" y="338.30" width="20" height="3.75" fill="rgb(154,188,221)"/>
+<rect x="790" y="335.53" width="20" height="3.75" fill="rgb(152,186,220)"/>
+<rect x="790" y="332.76" width="20" height="3.75" fill="rgb(150,185,219)"/>
+<rect x="790" y="329.98" width="20" height="3.75" fill="rgb(148,184,218)"/>
+<rect x="790" y="327.21" width="20" height="3.75" fill="rgb(146,182,218)"/>
+<rect x="790" y="324.44" width="20" height="3.75" fill="rgb(144,181,217)"/>
+<rect x="790" y="321.66" width="20" height="3.75" fill="rgb(142,180,216)"/>
+<rect x="790" y="318.89" width="20" height="3.75" fill="rgb(140,178,215)"/>
+<rect x="790" y="316.12" width="20" height="3.75" fill="rgb(139,177,214)"/>
+<rect x="790" y="313.34" width="20" height="3.75" fill="rgb(137,176,213)"/>
+<rect x="790" y="310.57" width="20" height="3.75" fill="rgb(135,174,213)"/>
+<rect x="790" y="307.80" width="20" height="3.75" fill="rgb(133,173,212)"/>
+<rect x="790" y="305.03" width="20" height="3.75" fill="rgb(131,171,211)"/>
+<rect x="790" y="302.25" width="20" height="3.75" fill="rgb(129,170,210)"/>
+<rect x="790" y="299.48" width="20" height="3.75" fill="rgb(127,169,209)"/>
+<rect x="790" y="296.71" width="20" height="3.75" fill="rgb(126,167,208)"/>
+<rect x="790" y="293.93" width="20" height="3.75" fill="rgb(124,166,208)"/>
+<rect x="790" y="291.16" width="20" height="3.75" fill="rgb(122,165,207)"/>
+<rect x="790" y="288.39" width="20" height="3.75" fill="rgb(120,163,206)"/>
+<rect x="790" y="285.61" width="20" height="3.75" fill="rgb(118,162,205)"/>
+<rect x="790" y="282.84" width="20" height="3.75" fill="rgb(116,160,204)"/>
+<rect x="790" y="280.07" width="20" height="3.75" fill="rgb(114,159,203)"/>
+<rect x="790" y="277.29" width="20" height="3.75" fill="rgb(112,158,203)"/>
+<rect x="790" y="274.52" width="20" height="3.75" fill="rgb(111,156,202)"/>
+<rect x="790" y="271.75" width="20" height="3.75" fill="rgb(109,155,201)"/>
+<rect x="790" y="268.97" width="20" height="3.75" fill="rgb(107,154,200)"/>
+<rect x="790" y="266.20" width="20" height="3.75" fill="rgb(105,152,199)"/>
+<rect x="790" y="263.43" width="20" height="3.75" fill="rgb(103,151,198)"/>
+<rect x="790" y="260.66" width="20" height="3.75" fill="rgb(101,149,198)"/>
+<rect x="790" y="257.88" width="20" height="3.75" fill="rgb(99,148,197)"/>
+<rect x="790" y="255.11" width="20" height="3.75" fill="rgb(98,147,196)"/>
+<rect x="790" y="252.34" width="20" height="3.75" fill="rgb(96,145,195)"/>
+<rect x="790" y="249.56" width="20" height="3.75" fill="rgb(94,144,194)"/>
+<rect x="790" y="246.79" width="20" height="3.75" fill="rgb(92,143,193)"/>
+<rect x="790" y="244.02" width="20" height="3.75" fill="rgb(90,141,193)"/>
+<rect x="790" y="241.24" width="20" height="3.75" fill="rgb(88,140,192)"/>
+<rect x="790" y="238.47" width="20" height="3.75" fill="rgb(86,139,191)"/>
+<rect x="790" y="235.70" width="20" height="3.75" fill="rgb(84,137,190)"/>
+<rect x="790" y="232.92" width="20" height="3.75" fill="rgb(83,136,189)"/>
+<rect x="790" y="230.15" width="20" height="3.75" fill="rgb(81,134,188)"/>
+<rect x="790" y="227.38" width="20" height="3.75" fill="rgb(79,133,188)"/>
+<rect x="790" y="224.61" width="20" height="3.75" fill="rgb(77,132,187)"/>
+<rect x="790" y="221.83" width="20" height="3.75" fill="rgb(75,130,186)"/>
+<rect x="790" y="219.06" width="20" height="3.75" fill="rgb(73,129,185)"/>
+<rect x="790" y="216.29" width="20" height="3.75" fill="rgb(71,128,184)"/>
+<rect x="790" y="213.51" width="20" height="3.75" fill="rgb(70,126,183)"/>
+<rect x="790" y="210.74" width="20" height="3.75" fill="rgb(68,125,183)"/>
+<rect x="790" y="207.97" width="20" height="3.75" fill="rgb(66,123,182)"/>
+<rect x="790" y="205.19" width="20" height="3.75" fill="rgb(64,122,181)"/>
+<rect x="790" y="202.42" width="20" height="3.75" fill="rgb(62,121,180)"/>
+<rect x="790" y="199.65" width="20" height="3.75" fill="rgb(60,119,179)"/>
+<rect x="790" y="196.87" width="20" height="3.75" fill="rgb(58,118,178)"/>
+<rect x="790" y="194.10" width="20" height="3.75" fill="rgb(57,117,178)"/>
+<rect x="790" y="191.33" width="20" height="3.75" fill="rgb(55,115,177)"/>
+<rect x="790" y="188.55" width="20" height="3.75" fill="rgb(53,114,176)"/>
+<rect x="790" y="185.78" width="20" height="3.75" fill="rgb(51,113,175)"/>
+<rect x="790" y="183.01" width="20" height="3.75" fill="rgb(49,111,174)"/>
+<rect x="790" y="180.24" width="20" height="3.75" fill="rgb(47,110,173)"/>
+<rect x="790" y="177.46" width="20" height="3.75" fill="rgb(45,108,173)"/>
+<rect x="790" y="174.69" width="20" height="3.75" fill="rgb(43,107,172)"/>
+<rect x="790" y="171.92" width="20" height="3.75" fill="rgb(42,106,171)"/>
+<rect x="790" y="169.14" width="20" height="3.75" fill="rgb(40,104,170)"/>
+<rect x="790" y="166.37" width="20" height="3.75" fill="rgb(38,103,169)"/>
+<rect x="790" y="163.60" width="20" height="3.75" fill="rgb(36,102,168)"/>
+<rect x="790" y="160.82" width="20" height="3.75" fill="rgb(34,100,168)"/>
+<rect x="790" y="158.05" width="20" height="3.75" fill="rgb(32,99,167)"/>
+<rect x="790" y="155.28" width="20" height="3.75" fill="rgb(30,97,166)"/>
+<rect x="790" y="152.50" width="20" height="3.75" fill="rgb(29,96,165)"/>
+<rect x="790" y="149.73" width="20" height="3.75" fill="rgb(27,95,164)"/>
+<rect x="790" y="146.96" width="20" height="3.75" fill="rgb(25,93,163)"/>
+<rect x="790" y="144.18" width="20" height="3.75" fill="rgb(23,92,163)"/>
+<rect x="790" y="141.41" width="20" height="3.75" fill="rgb(21,91,162)"/>
+<rect x="790" y="138.64" width="20" height="3.75" fill="rgb(19,89,161)"/>
+<rect x="790" y="135.87" width="20" height="3.75" fill="rgb(17,88,160)"/>
+<rect x="790" y="133.09" width="20" height="3.75" fill="rgb(15,86,159)"/>
+<rect x="790" y="130.32" width="20" height="3.75" fill="rgb(14,85,158)"/>
+<rect x="790" y="127.55" width="20" height="3.75" fill="rgb(12,84,158)"/>
+<rect x="790" y="124.77" width="20" height="3.75" fill="rgb(10,82,157)"/>
+<rect x="790" y="122.00" width="20" height="3.75" fill="rgb(8,81,156)"/>
+<line x1="810.00" y1="452.00" x2="817.00" y2="452.00" stroke="#64748b" stroke-width="1.0"/>
+<text x="823.00" y="456.00" font-family="sans-serif" font-size="11" fill="#172033" text-anchor="start">56.3 µs</text>
+<line x1="810.00" y1="417.24" x2="817.00" y2="417.24" stroke="#64748b" stroke-width="1.0"/>
+<text x="823.00" y="421.24" font-family="sans-serif" font-size="11" fill="#172033" text-anchor="start">100.0 µs</text>
+<line x1="810.00" y1="277.98" x2="817.00" y2="277.98" stroke="#64748b" stroke-width="1.0"/>
+<text x="823.00" y="281.98" font-family="sans-serif" font-size="11" fill="#172033" text-anchor="start">1.00 ms</text>
+<line x1="810.00" y1="122.00" x2="817.00" y2="122.00" stroke="#64748b" stroke-width="1.0"/>
+<text x="823.00" y="126.00" font-family="sans-serif" font-size="11" fill="#172033" text-anchor="start">13.19 ms</text>
+<text x="800.00" y="106.00" font-family="sans-serif" font-size="12" fill="#172033" text-anchor="middle">T_g</text>
+<text x="530.00" y="555.00" font-family="sans-serif" font-size="11" fill="#475569" text-anchor="middle">T_g = wall_time / (B × G). Cada célula mostra a mediana em unidades legíveis; a cor não substitui o valor escrito.</text>
+</svg>

@@ -1,0 +1,89 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg xmlns="http://www.w3.org/2000/svg" width="1110" height="520" viewBox="0 0 1110 520" role="img" aria-labelledby="title desc">
+<title id="title">As medianas de IPC ficam entre 1,84 e 1,90</title>
+<desc id="desc">As medianas de IPC ficam entre 1,84 e 1,90</desc>
+<rect width="100%" height="100%" fill="white"/>
+<text x="555.00" y="32.00" font-family="sans-serif" font-size="18" fill="#172033" text-anchor="middle">As medianas de IPC ficam entre 1,84 e 1,90</text>
+<text x="555.00" y="54.00" font-family="sans-serif" font-size="12" fill="#475569" text-anchor="middle">Grupo ipc_user: 5 réplicas por tratamento; instructions e cycles foram medidos na mesma execução.</text>
+<line x1="95.00" y1="428.00" x2="100.00" y2="428.00" stroke="#64748b" stroke-width="1.0"/>
+<line x1="100.00" y1="428.00" x2="1075.00" y2="428.00" stroke="#e2e8f0" stroke-width="1.0"/>
+<text x="90.00" y="432.00" font-family="sans-serif" font-size="12" fill="#172033" text-anchor="end">1.78</text>
+<line x1="95.00" y1="344.50" x2="100.00" y2="344.50" stroke="#64748b" stroke-width="1.0"/>
+<line x1="100.00" y1="344.50" x2="1075.00" y2="344.50" stroke="#e2e8f0" stroke-width="1.0"/>
+<text x="90.00" y="348.50" font-family="sans-serif" font-size="12" fill="#172033" text-anchor="end">1.81</text>
+<line x1="95.00" y1="261.00" x2="100.00" y2="261.00" stroke="#64748b" stroke-width="1.0"/>
+<line x1="100.00" y1="261.00" x2="1075.00" y2="261.00" stroke="#e2e8f0" stroke-width="1.0"/>
+<text x="90.00" y="265.00" font-family="sans-serif" font-size="12" fill="#172033" text-anchor="end">1.85</text>
+<line x1="95.00" y1="177.50" x2="100.00" y2="177.50" stroke="#64748b" stroke-width="1.0"/>
+<line x1="100.00" y1="177.50" x2="1075.00" y2="177.50" stroke="#e2e8f0" stroke-width="1.0"/>
+<text x="90.00" y="181.50" font-family="sans-serif" font-size="12" fill="#172033" text-anchor="end">1.88</text>
+<line x1="95.00" y1="94.00" x2="100.00" y2="94.00" stroke="#64748b" stroke-width="1.0"/>
+<line x1="100.00" y1="94.00" x2="1075.00" y2="94.00" stroke="#e2e8f0" stroke-width="1.0"/>
+<text x="90.00" y="98.00" font-family="sans-serif" font-size="12" fill="#172033" text-anchor="end">1.91</text>
+<line x1="100.00" y1="94.00" x2="100.00" y2="428.00" stroke="#94a3b8" stroke-width="1.0"/>
+<line x1="100.00" y1="428.00" x2="402.33" y2="428.00" stroke="#64748b" stroke-width="1.0"/>
+<text x="251.17" y="74.00" font-family="sans-serif" font-size="13" fill="#172033" text-anchor="middle">Comprimento L = 64</text>
+<line x1="130.00" y1="428.00" x2="130.00" y2="433.00" stroke="#64748b" stroke-width="1.0"/>
+<text x="130.00" y="451.00" font-family="sans-serif" font-size="11" fill="#172033" text-anchor="middle">128</text>
+<line x1="130.00" y1="189.25" x2="130.00" y2="129.04" stroke="#0072B2" stroke-width="2"/>
+<line x1="126.00" y1="189.25" x2="134.00" y2="189.25" stroke="#0072B2" stroke-width="2"/>
+<line x1="126.00" y1="129.04" x2="134.00" y2="129.04" stroke="#0072B2" stroke-width="2"/>
+<circle cx="130.00" cy="156.93" r="4.5" fill="#0072B2"/>
+<line x1="251.17" y1="428.00" x2="251.17" y2="433.00" stroke="#64748b" stroke-width="1.0"/>
+<text x="251.17" y="451.00" font-family="sans-serif" font-size="11" fill="#172033" text-anchor="middle">512</text>
+<line x1="251.17" y1="182.27" x2="251.17" y2="139.85" stroke="#0072B2" stroke-width="2"/>
+<line x1="247.17" y1="182.27" x2="255.17" y2="182.27" stroke="#0072B2" stroke-width="2"/>
+<line x1="247.17" y1="139.85" x2="255.17" y2="139.85" stroke="#0072B2" stroke-width="2"/>
+<circle cx="251.17" cy="145.33" r="4.5" fill="#0072B2"/>
+<line x1="372.33" y1="428.00" x2="372.33" y2="433.00" stroke="#64748b" stroke-width="1.0"/>
+<text x="372.33" y="451.00" font-family="sans-serif" font-size="11" fill="#172033" text-anchor="middle">2048</text>
+<line x1="372.33" y1="322.69" x2="372.33" y2="143.20" stroke="#0072B2" stroke-width="2"/>
+<line x1="368.33" y1="322.69" x2="376.33" y2="322.69" stroke="#0072B2" stroke-width="2"/>
+<line x1="368.33" y1="143.20" x2="376.33" y2="143.20" stroke="#0072B2" stroke-width="2"/>
+<circle cx="372.33" cy="166.24" r="4.5" fill="#0072B2"/>
+<line x1="436.33" y1="94.00" x2="436.33" y2="428.00" stroke="#94a3b8" stroke-width="1.0"/>
+<line x1="436.33" y1="428.00" x2="738.67" y2="428.00" stroke="#64748b" stroke-width="1.0"/>
+<text x="587.50" y="74.00" font-family="sans-serif" font-size="13" fill="#172033" text-anchor="middle">Comprimento L = 256</text>
+<line x1="466.33" y1="428.00" x2="466.33" y2="433.00" stroke="#64748b" stroke-width="1.0"/>
+<text x="466.33" y="451.00" font-family="sans-serif" font-size="11" fill="#172033" text-anchor="middle">128</text>
+<line x1="466.33" y1="318.30" x2="466.33" y2="141.36" stroke="#0072B2" stroke-width="2"/>
+<line x1="462.33" y1="318.30" x2="470.33" y2="318.30" stroke="#0072B2" stroke-width="2"/>
+<line x1="462.33" y1="141.36" x2="470.33" y2="141.36" stroke="#0072B2" stroke-width="2"/>
+<circle cx="466.33" cy="146.80" r="4.5" fill="#0072B2"/>
+<line x1="587.50" y1="428.00" x2="587.50" y2="433.00" stroke="#64748b" stroke-width="1.0"/>
+<text x="587.50" y="451.00" font-family="sans-serif" font-size="11" fill="#172033" text-anchor="middle">512</text>
+<line x1="587.50" y1="395.68" x2="587.50" y2="155.07" stroke="#0072B2" stroke-width="2"/>
+<line x1="583.50" y1="395.68" x2="591.50" y2="395.68" stroke="#0072B2" stroke-width="2"/>
+<line x1="583.50" y1="155.07" x2="591.50" y2="155.07" stroke="#0072B2" stroke-width="2"/>
+<circle cx="587.50" cy="276.60" r="4.5" fill="#0072B2"/>
+<line x1="708.67" y1="428.00" x2="708.67" y2="433.00" stroke="#64748b" stroke-width="1.0"/>
+<text x="708.67" y="451.00" font-family="sans-serif" font-size="11" fill="#172033" text-anchor="middle">2048</text>
+<line x1="708.67" y1="336.51" x2="708.67" y2="141.01" stroke="#0072B2" stroke-width="2"/>
+<line x1="704.67" y1="336.51" x2="712.67" y2="336.51" stroke="#0072B2" stroke-width="2"/>
+<line x1="704.67" y1="141.01" x2="712.67" y2="141.01" stroke="#0072B2" stroke-width="2"/>
+<circle cx="708.67" cy="193.93" r="4.5" fill="#0072B2"/>
+<line x1="772.67" y1="94.00" x2="772.67" y2="428.00" stroke="#94a3b8" stroke-width="1.0"/>
+<line x1="772.67" y1="428.00" x2="1075.00" y2="428.00" stroke="#64748b" stroke-width="1.0"/>
+<text x="923.83" y="74.00" font-family="sans-serif" font-size="13" fill="#172033" text-anchor="middle">Comprimento L = 1024</text>
+<line x1="802.67" y1="428.00" x2="802.67" y2="433.00" stroke="#64748b" stroke-width="1.0"/>
+<text x="802.67" y="451.00" font-family="sans-serif" font-size="11" fill="#172033" text-anchor="middle">128</text>
+<line x1="802.67" y1="146.10" x2="802.67" y2="126.32" stroke="#0072B2" stroke-width="2"/>
+<line x1="798.67" y1="146.10" x2="806.67" y2="146.10" stroke="#0072B2" stroke-width="2"/>
+<line x1="798.67" y1="126.32" x2="806.67" y2="126.32" stroke="#0072B2" stroke-width="2"/>
+<circle cx="802.67" cy="136.69" r="4.5" fill="#0072B2"/>
+<line x1="923.83" y1="428.00" x2="923.83" y2="433.00" stroke="#64748b" stroke-width="1.0"/>
+<text x="923.83" y="451.00" font-family="sans-serif" font-size="11" fill="#172033" text-anchor="middle">512</text>
+<line x1="923.83" y1="191.78" x2="923.83" y2="130.13" stroke="#0072B2" stroke-width="2"/>
+<line x1="919.83" y1="191.78" x2="927.83" y2="191.78" stroke="#0072B2" stroke-width="2"/>
+<line x1="919.83" y1="130.13" x2="927.83" y2="130.13" stroke="#0072B2" stroke-width="2"/>
+<circle cx="923.83" cy="135.42" r="4.5" fill="#0072B2"/>
+<line x1="1045.00" y1="428.00" x2="1045.00" y2="433.00" stroke="#64748b" stroke-width="1.0"/>
+<text x="1045.00" y="451.00" font-family="sans-serif" font-size="11" fill="#172033" text-anchor="middle">2048</text>
+<line x1="1045.00" y1="156.83" x2="1045.00" y2="148.95" stroke="#0072B2" stroke-width="2"/>
+<line x1="1041.00" y1="156.83" x2="1049.00" y2="156.83" stroke="#0072B2" stroke-width="2"/>
+<line x1="1041.00" y1="148.95" x2="1049.00" y2="148.95" stroke="#0072B2" stroke-width="2"/>
+<circle cx="1045.00" cy="154.92" r="4.5" fill="#0072B2"/>
+<text x="555.00" y="482.00" font-family="sans-serif" font-size="12" fill="#172033" text-anchor="middle">População N (níveis experimentais medidos)</text>
+<text x="25.00" y="260.00" font-family="sans-serif" font-size="12" fill="#172033" text-anchor="middle" transform="rotate(-90 25.00 260.00)">IPC (instruções por ciclo)</text>
+<text x="555.00" y="506.00" font-family="sans-serif" font-size="11" fill="#475569" text-anchor="middle">Ponto = mediana; barra = IC bootstrap 95%. Painéis usam a mesma escala vertical; não há linha de interpolação.</text>
+</svg>

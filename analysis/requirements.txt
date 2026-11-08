@@ -1,0 +1,2 @@
+# A análise executável usa somente a biblioteca padrão do Python 3.12.
+# A renderização requer Quarto 1.x disponível no PATH.

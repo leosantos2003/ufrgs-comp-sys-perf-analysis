@@ -47,6 +47,10 @@ make check-phases   # valida a campanha phases e a referência baseline, sem med
 make phases         # executa phases e quantifica o overhead pareado
 make check-perf     # valida a campanha perf, sem medir
 make perf           # coleta perf somente com eventos sem multiplexação
+make check-data     # valida as campanhas brutas sem gerar dados derivados
+make validate-data  # gera data/processed/ a partir das campanhas validadas
+make analyse        # recria tabelas, SVGs e results/etapa2.html
+make all            # verificações reproduzíveis e análise renderizada
 ./build/ag_bench --help
 ```
 
@@ -134,6 +138,12 @@ make environment
 ```
 
 O alvo lê o CPU lógico `target_core` de `config/experiment.yaml`, executa um teste sob `taskset`, registra o `core_id` efetivo informado pelo binário e grava um instantâneo em `data/metadata/environment-<timestamp>/`. Ele também testa, separadamente, os grupos configurados em uma carga representativa do DOE com `perf stat`, sem mudar privilégios ou controles do sistema; indisponibilidade ou multiplexação fica registrada no instantâneo e em `docs/environment.md`, mas esse teste de verificação não é dado de desempenho.
+
+## Validação e análise
+
+`make validate-data` é a única entrada dos dados tratados. Ele lê as campanhas brutas selecionadas, confere o esquema, a chave de cada observação, o status, o CPU efetivo, os controles do AG e os contratos de fases e contadores. Para campanhas feitas antes de uma revisão do DOE, a validação resolve a versão exata de `experiment.yaml` e `design.csv` pelos hashes preservados em seus manifestos; assim, a ordem histórica não é confundida com a ordem atual. As saídas reconstruíveis são `data/processed/measurements.csv`, `data/processed/environment.csv` e um relatório de validação.
+
+`make analyse` executa essa validação e então usa [analysis/etapa2.qmd](analysis/etapa2.qmd) como fonte da análise. O caderno calcula `T_g = T/(B G)`, `Q = B N L G/T`, IPC e taxa de cache apenas dentro dos pares de eventos permitidos, gera os CSVs de sumário e os SVGs em `figures/`, e renderiza [results/etapa2.html](results/etapa2.html). A análise requer Python 3.12 e Quarto 1.x no `PATH`; em Linux, o executor também reconhece a instalação empacotada pelo RStudio. Suas dependências estão declaradas em [analysis/requirements.txt](analysis/requirements.txt). O HTML é o artefato auditável padrão; PDF depende de um motor configurado no ambiente do Quarto.
 
 ## Garantias de validação
 

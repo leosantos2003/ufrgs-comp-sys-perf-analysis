@@ -214,6 +214,29 @@ Para cada uso relevante, informe: qual ferramenta foi usada, como ela foi usada,
 | Decisão | aceito |
 | Pendências ou limitações | Calcular IPC somente nas linhas ipc_user e taxa de faltas somente nas linhas cache_user, interpretar o overhead de phases como diagnóstico |
 
+## Registro do agente — 2026-11-08: validação e análise renderizada
+
+| Campo | Registro |
+|---|---|
+| Ferramenta | Codex, assistente de programação. |
+| Como foi usada | O grupo solicitou a implementação do item 8. O agente leu o plano, a configuração, os manifestos das campanhas, o README e o protocolo documental; implementou o validador, o caderno-fonte, o executor de renderização e os alvos de Make, depois executou as verificações locais. Em pedido posterior, leu o material didático em `graphics-material/`, avaliou as figuras contra suas orientações e revisou somente o gerador reproduzível dos gráficos. |
+| Dados fornecidos | Arquivos de configuração/DOE, campanhas brutas `baseline`, `phases` e `perf`, inventários de ambiente, scripts existentes, plano, documentação do repositório e os PDFs locais de `graphics-material/`. |
+| O que ajudou a produzir | `scripts/validate_data.py`, `scripts/render_analysis.py`, `analysis/etapa2.qmd`, `analysis/requirements.txt`, alvos de Make, CSVs tratados, figuras SVG, `results/etapa2.html`, documentação e o registro de laboratório deste estado. A revisão visual aperfeiçoou títulos, escalas, paleta, rotulagem direta, composição e gráficos diagnósticos, sem alterar as medições ou seus cálculos. |
+| Como a saída foi avaliada | O validador compara cada campanha ao par YAML/DOE identificado pelos hashes de seu manifesto, preservando a ordem histórica. A análise calcula métricas somente de réplicas válidas e mantém IPC/cache dentro de seus grupos. O HTML foi conferido quanto às seções, tabelas, referências a todas as figuras e recursos do Quarto; os SVGs revisados também foram rasterizados localmente e inspecionados quanto a legibilidade, escala, rótulos e sobreposição. |
+| Verificação automática | `python3 -m py_compile scripts/validate_data.py scripts/render_analysis.py`, `make test`, `make check-data`, `make analyse`, `make all`, inspeção estrutural dos SVG/HTML, rasterização local por navegador e `git diff --check`. |
+| Verificação humana | Pendente: o grupo deve revisar o código, `data/processed/`, figuras, o HTML e as interpretações antes de aceitar este estado para commit. |
+
+## Revisão humana do registro de 2026-11-08 — validação e análise
+
+| Campo | Registro |
+|---|---|
+| Pessoas que revisaram | Leonardo e Felipe |
+| O que foi revisado | Relatório HTML, gráficos, dados tratados e código da análise |
+| Como foi conferido | Executar `make all` e abrir o HTML e comparar os gráficos com as tabelas |
+| Comandos e resultado | `make all` — passou, `git diff --check` — sem erros |
+| Decisão | aceito |
+| Pendências ou limitações | Cache e tempo foram coletados em campanhas distintas, interpretação permanece descritiva |
+
 ## Modelo para o próximo par de registros
 
 Para cada novo uso, acrescente primeiro o registro do agente e, imediatamente abaixo, a revisão humana correspondente. Copie e preencha o bloco de revisão abaixo.

@@ -1,0 +1,114 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg xmlns="http://www.w3.org/2000/svg" width="1080" height="650" viewBox="0 0 1080 650" role="img" aria-labelledby="title desc">
+<title id="title">Mutação domina a composição do tempo por fase</title>
+<desc id="desc">Mutação domina a composição do tempo por fase</desc>
+<rect width="100%" height="100%" fill="white"/>
+<text x="540.00" y="32.00" font-family="sans-serif" font-size="18" fill="#172033" text-anchor="middle">Mutação domina o tempo em todos os tratamentos</text>
+<text x="540.00" y="54.00" font-family="sans-serif" font-size="12" fill="#475569" text-anchor="middle">Média de 5 réplicas phases por tratamento; mutação representa aproximadamente 86–96% do tempo total.</text>
+<line x1="85.00" y1="96.00" x2="85.00" y2="465.00" stroke="#64748b" stroke-width="1.0"/>
+<line x1="85.00" y1="465.00" x2="1045.00" y2="465.00" stroke="#64748b" stroke-width="1.0"/>
+<line x1="80.00" y1="465.00" x2="85.00" y2="465.00" stroke="#64748b" stroke-width="1.0"/>
+<line x1="85.00" y1="465.00" x2="1045.00" y2="465.00" stroke="#e2e8f0" stroke-width="1.0"/>
+<text x="75.00" y="469.00" font-family="sans-serif" font-size="12" fill="#172033" text-anchor="end">0%</text>
+<line x1="80.00" y1="391.20" x2="85.00" y2="391.20" stroke="#64748b" stroke-width="1.0"/>
+<line x1="85.00" y1="391.20" x2="1045.00" y2="391.20" stroke="#e2e8f0" stroke-width="1.0"/>
+<text x="75.00" y="395.20" font-family="sans-serif" font-size="12" fill="#172033" text-anchor="end">20%</text>
+<line x1="80.00" y1="317.40" x2="85.00" y2="317.40" stroke="#64748b" stroke-width="1.0"/>
+<line x1="85.00" y1="317.40" x2="1045.00" y2="317.40" stroke="#e2e8f0" stroke-width="1.0"/>
+<text x="75.00" y="321.40" font-family="sans-serif" font-size="12" fill="#172033" text-anchor="end">40%</text>
+<line x1="80.00" y1="243.60" x2="85.00" y2="243.60" stroke="#64748b" stroke-width="1.0"/>
+<line x1="85.00" y1="243.60" x2="1045.00" y2="243.60" stroke="#e2e8f0" stroke-width="1.0"/>
+<text x="75.00" y="247.60" font-family="sans-serif" font-size="12" fill="#172033" text-anchor="end">60%</text>
+<line x1="80.00" y1="169.80" x2="85.00" y2="169.80" stroke="#64748b" stroke-width="1.0"/>
+<line x1="85.00" y1="169.80" x2="1045.00" y2="169.80" stroke="#e2e8f0" stroke-width="1.0"/>
+<text x="75.00" y="173.80" font-family="sans-serif" font-size="12" fill="#172033" text-anchor="end">80%</text>
+<line x1="80.00" y1="96.00" x2="85.00" y2="96.00" stroke="#64748b" stroke-width="1.0"/>
+<line x1="85.00" y1="96.00" x2="1045.00" y2="96.00" stroke="#e2e8f0" stroke-width="1.0"/>
+<text x="75.00" y="100.00" font-family="sans-serif" font-size="12" fill="#172033" text-anchor="end">100%</text>
+<rect x="105.27" y="447.56" width="66.13" height="17.44" fill="#0072B2"/>
+<rect x="105.27" y="428.31" width="66.13" height="19.25" fill="#E69F00"/>
+<rect x="105.27" y="412.04" width="66.13" height="16.27" fill="#CC79A7"/>
+<rect x="105.27" y="96.50" width="66.13" height="315.54" fill="#009E73"/>
+<rect x="105.27" y="96.42" width="66.13" height="0.08" fill="#56B4E9"/>
+<rect x="105.27" y="96.00" width="66.13" height="0.42" fill="#999999"/>
+<text x="138.33" y="490.00" font-family="sans-serif" font-size="10" fill="#172033" text-anchor="middle">N=128</text>
+<text x="138.33" y="505.00" font-family="sans-serif" font-size="10" fill="#172033" text-anchor="middle">L=64</text>
+<rect x="211.93" y="450.78" width="66.13" height="14.22" fill="#0072B2"/>
+<rect x="211.93" y="445.53" width="66.13" height="5.25" fill="#E69F00"/>
+<rect x="211.93" y="440.95" width="66.13" height="4.59" fill="#CC79A7"/>
+<rect x="211.93" y="96.15" width="66.13" height="344.79" fill="#009E73"/>
+<rect x="211.93" y="96.13" width="66.13" height="0.03" fill="#56B4E9"/>
+<rect x="211.93" y="96.00" width="66.13" height="0.13" fill="#999999"/>
+<text x="245.00" y="490.00" font-family="sans-serif" font-size="10" fill="#172033" text-anchor="middle">N=128</text>
+<text x="245.00" y="505.00" font-family="sans-serif" font-size="10" fill="#172033" text-anchor="middle">L=256</text>
+<rect x="318.60" y="451.84" width="66.13" height="13.16" fill="#0072B2"/>
+<rect x="318.60" y="450.50" width="66.13" height="1.33" fill="#E69F00"/>
+<rect x="318.60" y="448.70" width="66.13" height="1.81" fill="#CC79A7"/>
+<rect x="318.60" y="96.05" width="66.13" height="352.65" fill="#009E73"/>
+<rect x="318.60" y="96.04" width="66.13" height="0.01" fill="#56B4E9"/>
+<rect x="318.60" y="96.00" width="66.13" height="0.04" fill="#999999"/>
+<text x="351.67" y="490.00" font-family="sans-serif" font-size="10" fill="#172033" text-anchor="middle">N=128</text>
+<text x="351.67" y="505.00" font-family="sans-serif" font-size="10" fill="#172033" text-anchor="middle">L=1024</text>
+<rect x="425.27" y="447.31" width="66.13" height="17.69" fill="#0072B2"/>
+<rect x="425.27" y="428.16" width="66.13" height="19.15" fill="#E69F00"/>
+<rect x="425.27" y="411.78" width="66.13" height="16.37" fill="#CC79A7"/>
+<rect x="425.27" y="96.15" width="66.13" height="315.63" fill="#009E73"/>
+<rect x="425.27" y="96.13" width="66.13" height="0.02" fill="#56B4E9"/>
+<rect x="425.27" y="96.00" width="66.13" height="0.13" fill="#999999"/>
+<text x="458.33" y="490.00" font-family="sans-serif" font-size="10" fill="#172033" text-anchor="middle">N=512</text>
+<text x="458.33" y="505.00" font-family="sans-serif" font-size="10" fill="#172033" text-anchor="middle">L=64</text>
+<rect x="531.93" y="450.76" width="66.13" height="14.24" fill="#0072B2"/>
+<rect x="531.93" y="445.58" width="66.13" height="5.19" fill="#E69F00"/>
+<rect x="531.93" y="440.84" width="66.13" height="4.73" fill="#CC79A7"/>
+<rect x="531.93" y="96.05" width="66.13" height="344.80" fill="#009E73"/>
+<rect x="531.93" y="96.04" width="66.13" height="0.01" fill="#56B4E9"/>
+<rect x="531.93" y="96.00" width="66.13" height="0.04" fill="#999999"/>
+<text x="565.00" y="490.00" font-family="sans-serif" font-size="10" fill="#172033" text-anchor="middle">N=512</text>
+<text x="565.00" y="505.00" font-family="sans-serif" font-size="10" fill="#172033" text-anchor="middle">L=256</text>
+<rect x="638.60" y="451.95" width="66.13" height="13.05" fill="#0072B2"/>
+<rect x="638.60" y="450.64" width="66.13" height="1.31" fill="#E69F00"/>
+<rect x="638.60" y="448.69" width="66.13" height="1.95" fill="#CC79A7"/>
+<rect x="638.60" y="96.02" width="66.13" height="352.68" fill="#009E73"/>
+<rect x="638.60" y="96.01" width="66.13" height="0.00" fill="#56B4E9"/>
+<rect x="638.60" y="96.00" width="66.13" height="0.01" fill="#999999"/>
+<text x="671.67" y="490.00" font-family="sans-serif" font-size="10" fill="#172033" text-anchor="middle">N=512</text>
+<text x="671.67" y="505.00" font-family="sans-serif" font-size="10" fill="#172033" text-anchor="middle">L=1024</text>
+<rect x="745.27" y="447.28" width="66.13" height="17.72" fill="#0072B2"/>
+<rect x="745.27" y="428.05" width="66.13" height="19.23" fill="#E69F00"/>
+<rect x="745.27" y="411.53" width="66.13" height="16.52" fill="#CC79A7"/>
+<rect x="745.27" y="96.05" width="66.13" height="315.48" fill="#009E73"/>
+<rect x="745.27" y="96.04" width="66.13" height="0.01" fill="#56B4E9"/>
+<rect x="745.27" y="96.00" width="66.13" height="0.04" fill="#999999"/>
+<text x="778.33" y="490.00" font-family="sans-serif" font-size="10" fill="#172033" text-anchor="middle">N=2048</text>
+<text x="778.33" y="505.00" font-family="sans-serif" font-size="10" fill="#172033" text-anchor="middle">L=64</text>
+<rect x="851.93" y="450.89" width="66.13" height="14.11" fill="#0072B2"/>
+<rect x="851.93" y="445.77" width="66.13" height="5.13" fill="#E69F00"/>
+<rect x="851.93" y="440.97" width="66.13" height="4.79" fill="#CC79A7"/>
+<rect x="851.93" y="96.02" width="66.13" height="344.96" fill="#009E73"/>
+<rect x="851.93" y="96.01" width="66.13" height="0.00" fill="#56B4E9"/>
+<rect x="851.93" y="96.00" width="66.13" height="0.01" fill="#999999"/>
+<text x="885.00" y="490.00" font-family="sans-serif" font-size="10" fill="#172033" text-anchor="middle">N=2048</text>
+<text x="885.00" y="505.00" font-family="sans-serif" font-size="10" fill="#172033" text-anchor="middle">L=256</text>
+<rect x="958.60" y="451.80" width="66.13" height="13.20" fill="#0072B2"/>
+<rect x="958.60" y="450.50" width="66.13" height="1.30" fill="#E69F00"/>
+<rect x="958.60" y="446.40" width="66.13" height="4.10" fill="#CC79A7"/>
+<rect x="958.60" y="96.01" width="66.13" height="350.39" fill="#009E73"/>
+<rect x="958.60" y="96.01" width="66.13" height="0.00" fill="#56B4E9"/>
+<rect x="958.60" y="96.00" width="66.13" height="0.01" fill="#999999"/>
+<text x="991.67" y="490.00" font-family="sans-serif" font-size="10" fill="#172033" text-anchor="middle">N=2048</text>
+<text x="991.67" y="505.00" font-family="sans-serif" font-size="10" fill="#172033" text-anchor="middle">L=1024</text>
+<rect x="100" y="575" width="12" height="12" fill="#0072B2"/>
+<text x="117.00" y="585.00" font-family="sans-serif" font-size="11" fill="#172033" text-anchor="start">avaliação</text>
+<rect x="262" y="575" width="12" height="12" fill="#E69F00"/>
+<text x="279.00" y="585.00" font-family="sans-serif" font-size="11" fill="#172033" text-anchor="start">seleção</text>
+<rect x="424" y="575" width="12" height="12" fill="#CC79A7"/>
+<text x="441.00" y="585.00" font-family="sans-serif" font-size="11" fill="#172033" text-anchor="start">crossover</text>
+<rect x="586" y="575" width="12" height="12" fill="#009E73"/>
+<text x="603.00" y="585.00" font-family="sans-serif" font-size="11" fill="#172033" text-anchor="start">mutação</text>
+<rect x="748" y="575" width="12" height="12" fill="#56B4E9"/>
+<text x="765.00" y="585.00" font-family="sans-serif" font-size="11" fill="#172033" text-anchor="start">substituição</text>
+<rect x="910" y="575" width="12" height="12" fill="#999999"/>
+<text x="927.00" y="585.00" font-family="sans-serif" font-size="11" fill="#172033" text-anchor="start">fora das fases</text>
+<text x="25.00" y="325.00" font-family="sans-serif" font-size="12" fill="#172033" text-anchor="middle" transform="rotate(-90 25.00 325.00)">Parcela do tempo total (%)</text>
+<text x="540.00" y="622.00" font-family="sans-serif" font-size="11" fill="#475569" text-anchor="middle">Cada pilha é uma composição: as seis parcelas somam 100%. &#x27;Fora das fases&#x27; é a parcela sem temporizador interno.</text>
+</svg>

@@ -2,7 +2,9 @@
 
 PHASES_BASELINE ?= data/raw/baseline-2026-11-07T17_08_32-03_00
 
-.PHONY: help build test run environment design check-design pilot check-pilot calibrate-remaining check-calibrate-remaining baseline check-baseline phases check-phases perf check-perf clean
+QUARTO ?= quarto
+
+.PHONY: help all build test run environment design check-design pilot check-pilot calibrate-remaining check-calibrate-remaining baseline check-baseline phases check-phases perf check-perf validate-data check-data analyse clean
 
 help:
 	@printf '%s\n' 'Alvos disponíveis:'
@@ -22,6 +24,10 @@ help:
 	@printf '%s\n' '  make check-phases - valida a campanha phases sem medir'
 	@printf '%s\n' '  make perf - executa os grupos perf somente se cada um não for multiplexado'
 	@printf '%s\n' '  make check-perf - valida o plano da campanha perf sem medir'
+	@printf '%s\n' '  make validate-data - valida as campanhas brutas e gera os CSVs tratados'
+	@printf '%s\n' '  make check-data - valida as campanhas brutas sem gerar derivados'
+	@printf '%s\n' '  make analyse - recria tabelas, figuras e o caderno HTML renderizado'
+	@printf '%s\n' '  make all - executa verificações reproduzíveis e renderiza a análise'
 	@printf '%s\n' '  make clean  - remove somente build/'
 
 build:
@@ -71,6 +77,17 @@ perf: build
 
 check-perf: build
 	python3 ./scripts/run_experiments.py --mode perf --dry-run
+
+validate-data:
+	python3 ./scripts/validate_data.py
+
+check-data:
+	python3 ./scripts/validate_data.py --check
+
+analyse: validate-data
+	python3 ./scripts/render_analysis.py --quarto "$(QUARTO)"
+
+all: test check-design check-baseline check-phases check-perf analyse
 
 clean:
 	rm -rf build
