@@ -1,6 +1,6 @@
 # Ambiente experimental
 
-Este resumo foi gerado por `scripts/capture_environment.sh` a partir do instantâneo bruto em [`data/metadata/environment-2026-11-07T16_46_06-03_00`](../data/metadata/environment-2026-11-07T16_46_06-03_00). Ele descreve a plataforma observada em **2026-11-07T16:46:06-03:00**, e não substitui uma nova captura antes de uma campanha.
+Este resumo foi gerado por `scripts/capture_environment.sh` a partir do instantâneo bruto em [`data/metadata/environment-baseline-2026-11-07T17_08_32-03_00`](../data/metadata/environment-baseline-2026-11-07T17_08_32-03_00). Ele descreve a plataforma observada em **2026-11-07T17:08:32-03:00**, e não substitui uma nova captura antes de uma campanha.
 
 ## Plataforma e CPU selecionado
 

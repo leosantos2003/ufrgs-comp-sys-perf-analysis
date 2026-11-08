@@ -1,0 +1,17 @@
+started_at=2026-11-07T17:08:32-03:00
+config=/home/leonardo/UFRGS/UFRGS - Engenharia de Computação/Cadeiras Eletivas/INF01146 - Avaliação de Desempenho/etapa-2/config/experiment.yaml
+config_sha256=3e175a6a92b0d8f69f260c1ed0e83d43ca7d2624fab01dd839282891ee297f72
+design=/home/leonardo/UFRGS/UFRGS - Engenharia de Computação/Cadeiras Eletivas/INF01146 - Avaliação de Desempenho/etapa-2/config/design.csv
+design_sha256=81593a104456e999ec3d795bfd68ea8e738e217d4e5765c799f3be09417cf17f
+binary=/home/leonardo/UFRGS/UFRGS - Engenharia de Computação/Cadeiras Eletivas/INF01146 - Avaliação de Desempenho/etapa-2/build/ag_bench
+binary_sha256=1b91ea0c9d2ec1b436cc6210030ad6ef64f2f853bffa1af79feac5d2ae4eeb3e
+git_commit=14e300400c5271c7d11b97c35a70aec9065892d8
+compiler=g++ (Ubuntu 13.3.0-6ubuntu2~24.04.1) 13.3.0
+compiler_flags=-std=c++20 -O3 -DNDEBUG -Wall -Wextra -Wpedantic 
+target_core=0
+power_state=AC type=Mains online=1
+warmup_runs_per_mode=1
+planned_baseline_observations=90
+environment_metadata=/home/leonardo/UFRGS/UFRGS - Engenharia de Computação/Cadeiras Eletivas/INF01146 - Avaliação de Desempenho/etapa-2/data/metadata/environment-baseline-2026-11-07T17_08_32-03_00
+completed_at=2026-11-07T17:09:33-03:00
+status=completed

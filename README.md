@@ -41,6 +41,8 @@ make check-pilot # valida o piloto pequeno/médio/grande sem medir
 make pilot       # executa o piloto e grava as evidências em data/raw/
 make check-calibrate-remaining # valida a calibração das combinações restantes, sem medir
 make calibrate-remaining # calibra B nas combinações restantes e grava as evidências
+make check-baseline # valida a campanha baseline completa, sem medir
+make baseline       # executa as réplicas baseline do DOE e preserva dados brutos
 ./build/ag_bench --help
 ```
 
@@ -67,6 +69,22 @@ lote calculado. Ele também exige AC, afinidade com o CPU configurado e
 preserva cada comando e saída em um novo diretório de `data/raw/`. Após a
 revisão humana, o grupo transfere os lotes escolhidos para `frozen_batches` e
 executa `make design` para congelar o DOE.
+
+Com o DOE congelado, `make baseline` executa apenas as linhas cujo
+`measurement_mode` é `baseline`, em ordem crescente da coluna `order` do
+CSV (isto é, preservando a ordem aleatória relativa definida no projeto).
+O alvo faz um aquecimento não contabilizado, recusa iniciar sem energia AC e
+captura um novo inventário de ambiente. Em um novo diretório
+`data/raw/baseline-<timestamp>/`, preserva para cada `run_id` o comando, a
+saída CSV literal, stderr, uso máximo de memória e status, além de
+`observations.csv`, `summary.csv` e um manifesto com hashes de binário,
+configuração e DOE. Uma falha de processo, formato ou afinidade é registrada
+e interrompe a campanha; o script não repete automaticamente a linha.
+
+Na grade revisada atual, são nove tratamentos `N × L` e dez réplicas
+`baseline` por tratamento, portanto 90 observações planejadas. Isso é o
+desenho revisado e justificado pelo piloto; não se trata das 16 combinações
+iniciais que foram descartadas antes da campanha.
 
 Antes de uma campanha, capture o ambiente e verifique a afinidade configurada:
 

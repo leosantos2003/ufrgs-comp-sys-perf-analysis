@@ -168,6 +168,29 @@ Para cada uso relevante, informe: qual ferramenta foi usada, como ela foi usada,
 | Decisão | aceito |
 | Pendências ou limitações | `perf` continua inválido por multiplexação, a campanha principal ainda não foi executada. |
 
+## Registro do agente — 2026-11-07: campanha baseline completa
+
+| Campo | Registro |
+|---|---|
+| Ferramenta | Codex, assistente de programação. |
+| Como foi usada | O grupo pediu a implementação do item 6 do roteiro e, antes de commit, pediu uma revisão do labbook em linguagem mais acessível. O agente leu o plano, a configuração, o DOE e os registros anteriores; implementou o executor, executou a coleta somente após as pré-condições automatizadas, auditou os artefatos e revisou o registro pendente sem alterar os dados. |
+| Dados fornecidos | `plano-implementacao-etapa-2.md`, `config/experiment.yaml`, `config/design.csv`, código C++, scripts de calibração e ambiente, README e documentação de laboratório existente. |
+| O que ajudou a produzir | `scripts/run_experiments.py`, os alvos `make baseline` e `make check-baseline`, documentação de uso, inventário pré-campanha, 90 observações brutas `baseline` com seus artefatos por execução, o registro de dificuldades e o labbook deste estado, incluindo um resumo e explicações em linguagem mais acessível. |
+| Como a saída foi avaliada | O executor só aceita o DOE derivado literalmente da configuração congelada, exige AC e afinidade, valida cada resultado e não repete falhas. A campanha concluída foi conferida contra o DOE: 90 identificadores e ordens únicos, nove tratamentos com dez sucessos cada, `core_id=0`, tempos/RSS positivos e fases zeradas. |
+| Verificação automática | `python3 -m py_compile scripts/run_experiments.py scripts/generate_design.py scripts/calibrate_batch.py`, `make check-design`, `make check-baseline`, `make test`, `make baseline`, auditoria pós-coleta de `observations.csv`/arquivos de status e `git diff --check`. |
+| Verificação humana | Pendente: o grupo deve revisar o executor, o novo inventário, `data/raw/baseline-2026-11-07T17_08_32-03_00/`, as limitações de ambiente e este registro antes de aceitar o estado. |
+
+## Revisão humana do registro de 2026-11-07 — campanha baseline completa
+
+| Campo | Registro |
+|---|---|
+| Pessoas que revisaram | Leonardo e Felipe |
+| O que foi revisado | Executor `scripts/run_experiments.py`, alvos de Make, inventário pré-campanha, 90 observações `baseline` e documentação associada. |
+| Como foi conferido | Ler `run_experiments.py`, `summary.csv`, `observations.csv` |
+| Comandos e resultado | `make test`, `make check-design`, `make check-baseline` e `git diff --check` — passaram, e `summary.csv` confirmou 90 sucessos |
+| Decisão | aceito |
+| Pendências ou limitações | `phases` ainda não executado, perf continua com multiplexação |
+
 ## Modelo para o próximo par de registros
 
 Para cada novo uso, acrescente primeiro o registro do agente e, imediatamente abaixo, a revisão humana correspondente. Copie e preencha o bloco de revisão abaixo.

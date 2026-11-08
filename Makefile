@@ -1,6 +1,6 @@
 .DEFAULT_GOAL := help
 
-.PHONY: help build test run environment design check-design pilot check-pilot calibrate-remaining check-calibrate-remaining clean
+.PHONY: help build test run environment design check-design pilot check-pilot calibrate-remaining check-calibrate-remaining baseline check-baseline clean
 
 help:
 	@printf '%s\n' 'Alvos disponíveis:'
@@ -14,6 +14,8 @@ help:
 	@printf '%s\n' '  make check-pilot - valida a configuração do piloto sem medir'
 	@printf '%s\n' '  make calibrate-remaining - calibra B nas combinações da grade fora do piloto'
 	@printf '%s\n' '  make check-calibrate-remaining - valida essa calibração sem medir'
+	@printf '%s\n' '  make baseline - captura o ambiente e executa a campanha baseline completa'
+	@printf '%s\n' '  make check-baseline - valida a campanha baseline sem medir'
 	@printf '%s\n' '  make clean  - remove somente build/'
 
 build:
@@ -45,6 +47,12 @@ calibrate-remaining: build
 
 check-calibrate-remaining: build
 	python3 ./scripts/calibrate_batch.py --remaining-grid --dry-run
+
+baseline: build
+	python3 ./scripts/run_experiments.py
+
+check-baseline: build
+	python3 ./scripts/run_experiments.py --dry-run
 
 clean:
 	rm -rf build
