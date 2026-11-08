@@ -1,0 +1,1 @@
+cpu_core/cycles/,cpu_core/instructions/,cpu_core/cache-references/,cpu_core/cache-misses/,context-switches,cpu-migrations

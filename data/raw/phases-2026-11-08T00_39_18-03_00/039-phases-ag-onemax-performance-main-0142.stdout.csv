@@ -1,0 +1,2 @@
+population_size,chromosome_length,generations,batch,seed,crossover_probability,mutation_probability,measurement_mode,core_id,elapsed_ns,evaluation_ns,selection_ns,crossover_ns,mutation_ns,replacement_ns,best_fitness,checksum
+128,64,100,92,9532452800608079421,0.90000000000000002,0.01,phases,0,540069392,25074779,28197877,23892464,462158011,124153,64,7945543194753210867

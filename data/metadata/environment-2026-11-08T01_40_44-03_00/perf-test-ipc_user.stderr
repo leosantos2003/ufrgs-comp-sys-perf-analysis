@@ -1,0 +1,4 @@
+1829861,,cpu_core/cycles/u,1536659,75.00,,
+2782355,,cpu_core/instructions/u,1536659,75.00,,
+1,,context-switches,2037994,100.00,,
+1,,cpu-migrations,2037994,100.00,,

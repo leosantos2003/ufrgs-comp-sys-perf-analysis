@@ -1,0 +1,5 @@
+# comando: perf --version
+
+perf version 7.0.14
+
+# status=0

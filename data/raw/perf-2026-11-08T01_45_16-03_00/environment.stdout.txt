@@ -1,0 +1,3 @@
+Inventário salvo em /home/leonardo/UFRGS/UFRGS - Engenharia de Computação/Cadeiras Eletivas/INF01146 - Avaliação de Desempenho/etapa-2/data/metadata/environment-perf-2026-11-08T01_45_16-03_00
+Resumo atualizado em /home/leonardo/UFRGS/UFRGS - Engenharia de Computação/Cadeiras Eletivas/INF01146 - Avaliação de Desempenho/etapa-2/docs/environment.md
+taskset=passed; perf=passed_without_multiplexing

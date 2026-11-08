@@ -1,0 +1,13 @@
+cpu,core_id,package_id,thread_siblings_list,cpu_capacity,governor,scaling_cur_freq_khz,energy_performance_preference
+0,0,0,0-1,1024,powersave,463384,balance_performance
+1,0,0,0-1,1024,powersave,435986,balance_performance
+10,14,0,10,1024,powersave,517000,balance_performance
+11,15,0,11,1024,powersave,1744996,balance_performance
+2,4,0,2-3,1024,powersave,400920,balance_performance
+3,4,0,2-3,1024,powersave,1758973,balance_performance
+4,8,0,4,1024,powersave,1609853,balance_performance
+5,9,0,5,1024,powersave,1751425,balance_performance
+6,10,0,6,1024,powersave,1800086,balance_performance
+7,11,0,7,1024,powersave,1803448,balance_performance
+8,12,0,8,1024,powersave,1726510,balance_performance
+9,13,0,9,1024,powersave,1905155,balance_performance

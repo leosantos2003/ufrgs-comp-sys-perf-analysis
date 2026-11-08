@@ -1,0 +1,7 @@
+# comando: free -h
+
+               total        used        free      shared  buff/cache   available
+Mem:            15Gi       6.7Gi       3.3Gi       812Mi       6.4Gi       8.6Gi
+Swap:          4.0Gi          0B       4.0Gi
+
+# status=0

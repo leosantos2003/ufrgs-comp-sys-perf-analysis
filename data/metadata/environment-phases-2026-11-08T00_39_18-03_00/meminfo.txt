@@ -1,0 +1,64 @@
+# comando: cat /proc/meminfo
+
+MemTotal:       16049352 kB
+MemFree:         3467240 kB
+MemAvailable:    8973528 kB
+Buffers:         1124240 kB
+Cached:          4803528 kB
+SwapCached:            0 kB
+Active:          7231072 kB
+Inactive:        3148368 kB
+Active(anon):    5284108 kB
+Inactive(anon):        0 kB
+Active(file):    1946964 kB
+Inactive(file):  3148368 kB
+Unevictable:      685620 kB
+Mlocked:             104 kB
+SwapTotal:       4194300 kB
+SwapFree:        4194300 kB
+Zswap:                 0 kB
+Zswapped:              0 kB
+Dirty:              1024 kB
+Writeback:             0 kB
+AnonPages:       5137960 kB
+Mapped:          1189704 kB
+Shmem:            832472 kB
+KReclaimable:     753760 kB
+Slab:            1132672 kB
+SReclaimable:     753760 kB
+SUnreclaim:       378912 kB
+KernelStack:       27376 kB
+PageTables:        77252 kB
+SecPageTables:      4768 kB
+NFS_Unstable:          0 kB
+Bounce:                0 kB
+WritebackTmp:          0 kB
+CommitLimit:    12218976 kB
+Committed_AS:   23759432 kB
+VmallocTotal:   34359738367 kB
+VmallocUsed:       75608 kB
+VmallocChunk:          0 kB
+Percpu:            15648 kB
+HardwareCorrupted:     0 kB
+AnonHugePages:         0 kB
+ShmemHugePages:   649216 kB
+ShmemPmdMapped:        0 kB
+FileHugePages:    139264 kB
+FilePmdMapped:         0 kB
+CmaTotal:              0 kB
+CmaFree:         1275748 kB
+Unaccepted:            0 kB
+Balloon:               0 kB
+GPUActive:             0 kB
+GPUReclaim:            0 kB
+HugePages_Total:       0
+HugePages_Free:        0
+HugePages_Rsvd:        0
+HugePages_Surp:        0
+Hugepagesize:       2048 kB
+Hugetlb:               0 kB
+DirectMap4k:      339032 kB
+DirectMap2M:     4581376 kB
+DirectMap1G:    12582912 kB
+
+# status=0

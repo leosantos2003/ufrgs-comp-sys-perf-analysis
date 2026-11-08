@@ -24,3 +24,4 @@ Os dois primeiros registros abaixo foram reconstruídos a partir dos commits exi
 - [2026-11-05 — piloto de três pontos](labbook/2026-11-05-piloto-tres-pontos.md)
 - [2026-11-07 — calibração completa de lotes e DOE definitivo](labbook/2026-11-07-calibracao-completa-lotes.md)
 - [2026-11-07 — campanha baseline completa](labbook/2026-11-07-campanha-baseline.md)
+- [2026-11-08 — campanhas phases e perf](labbook/2026-11-08-phases-e-perf.md)

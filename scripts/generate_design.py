@@ -60,9 +60,17 @@ class Experiment:
     block: str
     batch: int
     treatment_batches: dict[tuple[int, int], int] | None
-    perf_group: str
+    perf_groups: dict[str, tuple[str, ...]]
+    perf_privilege_scope: str
     measurement_modes: tuple[str, ...]
     target_core: int
+
+
+PERF_HARDWARE_EVENTS = frozenset(
+    {"cycles", "instructions", "cache-references", "cache-misses"}
+)
+PERF_SYSTEM_EVENTS = frozenset({"context-switches", "cpu-migrations"})
+PERF_EVENTS_REQUESTED = PERF_HARDWARE_EVENTS | PERF_SYSTEM_EVENTS
 
 
 def uncomment(line: str) -> str:
@@ -164,6 +172,31 @@ def string_list(lines: list[str], path: str) -> tuple[str, ...]:
     return tuple(values)
 
 
+def named_string_lists(lines: list[str], path: str) -> dict[str, tuple[str, ...]]:
+    """Lê um mapeamento YAML cujos valores são listas simples de strings."""
+    index, end, value = node(lines, path)
+    if value:
+        raise DesignError(f"{path} deve ser um mapeamento de listas")
+    indentation = len(uncomment(lines[index])) - len(uncomment(lines[index]).lstrip(" "))
+    names: list[str] = []
+    for child in lines[index + 1 : end]:
+        text = uncomment(child)
+        if not text.strip():
+            continue
+        child_indent = len(text) - len(text.lstrip(" "))
+        if child_indent <= indentation:
+            continue
+        if child_indent != indentation + 2:
+            continue
+        match = re.fullmatch(r"\s*([A-Za-z0-9_-]+):\s*", text)
+        if match is None:
+            raise DesignError(f"item inválido em {path}: {child.rstrip()!r}")
+        names.append(match.group(1))
+    if not names or len(set(names)) != len(names):
+        raise DesignError(f"{path} deve conter grupos únicos")
+    return {name: string_list(lines, f"{path}.{name}") for name in names}
+
+
 def treatment_batch_map(
     lines: list[str], path: str, population_levels: tuple[int, ...], chromosome_levels: tuple[int, ...]
 ) -> dict[tuple[int, int], int] | None:
@@ -248,7 +281,8 @@ def read_experiment(path: Path) -> Experiment:
             population_levels,
             chromosome_levels,
         ),
-        perf_group=scalar(lines, "design.initial_design.perf_group"),
+        perf_groups=named_string_lists(lines, "design.initial_design.perf_groups"),
+        perf_privilege_scope=scalar(lines, "measurement.perf_privilege_scope"),
         measurement_modes=string_list(lines, "design.planned_measurement_modes"),
         target_core=non_negative_integer(lines, "environment_controls.target_core"),
     )
@@ -271,8 +305,27 @@ def read_experiment(path: Path) -> Experiment:
         raise DesignError("study.id deve conter apenas letras, números, '_' e '-'")
     if not re.fullmatch(r"[A-Za-z0-9][A-Za-z0-9_-]*", experiment.block):
         raise DesignError("design.initial_design.block deve conter apenas letras, números, '_' e '-'")
-    if not re.fullmatch(r"[A-Za-z0-9][A-Za-z0-9_-]*", experiment.perf_group):
-        raise DesignError("design.initial_design.perf_group deve conter apenas letras, números, '_' e '-'")
+    expected_perf_groups = {"ipc_user", "cache_user"}
+    if set(experiment.perf_groups) != expected_perf_groups:
+        raise DesignError(
+            "design.initial_design.perf_groups deve conter exatamente ipc_user e cache_user"
+        )
+    expected_group_events = {
+        "ipc_user": ("cycles", "instructions", "context-switches", "cpu-migrations"),
+        "cache_user": (
+            "cache-references",
+            "cache-misses",
+            "context-switches",
+            "cpu-migrations",
+        ),
+    }
+    if experiment.perf_groups != expected_group_events:
+        raise DesignError(
+            "os grupos perf devem preservar os pares cycles/instructions e "
+            "cache-references/cache-misses, com os eventos de qualidade"
+        )
+    if experiment.perf_privilege_scope != "user":
+        raise DesignError("measurement.perf_privilege_scope deve ser exatamente 'user'")
     return experiment
 
 
@@ -317,6 +370,28 @@ def batch_for_treatment(population_size: int, chromosome_length: int, experiment
     return experiment.treatment_batches[(population_size, chromosome_length)]
 
 
+def perf_events(experiment: Experiment, group: str) -> tuple[str, ...]:
+    """Resolve eventos do grupo para a sintaxe literal da PMU selecionada."""
+    try:
+        requested = experiment.perf_groups[group]
+    except KeyError as error:
+        raise DesignError(f"grupo perf desconhecido: {group}") from error
+    suffix = "/u" if experiment.perf_privilege_scope == "user" else "/"
+    return tuple(
+        f"cpu_core/{event}{suffix}" if event in PERF_HARDWARE_EVENTS else event
+        for event in requested
+    )
+
+
+def perf_event_selector(experiment: Experiment, group: str) -> str:
+    """Cria o seletor perf mantendo os eventos de hardware no mesmo grupo."""
+    events = perf_events(experiment, group)
+    hardware = [event for event in events if event.startswith("cpu_core/")]
+    software = [event for event in events if not event.startswith("cpu_core/")]
+    hardware_selector = "{" + ",".join(hardware) + "}"
+    return ",".join([hardware_selector, *software])
+
+
 def make_rows(experiment: Experiment) -> list[dict[str, str]]:
     max_replications = max(
         experiment.baseline_replications,
@@ -328,28 +403,28 @@ def make_rows(experiment: Experiment) -> list[dict[str, str]]:
     for mode in experiment.measurement_modes:
         for population_size in experiment.population_levels:
             for chromosome_length in experiment.chromosome_levels:
-                for replication in range(1, replication_count(mode, experiment) + 1):
-                    rows.append(
-                        {
-                            "run_id": "",
-                            "block": experiment.block,
-                            "order": "",
-                            "measurement_mode": mode,
-                            "perf_group": (
-                                experiment.perf_group if mode == "perf" else "not_applicable"
-                            ),
-                            "N": str(population_size),
-                            "L": str(chromosome_length),
-                            "G": str(experiment.generations),
-                            "batch": str(
-                                batch_for_treatment(population_size, chromosome_length, experiment)
-                            ),
-                            "replication": str(replication),
-                            "seed": str(seeds[replication - 1]),
-                            "core_id": str(experiment.target_core),
-                            "design_random_seed": str(experiment.design_random_seed),
-                        }
-                    )
+                groups = experiment.perf_groups if mode == "perf" else {"not_applicable": ()}
+                for group in groups:
+                    for replication in range(1, replication_count(mode, experiment) + 1):
+                        rows.append(
+                            {
+                                "run_id": "",
+                                "block": experiment.block,
+                                "order": "",
+                                "measurement_mode": mode,
+                                "perf_group": group,
+                                "N": str(population_size),
+                                "L": str(chromosome_length),
+                                "G": str(experiment.generations),
+                                "batch": str(
+                                    batch_for_treatment(population_size, chromosome_length, experiment)
+                                ),
+                                "replication": str(replication),
+                                "seed": str(seeds[replication - 1]),
+                                "core_id": str(experiment.target_core),
+                                "design_random_seed": str(experiment.design_random_seed),
+                            }
+                        )
     shuffle(rows, experiment.design_random_seed)
     width = max(4, len(str(len(rows))))
     for order, row in enumerate(rows, start=1):
@@ -360,7 +435,11 @@ def make_rows(experiment: Experiment) -> list[dict[str, str]]:
 
 def expected_row_count(experiment: Experiment) -> int:
     treatment_count = len(experiment.population_levels) * len(experiment.chromosome_levels)
-    return treatment_count * sum(replication_count(mode, experiment) for mode in experiment.measurement_modes)
+    return treatment_count * sum(
+        replication_count(mode, experiment)
+        * (len(experiment.perf_groups) if mode == "perf" else 1)
+        for mode in experiment.measurement_modes
+    )
 
 
 def validate_rows(rows: Iterable[dict[str, str]], experiment: Experiment) -> None:
@@ -417,6 +496,11 @@ def parse_arguments() -> argparse.Namespace:
     parser.add_argument(
         "--check", action="store_true", help="valida o CSV existente sem gravar um novo"
     )
+    parser.add_argument(
+        "--print-perf-groups",
+        action="store_true",
+        help="imprime grupo e seletor perf derivados da configuração",
+    )
     return parser.parse_args()
 
 
@@ -424,6 +508,10 @@ def main() -> int:
     arguments = parse_arguments()
     try:
         experiment = read_experiment(arguments.config)
+        if arguments.print_perf_groups:
+            for group in experiment.perf_groups:
+                print(f"{group}\t{perf_event_selector(experiment, group)}")
+            return 0
         if arguments.check:
             rows = read_csv(arguments.output)
             validate_rows(rows, experiment)

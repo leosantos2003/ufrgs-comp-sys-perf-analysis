@@ -1,0 +1,4 @@
+perf_result=passed_with_multiplexing
+perf_multiplexing=yes_or_unknown
+perf_groups=ipc_user=passed_without_multiplexing;cache_user=passed_with_multiplexing
+perf_probe=N2048,L1024,G100,B1,seed=9532452800608079421

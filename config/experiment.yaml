@@ -78,7 +78,20 @@ design:
   initial_design:
     block: main
     batch: 1
-    perf_group: requested_all
+    # Cada grupo é uma observação perf independente. As métricas que formam
+    # uma razão ficam juntas: cycles/instructions para IPC e
+    # cache-references/cache-misses para a taxa de faltas.
+    perf_groups:
+      ipc_user:
+        - cycles
+        - instructions
+        - context-switches
+        - cpu-migrations
+      cache_user:
+        - cache-references
+        - cache-misses
+        - context-switches
+        - cpu-migrations
   measurement_batch:
     enabled: true
     selection: calibration_before_main_campaign
@@ -120,6 +133,10 @@ measurement:
   timed_region: complete_generational_loop
   timer: std::chrono::steady_clock
   warmup_runs_per_mode: 1
+  # Os contadores de hardware abrangem somente o código do processo em espaço
+  # de usuário. Isso corresponde à região cronometrada do AG e evita incluir
+  # trabalho do kernel fora do algoritmo.
+  perf_privilege_scope: user
   primary_metrics:
     - wall_time_ns
     - time_per_generation

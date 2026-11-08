@@ -1,0 +1,3 @@
+perf_result=passed_with_multiplexing
+perf_multiplexing=yes_or_unknown
+perf_groups=ipc_user=passed_with_multiplexing;cache_user=passed_with_multiplexing

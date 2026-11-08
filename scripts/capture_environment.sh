@@ -5,6 +5,7 @@ set -euo pipefail
 
 project_root="$(cd "$(dirname "${BASH_SOURCE[0]}")/.." && pwd)"
 config_file="${project_root}/config/experiment.yaml"
+design_file="${project_root}/config/design.csv"
 binary="${project_root}/build/ag_bench"
 metadata_root="${project_root}/data/metadata"
 summary_file="${project_root}/docs/environment.md"
@@ -79,11 +80,36 @@ while (($# > 0)); do
 done
 
 [[ -f "${config_file}" ]] || die "configuração ausente: ${config_file}"
+[[ -r "${design_file}" ]] || die "DOE ausente: ${design_file}; execute make design"
 [[ -n "${target_core}" ]] || target_core="$(read_configured_core)"
 [[ "${target_core}" =~ ^[0-9]+$ ]] || die "CPU alvo deve ser um inteiro não negativo"
 [[ -d "/sys/devices/system/cpu/cpu${target_core}" ]] || \
     die "CPU lógico ${target_core} não existe ou não está exposto pelo sistema"
 [[ -x "${binary}" ]] || die "binário ausente ou não executável: ${binary}; execute make build"
+
+# Um teste de alguns microssegundos pode refletir principalmente a inicialização
+# do perf. Selecionamos a maior carga já congelada no DOE, sem transformá-la em
+# observação de desempenho, para que a pré-condição represente a campanha.
+perf_probe="$(awk -F, '
+    NR > 1 && $4 == "perf" {
+        workload = $6 * $7 * $9
+        if (!found || workload > largest) {
+            largest = workload
+            population = $6
+            chromosome_length = $7
+            generations = $8
+            batch = $9
+            seed = $11
+            found = 1
+        }
+    }
+    END {
+        if (found) print population "," chromosome_length "," generations "," batch "," seed
+    }
+' "${design_file}")"
+[[ "${perf_probe}" =~ ^[0-9]+,[0-9]+,[0-9]+,[0-9]+,[0-9]+$ ]] || \
+    die "não foi possível selecionar uma carga perf no DOE"
+IFS=, read -r perf_probe_population perf_probe_length perf_probe_generations perf_probe_batch perf_probe_seed <<< "${perf_probe}"
 
 if [[ -z "${output_dir}" ]]; then
     timestamp="$(date --iso-8601=seconds | tr ':+' '__' | sed 's/[+-][0-9][0-9]*$//')"
@@ -224,42 +250,71 @@ printf 'taskset_result=%s\nobserved_core=%s\n' "${taskset_result}" "${observed_c
 # O CPU alvo foi selecionado como P-core. Em processadores Intel híbridos,
 # os aliases genéricos fazem o perf abrir simultaneamente cpu_core e cpu_atom;
 # a instância atom aparece como <not counted> quando o processo está preso ao
-# P-core. Estes nomes literais mantêm apenas a PMU pertinente à campanha.
-perf_events='cpu_core/cycles/,cpu_core/instructions/,cpu_core/cache-references/,cpu_core/cache-misses/,context-switches,cpu-migrations'
-printf '%s\n' "${perf_events}" > "${output_dir}/perf-test.events"
-printf 'perf stat --no-big-num -x, -e %q -- taskset -c %q %q --population 8 --length 8 --generations 2 --seed 0 --crossover 0.90 --mutation 0.01 --mode baseline\n' \
-    "${perf_events}" "${target_core}" "${binary}" > "${output_dir}/perf-test.command"
-set +e
-perf stat --no-big-num -x, -e "${perf_events}" -- \
-    taskset -c "${target_core}" "${binary}" --population 8 --length 8 --generations 2 \
-    --seed 0 --crossover 0.90 --mutation 0.01 --mode baseline \
-    > "${output_dir}/perf-test.stdout" 2> "${output_dir}/perf-test.stderr"
-perf_status=$?
-set -e
-printf 'perf_exit_status=%s\n' "${perf_status}" > "${output_dir}/perf-test.status"
-if [[ "${perf_status}" -eq 0 ]]; then
-    if grep -qE '<not counted>|<not supported>' "${output_dir}/perf-test.stderr"; then
-        perf_result="incomplete_event_set"
-        perf_multiplexing="unknown"
-    elif awk -F, '
-        NF >= 5 { observed = 1; if ($5 !~ /^100(\.0+)?$/) invalid = 1 }
-        END { exit (observed && !invalid) ? 0 : 1 }
-    ' "${output_dir}/perf-test.stderr"; then
-        perf_result="passed_without_multiplexing"
-        perf_multiplexing="no"
+# P-core. Os seletores abaixo são derivados da configuração: separam os pares
+# de métricas que devem ficar na mesma execução e contam hardware somente em
+# espaço de usuário (/u), que corresponde ao código cronometrado do AG.
+mapfile -t perf_group_selectors < <(
+    "${project_root}/scripts/generate_design.py" --config "${config_file}" --print-perf-groups
+)
+((${#perf_group_selectors[@]} > 0)) || die "não há grupos perf configurados"
+perf_result="passed_without_multiplexing"
+perf_status=0
+perf_multiplexing="no"
+perf_group_results=()
+for group_selector in "${perf_group_selectors[@]}"; do
+    IFS=$'\t' read -r perf_group perf_events <<< "${group_selector}"
+    [[ -n "${perf_group}" && -n "${perf_events}" ]] || die "grupo perf inválido na configuração"
+    perf_prefix="${output_dir}/perf-test-${perf_group}"
+    printf '%s\n' "${perf_events}" > "${perf_prefix}.events"
+    printf 'taskset -c %q perf stat --no-big-num -x, -e %q -- %q --population %q --length %q --generations %q --batch %q --seed %q --crossover 0.90 --mutation 0.01 --mode baseline\n' \
+        "${target_core}" "${perf_events}" "${binary}" "${perf_probe_population}" \
+        "${perf_probe_length}" "${perf_probe_generations}" "${perf_probe_batch}" \
+        "${perf_probe_seed}" > "${perf_prefix}.command"
+    set +e
+    taskset -c "${target_core}" perf stat --no-big-num -x, -e "${perf_events}" -- \
+        "${binary}" --population "${perf_probe_population}" \
+        --length "${perf_probe_length}" --generations "${perf_probe_generations}" \
+        --batch "${perf_probe_batch}" --seed "${perf_probe_seed}" \
+        --crossover 0.90 --mutation 0.01 --mode baseline \
+        > "${perf_prefix}.stdout" 2> "${perf_prefix}.stderr"
+    group_status=$?
+    set -e
+    printf 'perf_group=%s\nperf_exit_status=%s\n' "${perf_group}" "${group_status}" > "${perf_prefix}.status"
+    if [[ "${group_status}" -eq 0 ]]; then
+        if grep -qE '<not counted>|<not supported>' "${perf_prefix}.stderr"; then
+            group_result="incomplete_event_set"
+            group_multiplexing="unknown"
+        elif awk -F, '
+            NF >= 5 { observed = 1; if ($5 !~ /^100(\.0+)?$/) invalid = 1 }
+            END { exit (observed && !invalid) ? 0 : 1 }
+        ' "${perf_prefix}.stderr"; then
+            group_result="passed_without_multiplexing"
+            group_multiplexing="no"
+        else
+            group_result="passed_with_multiplexing"
+            group_multiplexing="yes_or_unknown"
+        fi
+    elif grep -q 'perf_event_paranoid setting is' "${perf_prefix}.stderr"; then
+        group_result="blocked_by_permissions"
+        group_multiplexing="unknown"
     else
-        perf_result="passed_with_multiplexing"
-        perf_multiplexing="yes_or_unknown"
+        group_result="unavailable_or_failed"
+        group_multiplexing="unknown"
     fi
-elif grep -q 'perf_event_paranoid setting is' "${output_dir}/perf-test.stderr"; then
-    perf_result="blocked_by_permissions"
-    perf_multiplexing="unknown"
-else
-    perf_result="unavailable_or_failed"
-    perf_multiplexing="unknown"
-fi
-printf 'perf_result=%s\nperf_multiplexing=%s\n' "${perf_result}" "${perf_multiplexing}" \
-    >> "${output_dir}/perf-test.status"
+    printf 'perf_result=%s\nperf_multiplexing=%s\n' "${group_result}" "${group_multiplexing}" \
+        >> "${perf_prefix}.status"
+    perf_group_results+=("${perf_group}=${group_result}")
+    if [[ "${group_result}" != "passed_without_multiplexing" && "${perf_result}" == "passed_without_multiplexing" ]]; then
+        perf_result="${group_result}"
+        perf_status="${group_status}"
+        perf_multiplexing="${group_multiplexing}"
+    fi
+done
+perf_group_results_text="$(IFS='; '; printf '%s' "${perf_group_results[*]}")"
+printf 'perf_result=%s\nperf_multiplexing=%s\nperf_groups=%s\n' \
+    "${perf_result}" "${perf_multiplexing}" "${perf_group_results_text}" > "${output_dir}/perf-tests.status"
+printf 'perf_probe=N%s,L%s,G%s,B%s,seed=%s\n' "${perf_probe_population}" "${perf_probe_length}" \
+    "${perf_probe_generations}" "${perf_probe_batch}" "${perf_probe_seed}" >> "${output_dir}/perf-tests.status"
 
 cpu_model="$(awk -F: '/^Model name:/ { sub(/^[[:space:]]*/, "", $2); print $2; exit }' "${output_dir}/lscpu.txt")"
 kernel="$(awk 'NR == 3 { print $3; exit }' "${output_dir}/uname.txt")"
@@ -269,13 +324,13 @@ perf_paranoid="$(awk -F= '/^perf_event_paranoid=/ { print $2; exit }' "${output_
 smt_cpus="$(awk -F, 'NR > 1 && $4 ~ /-/ { printf "%s%s", separator, $1; separator = "," }' "${output_dir}/cpu-topology-and-frequency.csv")"
 power_state="$(tr '\n' ';' < "${output_dir}/power-state.txt" | sed 's/;$//')"
 if [[ "${perf_result}" == "passed_without_multiplexing" ]]; then
-    perf_detail="os eventos literais do P-core foram aceitos e todos reportaram 100.00%, sem multiplexação"
-    perf_limitation="Os contadores estão disponíveis para a futura campanha no P-core, mas este teste curto não é uma observação de desempenho e não deve ser analisado como tal."
+    perf_detail="os grupos configurados (${perf_group_results_text}) foram aceitos e todos reportaram 100.00%, sem multiplexação"
+    perf_limitation="Os contadores estão disponíveis para a futura campanha no P-core, mas este teste de verificação não é uma observação de desempenho e não deve ser analisado como tal."
 elif [[ "${perf_result}" == "incomplete_event_set" ]]; then
-    perf_detail="o comando terminou, mas ao menos uma instância de evento ficou indisponível; consultar perf-test.stderr"
+    perf_detail="um grupo terminou, mas ao menos uma instância de evento ficou indisponível; consultar perf-test-<grupo>.stderr"
     perf_limitation="A cadeia de eventos precisa ser corrigida antes de produzir contadores de campanha."
 elif [[ "${perf_result}" == "passed_with_multiplexing" ]]; then
-    perf_detail="os eventos foram aceitos, mas a razão de execução indica multiplexação ou formato inesperado; consultar perf-test.stderr"
+    perf_detail="um grupo foi aceito, mas a razão de execução indica multiplexação ou formato inesperado; consultar perf-test-<grupo>.stderr"
     perf_limitation="A cadeia de eventos precisa ser reduzida ou agrupada antes de produzir contadores de campanha."
 elif [[ "${perf_result}" == "blocked_by_permissions" ]]; then
     perf_detail="a coleta foi bloqueada por permissão; o kernel reportou perf_event_paranoid=${perf_paranoid}"
@@ -302,7 +357,7 @@ Este resumo foi gerado por \`scripts/capture_environment.sh\` a partir do instan
 
 - Teste de afinidade: **${taskset_result}**. \`taskset -c ${target_core}\` executou o binário de teste e ele reportou \`core_id=${observed_core:-UNAVAILABLE}\`; os arquivos \`taskset-test.*\` preservam comando, saída e status.
 - Ferramentas inventariadas: \`taskset\`, \`perf\`, \`g++\` e \`/usr/bin/time\`; suas versões, ajuda/lista de eventos e status estão no instantâneo.
-- Teste de \`perf stat\` com \`${perf_events}\`: **${perf_result}** (status ${perf_status}); ${perf_detail}. A saída literal está em \`perf-test.stderr\` e não é dado de desempenho.
+- Testes de \`perf stat\` por grupo: **${perf_result}** (status ${perf_status}); ${perf_detail}. A carga de verificação foi \`N=${perf_probe_population}, L=${perf_probe_length}, G=${perf_probe_generations}, B=${perf_probe_batch}\`; ela vem do DOE, mas não é dado de desempenho. As saídas literais estão em \`perf-test-<grupo>.stderr\`.
 - Controle observado no CPU ${target_core}: governor \`${governor}\`, preferência energética \`${epp}\`; \`intel_pstate/no_turbo\`, \`nmi_watchdog\` e o estado da alimentação estão em \`kernel-controls.txt\` e \`power-state.txt\`.
 - Alimentação no momento do instantâneo: \`${power_state}\`.
 - \`perf_event_paranoid=${perf_paranoid}\` foi apenas registrado; o script não altera privilégios nem parâmetros do kernel.

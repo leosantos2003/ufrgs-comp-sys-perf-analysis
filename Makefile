@@ -1,6 +1,8 @@
 .DEFAULT_GOAL := help
 
-.PHONY: help build test run environment design check-design pilot check-pilot calibrate-remaining check-calibrate-remaining baseline check-baseline clean
+PHASES_BASELINE ?= data/raw/baseline-2026-11-07T17_08_32-03_00
+
+.PHONY: help build test run environment design check-design pilot check-pilot calibrate-remaining check-calibrate-remaining baseline check-baseline phases check-phases perf check-perf clean
 
 help:
 	@printf '%s\n' 'Alvos disponíveis:'
@@ -16,6 +18,10 @@ help:
 	@printf '%s\n' '  make check-calibrate-remaining - valida essa calibração sem medir'
 	@printf '%s\n' '  make baseline - captura o ambiente e executa a campanha baseline completa'
 	@printf '%s\n' '  make check-baseline - valida a campanha baseline sem medir'
+	@printf '%s\n' '  make phases - executa a campanha phases e calcula seu overhead pareado'
+	@printf '%s\n' '  make check-phases - valida a campanha phases sem medir'
+	@printf '%s\n' '  make perf - executa os grupos perf somente se cada um não for multiplexado'
+	@printf '%s\n' '  make check-perf - valida o plano da campanha perf sem medir'
 	@printf '%s\n' '  make clean  - remove somente build/'
 
 build:
@@ -53,6 +59,18 @@ baseline: build
 
 check-baseline: build
 	python3 ./scripts/run_experiments.py --dry-run
+
+phases: build
+	python3 ./scripts/run_experiments.py --mode phases --baseline-reference "$(PHASES_BASELINE)"
+
+check-phases: build
+	python3 ./scripts/run_experiments.py --mode phases --baseline-reference "$(PHASES_BASELINE)" --dry-run
+
+perf: build
+	python3 ./scripts/run_experiments.py --mode perf
+
+check-perf: build
+	python3 ./scripts/run_experiments.py --mode perf --dry-run
 
 clean:
 	rm -rf build

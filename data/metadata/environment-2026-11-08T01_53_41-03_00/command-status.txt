@@ -1,0 +1,17 @@
+uname.txt=0
+os-release.txt=0
+lscpu.txt=0
+lscpu.json=0
+lscpu-extended.txt=0
+meminfo.txt=0
+free.txt=0
+load.txt=0
+gcc-version.txt=0
+perf-version.txt=0
+perf-list.txt=0
+time-version.txt=0
+git-status.txt=0
+git-diff.txt=0
+binary-sha256.txt=0
+build-info.txt=0
+binary-help.txt=0

@@ -1,0 +1,4 @@
+14883780,,cpu_core/cache-references/u,1346006133,99.00,,
+3694598,,cpu_core/cache-misses/u,1346006133,99.00,,
+24,,context-switches,1346964988,100.00,,
+1,,cpu-migrations,1346964988,100.00,,

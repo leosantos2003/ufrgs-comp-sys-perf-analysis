@@ -1,0 +1,8 @@
+# comando: git -C /home/leonardo/UFRGS/UFRGS\ -\ Engenharia\ de\ Computação/Cadeiras\ Eletivas/INF01146\ -\ Avaliação\ de\ Desempenho/etapa-2 status --short
+
+ M Makefile
+ M scripts/run_experiments.py
+?? data/metadata/environment-phases-2026-11-08T00_39_18-03_00/
+?? data/raw/phases-2026-11-08T00_39_18-03_00/
+
+# status=0

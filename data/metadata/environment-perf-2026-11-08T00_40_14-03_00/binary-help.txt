@@ -1,0 +1,15 @@
+# comando: /home/leonardo/UFRGS/UFRGS\ -\ Engenharia\ de\ Computação/Cadeiras\ Eletivas/INF01146\ -\ Avaliação\ de\ Desempenho/etapa-2/build/ag_bench --help
+
+Uso: ag_bench [opções]
+  --population N       tamanho da população (padrão: 128)
+  --length L           comprimento do cromossomo (padrão: 64)
+  --generations G      gerações por execução (padrão: 100)
+  --batch B            execuções completas agregadas (padrão: 1)
+  --seed S              semente do mt19937_64 (padrão: 0)
+  --crossover P         probabilidade de crossover [0,1] (padrão: 0.90)
+  --mutation P          probabilidade de mutação por gene [0,1] (padrão: 0.01)
+  --mode M              baseline ou phases (padrão: baseline)
+  --header              imprime o cabeçalho CSV antes do resultado
+  --help                mostra esta ajuda
+
+# status=0

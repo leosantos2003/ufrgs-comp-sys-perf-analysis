@@ -1,0 +1,3 @@
+taskset_exit_status=0
+taskset_result=passed
+observed_core=0

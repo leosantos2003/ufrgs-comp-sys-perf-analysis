@@ -43,6 +43,10 @@ make check-calibrate-remaining # valida a calibração das combinações restant
 make calibrate-remaining # calibra B nas combinações restantes e grava as evidências
 make check-baseline # valida a campanha baseline completa, sem medir
 make baseline       # executa as réplicas baseline do DOE e preserva dados brutos
+make check-phases   # valida a campanha phases e a referência baseline, sem medir
+make phases         # executa phases e quantifica o overhead pareado
+make check-perf     # valida a campanha perf, sem medir
+make perf           # coleta perf somente com eventos sem multiplexação
 ./build/ag_bench --help
 ```
 
@@ -86,13 +90,50 @@ Na grade revisada atual, são nove tratamentos `N × L` e dez réplicas
 desenho revisado e justificado pelo piloto; não se trata das 16 combinações
 iniciais que foram descartadas antes da campanha.
 
+`make phases` percorre somente as 45 linhas `phases` do DOE (cinco réplicas
+por tratamento), também em `order` crescente, após capturar o ambiente e fazer
+um aquecimento não contabilizado. O executável mede as cinco fases internas e
+o executor confere que a soma delas não excede o tempo total. Ao terminar, ele
+gera `phase-overhead.csv` e `phase-overhead-summary.csv`, comparando cada
+linha a uma réplica `baseline` com os mesmos `N`, `L`, `G`, `B`, número de
+réplica e semente. Por padrão a referência é a campanha baseline preservada
+no repositório. Para usar outro bloco, execute:
+
+```bash
+make phases PHASES_BASELINE=data/raw/baseline-<timestamp>
+```
+
+Essa comparação quantifica o efeito observado dos temporizadores, mas campanhas feitas em instantes
+distintos continuam sujeitas à variação temporal do ambiente e devem ser
+interpretadas como diagnóstico, não como substituição da medida `baseline`.
+
+`make perf` mede o AG no modo interno `baseline` (sem temporizadores de fase)
+em dois grupos de contadores, ambos no espaço de usuário do processo. O grupo
+`ipc_user` mede `cycles` e `instructions` juntos — portanto permite calcular
+IPC para aquela execução — e registra `context-switches` e `cpu-migrations`.
+O grupo `cache_user` mede `cache-references` e `cache-misses` juntos, o que
+permite calcular a taxa de faltas de cache daquela execução, e também registra
+os dois eventos de qualidade. Cada tratamento tem cinco réplicas por grupo:
+45 observações de IPC e 45 de cache na grade atual.
+
+Antes do aquecimento, o inventário e um pré-teste com a carga do próprio DOE
+devem confirmar afinidade e 100% de tempo ativo para **cada** grupo. O
+`taskset` envolve o próprio `perf`, não apenas o binário, para que os
+contadores sejam abertos no CPU configurado. Caso algum pré-teste falhe, o
+executor preserva o inventário e um manifesto com a recusa, mas não cria
+observações `perf` inválidas. Quando a pré-condição passa, cada linha preserva
+a saída JSON literal do `perf`, seus contadores e a razão de execução no CSV
+bruto. IPC só usa os dois números da mesma linha `ipc_user`, e a taxa de cache
+só usa os dois da mesma linha `cache_user`; não se monta uma razão misturando
+grupos ou execuções distintas.
+
 Antes de uma campanha, capture o ambiente e verifique a afinidade configurada:
 
 ```bash
 make environment
 ```
 
-O alvo lê o CPU lógico `target_core` de `config/experiment.yaml`, executa um teste curto sob `taskset`, registra o `core_id` efetivo informado pelo binário e grava um instantâneo em `data/metadata/environment-<timestamp>/`. Ele também testa os eventos solicitados com `perf stat`, sem mudar privilégios ou controles do sistema; indisponibilidade de `perf` fica registrada no instantâneo e em `docs/environment.md`, mas não transforma esse teste curto em dado de desempenho.
+O alvo lê o CPU lógico `target_core` de `config/experiment.yaml`, executa um teste sob `taskset`, registra o `core_id` efetivo informado pelo binário e grava um instantâneo em `data/metadata/environment-<timestamp>/`. Ele também testa, separadamente, os grupos configurados em uma carga representativa do DOE com `perf stat`, sem mudar privilégios ou controles do sistema; indisponibilidade ou multiplexação fica registrada no instantâneo e em `docs/environment.md`, mas esse teste de verificação não é dado de desempenho.
 
 ## Garantias de validação
 

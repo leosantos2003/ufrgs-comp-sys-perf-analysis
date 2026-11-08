@@ -1,6 +1,6 @@
 # Ambiente experimental
 
-Este resumo foi gerado por `scripts/capture_environment.sh` a partir do instantâneo bruto em [`data/metadata/environment-baseline-2026-11-07T17_08_32-03_00`](../data/metadata/environment-baseline-2026-11-07T17_08_32-03_00). Ele descreve a plataforma observada em **2026-11-07T17:08:32-03:00**, e não substitui uma nova captura antes de uma campanha.
+Este resumo foi gerado por `scripts/capture_environment.sh` a partir do instantâneo bruto em [`data/metadata/environment-2026-11-08T01_53_41-03_00`](../data/metadata/environment-2026-11-08T01_53_41-03_00). Ele descreve a plataforma observada em **2026-11-08T01:53:41-03:00**, e não substitui uma nova captura antes de uma campanha.
 
 ## Plataforma e CPU selecionado
 
@@ -13,11 +13,11 @@ Este resumo foi gerado por `scripts/capture_environment.sh` a partir do instant�
 
 - Teste de afinidade: **passed**. `taskset -c 0` executou o binário de teste e ele reportou `core_id=0`; os arquivos `taskset-test.*` preservam comando, saída e status.
 - Ferramentas inventariadas: `taskset`, `perf`, `g++` e `/usr/bin/time`; suas versões, ajuda/lista de eventos e status estão no instantâneo.
-- Teste de `perf stat` com `cpu_core/cycles/,cpu_core/instructions/,cpu_core/cache-references/,cpu_core/cache-misses/,context-switches,cpu-migrations`: **passed_with_multiplexing** (status 0); os eventos foram aceitos, mas a razão de execução indica multiplexação ou formato inesperado; consultar perf-test.stderr. A saída literal está em `perf-test.stderr` e não é dado de desempenho.
+- Testes de `perf stat` por grupo: **passed_without_multiplexing** (status 0); os grupos configurados (ipc_user=passed_without_multiplexing;cache_user=passed_without_multiplexing) foram aceitos e todos reportaram 100.00%, sem multiplexação. A carga de verificação foi `N=2048, L=1024, G=100, B=1`; ela vem do DOE, mas não é dado de desempenho. As saídas literais estão em `perf-test-<grupo>.stderr`.
 - Controle observado no CPU 0: governor `powersave`, preferência energética `balance_performance`; `intel_pstate/no_turbo`, `nmi_watchdog` e o estado da alimentação estão em `kernel-controls.txt` e `power-state.txt`.
 - Alimentação no momento do instantâneo: `AC type=Mains online=1 status=UNAVAILABLE;BAT0 type=Battery online=UNAVAILABLE status=Not charging`.
 - `perf_event_paranoid=0` foi apenas registrado; o script não altera privilégios nem parâmetros do kernel.
 
 ## Situação e limitações atuais
 
-Este instantâneo não é uma campanha: não há aquecimento, réplicas nem medições em `data/raw/`. A cadeia de eventos precisa ser reduzida ou agrupada antes de produzir contadores de campanha. A captura observou o estado de alimentação acima, portanto a campanha só deve começar após confirmar energia AC conforme o protocolo. Governor, Turbo, frequência e alimentação são registrados, mas não foram forçados pelo script.
+Este instantâneo não é uma campanha: não há aquecimento, réplicas nem medições em `data/raw/`. Os contadores estão disponíveis para a futura campanha no P-core, mas este teste de verificação não é uma observação de desempenho e não deve ser analisado como tal. A captura observou o estado de alimentação acima, portanto a campanha só deve começar após confirmar energia AC conforme o protocolo. Governor, Turbo, frequência e alimentação são registrados, mas não foram forçados pelo script.

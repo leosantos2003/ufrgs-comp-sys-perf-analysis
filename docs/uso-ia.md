@@ -191,6 +191,29 @@ Para cada uso relevante, informe: qual ferramenta foi usada, como ela foi usada,
 | Decisão | aceito |
 | Pendências ou limitações | `phases` ainda não executado, perf continua com multiplexação |
 
+## Registro do agente — 2026-11-08: campanhas `phases` e `perf`
+
+| Campo | Registro |
+|---|---|
+| Ferramenta | Codex, assistente de programação. |
+| Como foi usada | O grupo pediu a implementação do item 7 do roteiro e, depois, determinou que os contadores de hardware eram essenciais. O agente leu o plano, configuração, DOE, executor e registros prévios; generalizou o executor, atualizou os alvos/documentação, executou `phases`, preservou a primeira recusa de `perf`, testou alternativas de agrupamento e afinidade, e executou a nova campanha somente após validar os grupos sem multiplexação. |
+| Dados fornecidos | Código e documentação do repositório, `config/experiment.yaml`, `config/design.csv`, a campanha baseline preservada e saídas locais de `taskset`, energia, `perf stat` e inventário. |
+| O que ajudou a produzir | Modos `phases` e `perf` em `scripts/run_experiments.py`; alvos de Make; grupos `ipc_user` e `cache_user` na configuração; afinidade que envolve o próprio `perf`; documentação de uso; comparação pareada de overhead; a campanha bruta `phases-2026-11-08T00_39_18-03_00`; a tentativa `perf-2026-11-08T00_40_14-03_00`; a campanha válida `perf-2026-11-08T01_45_16-03_00`; inventários associados; e o registro de laboratório/dificuldade revisado em linguagem acessível, com a analogia dos mostradores da CPU e a separação entre duas "fotos" de uma execução. |
+| Como a saída foi avaliada | O executor exige DOE literal, AC, afinidade, parâmetros congelados, aquecimento e saída válida por linha. Para `phases`, exige soma de fases não maior que o total e pares baseline de mesma semente. Para `perf`, testa cada grupo no CPU selecionado antes do aquecimento e exige 100% de tempo ativo para todos os eventos. IPC e taxa de faltas são calculáveis apenas dentro de suas respectivas linhas/grupos. |
+| Verificação automática | `python3 -m py_compile scripts/run_experiments.py scripts/generate_design.py scripts/calibrate_batch.py`; `bash -n scripts/capture_environment.sh`; `make design`, `make check-design`, `make check-baseline`, `make check-phases`, `make check-perf`, `make test`, `make run`, `make environment`, `make perf`, auditoria CSV de 90 observações e `git diff --check`. A primeira tentativa all-in-one registrou 91,00%; os dois grupos com `perf` preso ao CPU 0 passaram no inventário e a campanha registrou 45 sucessos `ipc_user` e 45 `cache_user`, todos sem multiplexação. |
+| Verificação humana | Pendente: o grupo deve revisar o executor, os CSVs de fases e overhead, a tentativa recusada, a campanha válida de `perf`, os inventários de 08/11 e o labbook antes de aceitar este estado. |
+
+## Revisão humana do registro de 2026-11-08 — campanhas `phases` e `perf`
+
+| Campo | Registro |
+|---|---|
+| Pessoas que revisaram | Leonardo e Felipe |
+| O que foi revisado | Executor dos modos `phases`/`perf`, alvos de Make, grupos de contadores e afinidade do `perf`, 45 observações de fases, 90 observações de `perf`, comparação de overhead, inventários e documentação. |
+| Como foi conferido | Ler configuração, scripts, documentação, `summary.csv` e `observations.csv`, executar as verificações locais |
+| Comandos e resultado | `make test` — passou, `make check-perf` — plano válido com 90 linhas, `git diff --check` — sem erros. |
+| Decisão | aceito |
+| Pendências ou limitações | Calcular IPC somente nas linhas ipc_user e taxa de faltas somente nas linhas cache_user, interpretar o overhead de phases como diagnóstico |
+
 ## Modelo para o próximo par de registros
 
 Para cada novo uso, acrescente primeiro o registro do agente e, imediatamente abaixo, a revisão humana correspondente. Copie e preencha o bloco de revisão abaixo.

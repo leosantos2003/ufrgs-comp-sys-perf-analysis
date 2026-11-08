@@ -1,0 +1,4 @@
+perf_group=cache_user
+perf_exit_status=0
+perf_result=passed_with_multiplexing
+perf_multiplexing=yes_or_unknown

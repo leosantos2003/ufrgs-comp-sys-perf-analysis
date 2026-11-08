@@ -1,0 +1,5 @@
+# comando: sha256sum /home/leonardo/UFRGS/UFRGS\ -\ Engenharia\ de\ Computação/Cadeiras\ Eletivas/INF01146\ -\ Avaliação\ de\ Desempenho/etapa-2/build/ag_bench
+
+1b91ea0c9d2ec1b436cc6210030ad6ef64f2f853bffa1af79feac5d2ae4eeb3e  /home/leonardo/UFRGS/UFRGS - Engenharia de Computação/Cadeiras Eletivas/INF01146 - Avaliação de Desempenho/etapa-2/build/ag_bench
+
+# status=0

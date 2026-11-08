@@ -1,0 +1,4 @@
+{"counter-value" : "14902585.000000", "unit" : "", "event" : "cpu_core/cache-references/u", "event-runtime" : 1400980929, "pcnt-running" : 100.00}
+{"counter-value" : "3338058.000000", "unit" : "", "event" : "cpu_core/cache-misses/u", "event-runtime" : 1400980929, "pcnt-running" : 100.00}
+{"counter-value" : "19.000000", "unit" : "", "event" : "context-switches", "event-runtime" : 1400980929, "pcnt-running" : 100.00}
+{"counter-value" : "0.000000", "unit" : "", "event" : "cpu-migrations", "event-runtime" : 1400980929, "pcnt-running" : 100.00}
