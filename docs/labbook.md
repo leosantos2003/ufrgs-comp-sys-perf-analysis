@@ -28,3 +28,4 @@ Os dois primeiros registros abaixo foram reconstruídos a partir dos commits exi
 - [2026-11-08 — validação dos dados e análise renderizada](labbook/2026-11-08-analise-validacao.md)
 - [2026-11-08 — slides e auditoria final](labbook/2026-11-08-slides-auditoria-final.md)
 - [2026-11-08 — revisão de clareza da apresentação](labbook/2026-11-08-revisao-clareza-apresentacao.md)
+- [2026-11-08 — exclusão do template de slides](labbook/2026-11-08-exclusao-template-slides.md)

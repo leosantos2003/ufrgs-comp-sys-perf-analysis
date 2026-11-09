@@ -25,6 +25,7 @@ graphics-material/
 
 # Intermediários da compilação Beamer. As fontes e PDFs finais em slides/
 # fazem parte da entrega e, portanto, não são ignorados.
+slides/template.tex
 slides/*.aux
 slides/*.log
 slides/*.nav

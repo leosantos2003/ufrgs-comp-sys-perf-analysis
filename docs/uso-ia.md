@@ -283,6 +283,29 @@ Para cada uso relevante, informe: qual ferramenta foi usada, como ela foi usada,
 | Decisão | aceito |
 | Pendências ou limitações | A apresentação mantém resultados específicos da plataforma e interpretação descritiva dos contadores. |
 
+## Registro do agente — 2026-11-08: exclusão do template de slides
+
+| Campo | Registro |
+|---|---|
+| Ferramenta | Codex, assistente de programação. |
+| Como foi usada | O grupo pediu que `slides/template.tex` deixasse de integrar o repositório. O agente verificou que ele não participa do build atual, adicionou uma regra de ignore e executou a remoção somente do índice após autorização explícita. |
+| Dados fornecidos | Estado local do Git, `.gitignore`, fontes dos slides e documentação do projeto. |
+| O que ajudou a produzir | A regra `slides/template.tex` em `.gitignore`, a remoção preparada do índice com `git rm --cached` e este registro. A cópia local do arquivo não foi apagada. |
+| Como a saída foi avaliada | A verificação de ignore confirmou que a nova regra se aplica ao arquivo. A cópia local foi preservada e o PDF dos slides foi recompilado para confirmar que a fonte da Etapa 2 não precisa do template. |
+| Verificação automática | `git check-ignore -v slides/template.tex`, `test -f slides/template.tex`, `make slides` e `git diff --check`. |
+| Verificação humana | Pendente: o grupo deve conferir o conjunto de alterações antes de criar o commit, em especial a remoção preparada de `slides/template.tex`. |
+
+## Revisão humana do registro de 2026-11-08 — exclusão do template de slides
+
+| Campo | Registro |
+|---|---|
+| Pessoas que revisaram | [preencher] |
+| O que foi revisado | Regra de ignore, cópia local do template, fonte/PDF dos slides e remoção preparada do índice. |
+| Como foi conferido | [preencher] |
+| Comandos e resultado | [preencher] |
+| Decisão | pendente |
+| Pendências ou limitações | O template continua disponível localmente, mas clones novos não o receberão depois do commit. |
+
 ## Modelo para o próximo par de registros
 
 Para cada novo uso, acrescente primeiro o registro do agente e, imediatamente abaixo, a revisão humana correspondente. Copie e preencha o bloco de revisão abaixo.
